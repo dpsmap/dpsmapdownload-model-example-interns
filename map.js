@@ -112,6 +112,7 @@ function showUnavailableMap(title, showPopup = true) {
   document.getElementById("imageCaption").textContent = "No map image is available for this selection.";
   document.getElementById("imageCaption").hidden = false;
   document.getElementById("downloadActions").hidden = true;
+  document.getElementById("paidDownloadChoices").hidden = true;
   document.getElementById("downloadForms").hidden = true;
   document.getElementById("kpayPanel").hidden = true;
   document.getElementById("freeDownloadForm").hidden = true;
@@ -138,6 +139,7 @@ function setImage(src, title, caption, alt, showPopup = true) {
   document.getElementById("imageCaption").textContent = caption;
   const dialog = document.getElementById("mapDialog");
   document.getElementById("downloadActions").hidden = false;
+  document.getElementById("paidDownloadChoices").hidden = true;
   document.getElementById("downloadForms").hidden = true;
   document.getElementById("freeDownloadForm").hidden = true;
   document.getElementById("requestDownloadForm").hidden = true;
@@ -201,7 +203,7 @@ const townshipRegionNames = {
   "Yangon Region": [
     "Hmawbi Township", "Twante Township", "Insein Township", "Thanlyin Township",
     "Kungyangon Township", "Kawhmu Township", "South Dagon Township", "Kyauktan Township",
-    "Hlaingthaya (West) Township", "Hlaingthaya Township"
+  "Hlaingthaya (West) Township"
   ],
   "Mandalay Region": ["Meiktila Township", "Pyawbwe Township", "Pyin Oo Lwin Township", "Tada-U Township", "Thabeikkyin Township", "Wundwin Township", "Yamethin Township"],
   "Bago Region": ["Bago Township", "Nyaunglebin Township", "Paukkhaung Township", "Pyay Township", "Yedashe Township"],
@@ -265,16 +267,6 @@ Pyi Tsp.jpg
 ပဲခူးမြို့နယ်_.jpg
 ရေတာရှည်.jpg`
   },
-  "Naypyidaw Union Territory": {
-    folder: "နေပြည်တော်",
-    files: `ဇမ္ဗူသီရိ.jpg
-ဇေယျာသီရိ.jpg
-တပ်ကုန်းမြို့နယ်.jpg
-ဒက်ခိဏသီရိမြို့နယ်.jpg
-ဒက်ခိဏသီရိမြို့နယ်_.jpg
-ပုဗ္ဗသီရိမြို့နယ်.jpg
-ပုဗ္ဗသီရိမြို့နယ်_.jpg`
-  },
   "Magway Region": {
     folder: "မကွေးတိုင်း",
     files: `Saw_Tsp_overall.jpg
@@ -289,8 +281,7 @@ Pyi Tsp.jpg
   },
   "Mandalay Region": {
     folder: "မန္တလေးတိုင်း",
-    files: `Aung Myay Thar Zan_overall - Copy.jpg
-Aung Myay Thar Zan_overall.jpg
+    files: `Aung Myay Thar Zan_overall.jpg
 Chanayetharzan.jpg
 ကျောက်ဆည်.jpg
 ချမ်းမြသာစည်.jpg
@@ -316,6 +307,16 @@ Chanayetharzan.jpg
 သပိတ်ကျင်းမြို့နယ်အကြမ်း.jpg
 အမရပူရ.jpg`
   },
+  "Naypyidaw Union Territory": {
+    folder: "နေပြည်တော်",
+    files: `ဇမ္ဗူသီရိ.jpg
+ဇေယျာသီရိ.jpg
+တပ်ကုန်းမြို့နယ်.jpg
+ဒက်ခိဏသီရိမြို့နယ်.jpg
+ဒက်ခိဏသီရိမြို့နယ်_.jpg
+ပုဗ္ဗသီရိမြို့နယ်.jpg
+ပုဗ္ဗသီရိမြို့နယ်_.jpg`
+  },
   "Yangon Region": {
     folder: "ရန်ကုန်တိုင်း",
     files: `AHL_Tsp_Map_A3x2024_Outline.jpg
@@ -327,12 +328,9 @@ DGN_Tsp_Map_over.jpg
 DWBN_Tsp_Map_over.jpg
 EDGN_A3_over.jpg
 Hantabin.jpg
-HLG_Tsp_Map_over - Copy - Copy.jpg
-HLG_Tsp_Map_over - Copy.jpg
 HLG_Tsp_Map_over.jpg
 HTLY_East_A3_over.jpg
 HTLY_West_A3_over.jpg
-Insein_District_Actual.jpg
 INSEIN_Tsp_Map_over.jpg
 Kayan.jpg
 KMDG_Tsp_Map_over.jpg
@@ -359,10 +357,8 @@ Thanlyin.jpg
 Tharmwe.jpg
 Thongwa.jpg
 TKA_A3_Over.jpg
-TMWE_A3_Over - Copy.jpg
 TMWE_A3_Over.jpg
 Twantay.jpg
-YANKIN_Tsp_Over - Copy.jpg
 YANKIN_Tsp_Over.jpg
 ကော့မှူး.jpg
 ကျောက်တန်းမြို့နယ်အခြေပြမြေပုံ.jpg
@@ -424,7 +420,6 @@ const townshipImageEnglishLabels = {
   "HLG_Tsp_Map_over": "Hlaing Township",
   "HTLY_East_A3_over": "Hlaing Tharyar East Township",
   "HTLY_West_A3_over": "Hlaing Tharyar West Township",
-  "Insein_District_Actual": "Insein District",
   "INSEIN_Tsp_Map_over": "Insein Township",
   "Kayan": "Kayan Township",
   "KMDG_Tsp_Map_over": "Kyimyindine Township",
@@ -480,23 +475,28 @@ function addLocationOptions(containerId, names, callbackName, labelMap = {}) {
 }
 function addGroupedTownshipOptions() {
   const container = document.getElementById("townshipOptions");
-  container.replaceChildren();
   const englishNameToMyanmarName = Object.fromEntries(
     Object.entries(townshipEnglishNames).map(([myanmarName, englishName]) => [englishName, myanmarName])
   );
 
   Object.entries(townshipRegionNames).forEach(([regionName, townshipEnglishList]) => {
-    const group = document.createElement("div");
-    group.className = "district-group";
-    const heading = document.createElement("h4");
-    heading.textContent = regionName;
-    group.append(heading);
+    let group = Array.from(container.children).find(
+      item => item.querySelector("h4")?.textContent === regionName
+    );
+    if (!group) {
+      group = document.createElement("div");
+      group.className = "district-group";
+      const heading = document.createElement("h4");
+      heading.textContent = regionName;
+      group.append(heading);
+      container.append(group);
+    }
 
     townshipEnglishList.forEach(englishTownshipName => {
       const labelKey = englishTownshipName.replace(/ Township$/, "").trim().toLowerCase();
       if (displayedTownshipLabels.has(labelKey)) return;
       const myanmarTownshipName = englishNameToMyanmarName[englishTownshipName];
-      if (!myanmarTownshipName) return;
+      if (!myanmarTownshipName || !townshipImageSourcesByName.get(myanmarTownshipName)?.length) return;
 
       displayedTownshipLabels.add(labelKey);
       const button = document.createElement("button");
@@ -580,9 +580,17 @@ function selectTownshipImage(entry) {
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
 }
 addLocationOptions("regionOptions", Object.keys(regionMaps), "selectRegion");
-addGroupedTownshipOptions();
 document.querySelectorAll(".district-group button").forEach(button => { button.classList.add("place-option"); button.dataset.searchText = button.textContent.toLowerCase(); });
 addTownshipImageOptions();
+addGroupedTownshipOptions();
+["Yangon Region", "Mandalay Region", ...Object.keys(townshipImageFolders).filter(
+  regionName => regionName !== "Yangon Region" && regionName !== "Mandalay Region"
+)].forEach(regionName => {
+  const group = Array.from(document.getElementById("townshipOptions").children).find(
+    item => item.querySelector("h4")?.textContent === regionName
+  );
+  if (group) document.getElementById("townshipOptions").append(group);
+});
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
 const searchableMaps = [

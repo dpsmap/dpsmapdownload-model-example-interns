@@ -301,7 +301,7 @@ main { padding-top: 60px; }
 .popular-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgb(24 33 43 / 12%); }
 .popular-card-image { position: relative; display: block; overflow: hidden; }
 .popular-card img { display: block; width: 100%; height: 124px; object-fit: contain; background: #fff; }
-.popular-card-overlay { position: absolute; inset: 0; display: grid; place-items: center; padding: 14px; background: rgb(8 24 45 / 88%); color: #fff; font-size: 14px; font-weight: 700; line-height: 1.4; text-align: center; opacity: 0; transition: opacity .2s ease; }
+.popular-card-overlay { position: absolute; inset: 0; display: grid; place-items: center; padding: 14px; background: rgb(53 72 115 / 90%); color: #fff; font-size: 14px; font-weight: 700; line-height: 1.4; text-align: center; opacity: 0; transition: opacity .2s ease; }
 .popular-card:hover .popular-card-overlay,
 .popular-card:focus-visible .popular-card-overlay { opacity: 1; }
 .popular-card-label { display: block; padding: 12px; font-size: 14px; font-weight: 700; }
