@@ -89,6 +89,8 @@ const cityImages = {
   "Nyaungshwe": cityFolder + "ရှမ်းပြည်နယ်/ညောင်ရွှေ.jpg",
   "Loilen": cityFolder + "ရှမ်းပြည်နယ်/လွိုင်လင်_.jpg",
   "Hsi Hseng": cityFolder + "ရှမ်းပြည်နယ်/ဆီဆိုင်_.jpg",
+  "Kalaw": cityFolder + "ရှမ်းပြည်နယ်/ကလော.jpg",
+   "Pindaya": cityFolder + "ရှမ်းပြည်နယ်/ပင်းတယ.jpg",
   "Kengtung": cityFolder + "ရှမ်းပြည်နယ်/ကျိုင်းတုံမြို့.jpg",
   "Tachileik": cityFolder + "ရှမ်းပြည်နယ်/တာချီလိတ်.jpg",
   "Kokang Self-Administered Zone": cityFolder + "ရှမ်းပြည်နယ်/ကိုးကန့်ကိုယ်ပိုင်အုပ်ချုပ်ခွင့်ရဒေသ.jpg",
@@ -699,31 +701,100 @@ function downloadCurrentMap() {
 function showDownloadForm(kind) {
   const forms = document.getElementById("downloadForms");
   const dialog = document.getElementById("mapDialog");
+  const isFree = kind === "free";
+  const isPaid = kind === "paid";
   dialog.classList.add("download-flow-only");
   document.getElementById("selectedImage").hidden = true;
   document.getElementById("imageCaption").hidden = true;
   document.getElementById("downloadActions").hidden = true;
   document.getElementById("kpayPanel").hidden = true;
-  document.getElementById("freeDownloadForm").hidden = kind !== "free";
-  document.getElementById("requestDownloadForm").hidden = kind !== "request";
+  document.getElementById("paidDownloadChoices").hidden = !isPaid;
+  document.getElementById("freeDownloadForm").hidden = !isFree;
+  document.getElementById("requestDownloadForm").hidden = true;
   document.getElementById("downloadFormStatus").textContent = "";
+  forms.hidden = isPaid;
+  if (isPaid) {
+    document.getElementById("paidDownloadChoices").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  } else {
+    forms.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+function showPaidDownloadCategory(category) {
+  if (category !== "soft-copy" && category !== "plotting") {
+    throw new Error(`Unknown paid download category: ${category}`);
+  }
+  const forms = document.getElementById("downloadForms");
+  const requestForm = document.getElementById("requestDownloadForm");
+  document.getElementById("paidDownloadChoices").hidden = true;
+  requestForm.hidden = false;
+  updatePlotSizeOptions();
+  document.getElementById("requestFormTitle").textContent =
+    category === "soft-copy" ? "Soft copy" : "Plotting";
+  requestMapProduct.querySelectorAll("optgroup").forEach(group => {
+    group.hidden = group.dataset.category !== category;
+  });
+  requestMapProduct.value = "";
+  requestMapSize.value = "";
+  customWidth.value = "";
+  customHeight.value = "";
+  updateRequestPrice();
   forms.hidden = false;
-  if (kind !== "free") forms.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 const requestMapProduct = document.getElementById("requestMapProduct");
 const requestMapSize = document.getElementById("requestMapSize");
+const requestMapSizeField = document.getElementById("requestMapSizeField");
 const customDimensions = document.getElementById("customDimensions");
 const customWidth = document.getElementById("customWidth");
 const customHeight = document.getElementById("customHeight");
 const requestPrice = document.getElementById("requestPrice");
 const money = amount => `${Number(amount).toLocaleString("en-US")} MMK`;
+const mapPlotSizes = {
+  "yangon region map": ["2x3", "3x4", "4x6"],
+  "yangon city map": ["3x4", "4x6", "4x8"],
+  "myanmar map": ["2x4", "2.5x5", "3x6"],
+  "english — myanmar map": ["2x4", "2.5x5", "3x6"],
+  "mandalay map": ["2x3", "3x4", "4x6"],
+  "mandalay region map": ["2x3", "3x4", "4x6"],
+  "naypyidaw map": ["4x6", "4x8"],
+  "naypyidaw city map": ["4x6", "4x8"],
+  "naypyitaw city map": ["4x6", "4x8"],
+  "pyin oo lwin map": ["3x4", "4x6"],
+  "bago region map": ["2x3", "3x4", "4x6"],
+  "mon state map": ["2x3", "3x4", "4x6"]
+};
+const defaultPlotSizes = Array.from(requestMapSize.options).slice(1).map(option => ({
+  value: option.value,
+  label: option.textContent
+}));
+
+function updatePlotSizeOptions() {
+  const mapTitle = document.getElementById("imageTitle").textContent.trim().toLowerCase();
+  const sizes = mapPlotSizes[mapTitle]?.map(value => {
+    const [width, height] = value.split("x");
+    return { value, label: `${width} × ${height} ft` };
+  }) || defaultPlotSizes;
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  placeholder.textContent = "Select a map size";
+  requestMapSize.replaceChildren(placeholder);
+  sizes.forEach(({ value, label }) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    requestMapSize.append(option);
+  });
+}
 
 function updateRequestPrice() {
   const product = requestMapProduct.options[requestMapProduct.selectedIndex];
   const rate = Number(product?.dataset.rate || 0);
   const fixedPrice = Number(product?.dataset.price || 0);
   const isAreaPrice = rate > 0;
+  requestMapSizeField.hidden = !isAreaPrice;
   requestMapSize.disabled = !isAreaPrice;
   requestMapSize.required = isAreaPrice;
   if (!isAreaPrice) requestMapSize.value = "";

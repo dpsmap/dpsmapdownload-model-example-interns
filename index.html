@@ -25,16 +25,70 @@
     <section class="popular-section" aria-labelledby="popularTitle">
         <div class="popular-heading"><p class="eyebrow">EXPLORE MAPS</p><h1 id="popularTitle">Popular maps</h1><p>Quick access to the most viewed places in Myanmar.</p></div>
         <div class="popular-maps">
-            <button class="popular-card" type="button" onclick="openPopularMap('Yangon Region','assets/regions/yangon.jpg')"><span class="popular-card-image"><img src="assets/regions/yangon.jpg" alt="Yangon Region Map"><span class="popular-card-overlay" aria-hidden="true" data-en="Yangon Region map" data-my="ရန်ကုန်တိုင်းဒေသကြီးမြေပုံ">Yangon Region map</span></span><span class="popular-card-label">Yangon Region Map</span></button>
-            <button class="popular-card" type="button" onclick="openPopularMap('Yangon City','assets/cities/city-images/city/မြို့/ရန်ကုန်တိုင်း/ရန်ကုန်မြို့.jpg')"><span class="popular-card-image"><img src="assets/cities/city-images/city/မြို့/ရန်ကုန်တိုင်း/ရန်ကုန်မြို့.jpg" alt="Yangon City Map"><span class="popular-card-overlay" aria-hidden="true" data-en="Yangon City map" data-my="ရန်ကုန်မြို့မြေပုံ">Yangon City map</span></span><span class="popular-card-label">Yangon City Map</span></button>
-            <button class="popular-card popular-card--full-map" type="button" onclick="openPopularMap('Myanmar','assets/maps/myanmar-english.jpg')"><span class="popular-card-image"><img src="assets/maps/myanmar-english.jpg" alt="Myanmar Map"><span class="popular-card-overlay" aria-hidden="true" data-en="Myanmar map in English" data-my="အင်္ဂလိပ်ဘာသာ မြန်မာနိုင်ငံမြေပုံ">Myanmar map in English</span></span><span class="popular-card-label">Myanmar Map</span></button>
-            <button class="popular-card" type="button" onclick="openPopularMap('Mandalay','assets/regions/mandalay.jpg')"><span class="popular-card-image"><img src="assets/regions/mandalay.jpg" alt="Mandalay Map"><span class="popular-card-overlay" aria-hidden="true" data-en="Mandalay Region map" data-my="မန္တလေးတိုင်းဒေသကြီးမြေပုံ">Mandalay Region map</span></span><span class="popular-card-label">Mandalay Map</span></button>
-            <button class="popular-card" type="button" onclick="openPopularMap('Naypyidaw','assets/regions/naypyidaw.png')"><span class="popular-card-image"><img src="assets/regions/naypyidaw.png" alt="Naypyidaw Map"><span class="popular-card-overlay" aria-hidden="true" data-en="Naypyidaw map" data-my="နေပြည်တော်မြေပုံ">Naypyidaw map</span></span><span class="popular-card-label">Naypyidaw Map</span></button>
-            <button class="popular-card" type="button" onclick="openPopularMap('Bagan','assets/cities/city-images/city/မြို့/မန္တလေးတိုင်း/Bagan.jpg')"><span class="popular-card-image"><img src="assets/cities/city-images/city/မြို့/မန္တလေးတိုင်း/Bagan.jpg" alt="Bagan Map"><span class="popular-card-overlay" aria-hidden="true" data-en="Bagan city map" data-my="ပုဂံမြို့မြေပုံ">Bagan city map</span></span><span class="popular-card-label">Bagan Map</span></button>
-            <button class="popular-card" type="button" onclick="openPopularMap('Taunggyi','assets/cities/city-images/city/မြို့/ရှမ်းပြည်နယ်/Shan State Towngyi.jpg')"><span class="popular-card-image"><img src="assets/cities/city-images/city/မြို့/ရှမ်းပြည်နယ်/Shan State Towngyi.jpg" alt="Taunggyi Map"><span class="popular-card-overlay" aria-hidden="true" data-en="Taunggyi map" data-my="တောင်ကြီးမြို့မြေပုံ">Taunggyi map</span></span><span class="popular-card-label">Taunggyi Map</span></button>
-            <button class="popular-card" type="button" onclick="openPopularMap('Pyin Oo Lwin','assets/cities/city-images/city/မြို့/မန္တလေးတိုင်း/PyinOoLwin.jpg')"><span class="popular-card-image"><img src="assets/cities/city-images/city/မြို့/မန္တလေးတိုင်း/PyinOoLwin.jpg" alt="Pyin Oo Lwin Map"><span class="popular-card-overlay" aria-hidden="true" data-en="Pyin Oo Lwin map" data-my="ပြင်ဦးလွင်မြို့မြေပုံ">Pyin Oo Lwin map</span></span><span class="popular-card-label">Pyin Oo Lwin Map</span></button>
-            <button class="popular-card" type="button" onclick="openPopularMap('Bago Region','assets/regions/bago.jpg')"><span class="popular-card-image"><img src="assets/regions/bago.jpg" alt="Bago Region Map"><span class="popular-card-overlay" aria-hidden="true" data-en="Bago Region map" data-my="ပဲခူးတိုင်းဒေသကြီးမြေပုံ">Bago Region map</span></span><span class="popular-card-label">Bago Region Map</span></button>
-            <button class="popular-card" type="button" onclick="openPopularMap('Mon State','assets/regions/mon.jpg')"><span class="popular-card-image"><img src="assets/regions/mon.jpg" alt="Mon State Map"><span class="popular-card-overlay" aria-hidden="true" data-en="Mon State map" data-my="မွန်ပြည်နယ်မြေပုံ">Mon State map</span></span><span class="popular-card-label">Mon State Map</span></button>
+            <!-- Yangon Region Map -->
+            <button class="popular-card yangon" type="button" onclick="openPopularMap('Yangon Region','assets/regions/yangon.jpg')">
+                <span class="popular-card-image">
+                    <img src="assets/regions/yangon.jpg" alt="Yangon Region Map">
+                    <span class="popular-card-overlay" aria-hidden="true" data-en="Yangon Region map" data-my="ရန်ကုန်တိုင်းဒေသကြီးမြေပုံ">Yangon Region map</span>
+                </span>
+                <span class="popular-card-label">Yangon Region Map</span>
+            </button>
+            <!-- Yangon City Map -->
+            <button class="popular-card yangon" type="button" onclick="openPopularMap('Yangon City','assets/cities/city-images/city/မြို့/ရန်ကုန်တိုင်း/ရန်ကုန်မြို့.jpg')">
+                <span class="popular-card-image">
+                    <img src="assets/cities/city-images/city/မြို့/ရန်ကုန်တိုင်း/ရန်ကုန်မြို့.jpg" alt="Yangon City Map">
+                    <span class="popular-card-overlay" aria-hidden="true" data-en="Yangon City map" data-my="ရန်ကုန်မြို့မြေပုံ">Yangon City map</span>
+                </span>
+                <span class="popular-card-label">Yangon City Map</span>
+            </button>
+            <!-- Myanmar Map -->
+            <button class="popular-card popular-card--full-map myanmarmap english" type="button" onclick="openPopularMap('Myanmar','assets/maps/myanmar-english.jpg')">
+                <span class="popular-card-image">
+                    <img src="assets/maps/myanmar-english.jpg" alt="Myanmar Map">
+                    <span class="popular-card-overlay" aria-hidden="true" data-en="Myanmar map in English" data-my="အင်္ဂလိပ်ဘာသာ မြန်မာနိုင်ငံမြေပုံ">Myanmar map in English</span>
+                </span>
+                <span class="popular-card-label">Myanmar Map</span>
+            </button>
+            <!-- Mandalay Map -->
+            <button class="popular-card" type="button" onclick="openPopularMap('Mandalay','assets/regions/mandalay.jpg')">
+                <span class="popular-card-image">
+                    <img src="assets/regions/mandalay.jpg" alt="Mandalay Map">
+                    <span class="popular-card-overlay" aria-hidden="true" data-en="Mandalay Region map" data-my="မန္တလေးတိုင်းဒေသကြီးမြေပုံ">Mandalay Region map</span>
+                </span>
+                <span class="popular-card-label">MandalayRegion Map</span>
+            </button>
+            <!-- Naypyidaw Map -->
+            <button class="popular-card" type="button" onclick="openPopularMap('Naypyidaw','assets/regions/naypyidaw.png')">
+                <span class="popular-card-image">
+                    <img src="assets/regions/naypyidaw.png" alt="Naypyidaw Map">
+                    <span class="popular-card-overlay" aria-hidden="true" data-en="Naypyidaw map" data-my="နေပြည်တော်မြေပုံ">Naypyidaw map</span>
+                </span>
+                <span class="popular-card-label">Naypyidaw Map</span>
+            </button>
+            <!-- Pyin Oo Lwin Map -->
+            <button class="popular-card" type="button" onclick="openPopularMap('Pyin Oo Lwin','assets/cities/city-images/city/မြို့/မန္တလေးတိုင်း/PyinOoLwin.jpg')">
+                <span class="popular-card-image">
+                    <img src="assets/cities/city-images/city/မြို့/မန္တလေးတိုင်း/PyinOoLwin.jpg" alt="Pyin Oo Lwin Map">
+                    <span class="popular-card-overlay" aria-hidden="true" data-en="Pyin Oo Lwin map" data-my="ပြင်ဦးလွင်မြို့မြေပုံ">Pyin Oo Lwin map</span>
+                </span>
+                <span class="popular-card-label">Pyin Oo Lwin Map</span>
+            </button>
+            <!-- Bago Region Map -->
+            <button class="popular-card" type="button" onclick="openPopularMap('Bago Region','assets/regions/bago.jpg')">
+                <span class="popular-card-image">
+                    <img src="assets/regions/bago.jpg" alt="Bago Region Map">
+                    <span class="popular-card-overlay" aria-hidden="true" data-en="Bago Region map" data-my="ပဲခူးတိုင်းဒေသကြီးမြေပုံ">Bago Region map</span>
+                </span>
+                <span class="popular-card-label">Bago Region Map</span>
+            </button>
+            <!-- Mon State Map -->
+            <button class="popular-card" type="button" onclick="openPopularMap('Mon State','assets/regions/mon.jpg')">
+                <span class="popular-card-image">
+                    <img src="assets/regions/mon.jpg" alt="Mon State Map">
+                    <span class="popular-card-overlay" aria-hidden="true" data-en="Mon State map" data-my="မွန်ပြည်နယ်မြေပုံ">Mon State map</span>
+                </span>
+                <span class="popular-card-label">Mon State Map</span>
+            </button>
         </div>
     </section>
 
@@ -259,6 +313,8 @@
             <button onclick="selectCity('Nyaungshwe')">Nyaungshwe</button>
             <button onclick="selectCity('Loilen')">Loilen</button>
             <button onclick="selectCity('Hsi Hseng')">Hsi Hseng</button>
+            <button onclick="selectCity('Kalaw')">Kalaw</button>
+            <button onclick="selectCity('Pindaya')">Pindaya</button>
         </div>
 
         <div class="district-group">
@@ -294,7 +350,12 @@
       <p id="imageCaption">Choose a district or city to view its map.</p>
       <section id="downloadActions" class="download-actions" hidden aria-label="Download options">
         <button type="button" class="download-button free-button" onclick="showDownloadForm('free')">Free Download</button>
-        <button type="button" class="download-button request-button" onclick="showDownloadForm('request')">Paid Download</button>
+        <button type="button" class="download-button request-button" onclick="showDownloadForm('paid')">Paid Download</button>
+      </section>
+      <section id="paidDownloadChoices" class="paid-download-choices" hidden aria-label="Paid download type">
+        <h3>Choose paid download type</h3>
+        <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')">Soft copy</button>
+        <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('plotting')">Plotting</button>
       </section>
       <section id="downloadForms" class="download-forms" hidden>
         <form id="freeDownloadForm" class="download-form shared-download-form free-download-form" hidden>
@@ -308,18 +369,20 @@
           <button type="submit" class="download-button free-button">Submit &amp; download map</button>
         </form>
         <form id="requestDownloadForm" class="download-form request-form" hidden>
-          <h3>Request Download</h3>
+          <button type="button" class="download-button paid-flow-back" onclick="showDownloadForm('paid')">Back to paid download types</button>
+          <h3 id="requestFormTitle">Paid Download</h3>
           <div class="shared-form-grid">
             <label>Full name<input name="name" autocomplete="name" placeholder="Your name" required></label>
             <label>Email address<input name="email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
             <label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="09xxxxxxxxx" required></label>
-            <label>Map product / print type<select id="requestMapProduct" name="mapProduct" required><option value="" selected disabled>Select a product</option><option value="vinyl" data-rate="15000">Vinyl — 15,000 MMK per sq ft</option><option value="photopaper" data-rate="27000">Photopaper — 27,000 MMK per sq ft</option><option value="sticker" data-rate="27000">Sticker — 27,000 MMK per sq ft</option><option value="color-a3" data-price="35000">Color print — A3 (35,000 MMK)</option><option value="bw-a3" data-price="25000">Black &amp; white print — A3 (25,000 MMK)</option><option value="pdf" data-price="350000">Soft copy — PDF (350,000 MMK)</option><option value="jpg" data-price="150000">Soft copy — JPG (150,000 MMK)</option></select></label>
-            <label>Map size<select id="requestMapSize" name="mapSize" required disabled><option value="" selected disabled>Select a product first</option><option value="2x3">2 × 3 ft</option><option value="3x6">3 × 6 ft</option><option value="4x3">4 × 3 ft</option><option value="4x6">4 × 6 ft</option><option value="4x8">4 × 8 ft</option><option value="6x9">6 × 9 ft</option><option value="custom">Custom dimensions</option></select></label>
+            <label>Map product / print type<select id="requestMapProduct" name="mapProduct" required><option value="" selected disabled>Select a product</option><optgroup label="Soft copy" data-category="soft-copy"><option value="pdf" data-price="350000">PDF — 350,000 MMK</option><option value="jpg" data-price="150000">JPG — 150,000 MMK</option></optgroup><optgroup label="Plotting" data-category="plotting"><option value="vinyl" data-rate="15000">Vinyl — 15,000 MMK per sq ft</option><option value="photopaper" data-rate="27000">Photopaper — 27,000 MMK per sq ft</option><option value="sticker" data-rate="27000">Sticker — 27,000 MMK per sq ft</option></optgroup></select></label>
+            <label id="requestMapSizeField" hidden>Map size<select id="requestMapSize" name="mapSize" required disabled><option value="" selected disabled>Select a product first</option><option value="2x3">2 × 3 ft</option><option value="3x6">3 × 6 ft</option><option value="4x3">4 × 3 ft</option><option value="4x6">4 × 6 ft</option><option value="4x8">4 × 8 ft</option><option value="6x9">6 × 9 ft</option><option value="custom">Custom dimensions</option></select></label>
             <div id="customDimensions" class="custom-dimensions" hidden>
               <label>Width (ft)<input id="customWidth" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="Width in feet"></label>
               <label>Height (ft)<input id="customHeight" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="Height in feet"></label>
             </div>
             <p id="requestPrice" class="request-price wide-field" aria-live="polite">Select a product and size to calculate the price.</p>
+            <p class="request-info-note wide-field">အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် Email နှင့်ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။</p>
             <label>Reason for download<input name="reason" placeholder="Tell us why you need this map" required></label>
           </div>
           <button type="submit" class="download-button request-button">Submit request</button>
@@ -331,6 +394,7 @@
           <p id="kpayOrderSummary" class="kpay-order-summary"></p>
           <p>Scan the KBZPay QR code and enter the displayed total.<br><strong>Aye Minn Oo (*****0177)</strong></p>
           <div class="kpay-qr-frame"><img src="assets/payment/kpay-qr.png" alt="KBZPay payment QR code" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><p hidden>Add your KBZPay QR image as <code>assets/payment/kpay-qr.png</code>.</p></div>
+          <p class="kpay-confirmation-note">ငွေလွှဲပြီးပါက Admin မှစိစစ်ပြီး Email သို့ပို့ပေးပါမည်။</p>
           <button type="button" class="download-button" onclick="hideKpayPanel()">Back to map</button>
       </section>
     </dialog>
@@ -389,8 +453,6 @@
                 "Vinyl — 15,000 MMK per sq ft": "ဗိုင်နိုင်း — တစ်စတုရန်းပေလျှင် ၁၅,၀၀၀ ကျပ်",
                 "Photopaper — 27,000 MMK per sq ft": "ဓာတ်ပုံစက္ကူ — တစ်စတုရန်းပေလျှင် ၂၇,၀၀၀ ကျပ်",
                 "Sticker — 27,000 MMK per sq ft": "စတစ်ကာ — တစ်စတုရန်းပေလျှင် ၂၇,၀၀၀ ကျပ်",
-                "Color print — A3 (35,000 MMK)": "ရောင်စုံပုံနှိပ် — A3 (၃၅,၀၀၀ ကျပ်)",
-                "Black & white print — A3 (25,000 MMK)": "အဖြူအမည်းပုံနှိပ် — A3 (၂၅,၀၀၀ ကျပ်)",
                 "Soft copy — PDF (350,000 MMK)": "Soft Copy — PDF (၃၅၀,၀၀၀ ကျပ်)",
                 "Soft copy — JPG (150,000 MMK)": "Soft Copy — JPG (၁၅၀,၀၀၀ ကျပ်)",
                 "Map size": "မြေပုံအရွယ်အစား",
