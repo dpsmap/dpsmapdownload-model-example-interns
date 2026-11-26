@@ -282,6 +282,9 @@ body.map-dialog-open {
 .download-forms { margin-top: 14px; padding: 14px; border: 1px solid #ddd; border-radius: 8px; background: #f8fafc; }
 .paid-download-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
 .paid-download-choice { display: grid; align-content: start; gap: 6px; text-align: center; }
+.paid-download-choice .download-button { min-height: 58px; }
+.paid-download-choice--popular .download-button { position: relative; display: grid; place-items: center; padding: 18px 8px 6px; }
+.paid-download-popular-badge { position: absolute; top: 3px; right: 5px; z-index: 1; display: inline-flex; align-items: center; gap: 2px; padding: 2px 5px; border: 1px solid rgb(255 255 255 / 80%); border-radius: 999px; background: rgb(255 255 255 / 92%); color: #b54708; font-size: 10px; font-weight: 700; line-height: 1; white-space: nowrap; box-shadow: 0 2px 6px rgb(15 23 42 / 14%); pointer-events: none; }
 .paid-download-choice p { margin: 0; color: #333; font-size: 14px; line-height: 1.5; }
 .paid-flow-back { justify-self: start; }
 .download-button.paid-flow-back { display: none; place-items: center; flex: none; width: 42px; min-height: 42px; padding: 0; border-radius: 50%; }

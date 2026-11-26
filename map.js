@@ -627,7 +627,6 @@ document.getElementById("freeDownloadForm").addEventListener("submit", event => 
 
 document.getElementById("requestDownloadForm").addEventListener("submit", event => {
   event.preventDefault();
-<<<<<<< HEAD
   if (currentPaidCategory === "soft-copy") {
     const selectedFormats = Array.from(
       document.querySelectorAll('input[name="softCopyFormat"]:checked'),
@@ -643,11 +642,6 @@ document.getElementById("requestDownloadForm").addEventListener("submit", event 
     return;
   }
   const productLabel = requestMapProduct.options[requestMapProduct.selectedIndex].text.split(" — ")[0];
-=======
-  const productLabels = { pdf: "PDF", jpg: "JPG", vinyl: "Vinyl", photopaper: "Photopaper", sticker: "Sticker" };
-  const productLabel = productLabels[requestMapProduct.value];
-  if (!productLabel) throw new Error(`Unknown paid download product: ${requestMapProduct.value}`);
->>>>>>> 0e4a5ed5eb87eeb9f8dafc5435bfbb66e1f95d75
   let sizeLabel = "";
   let total = Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.price || 0);
   if (requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate) {
