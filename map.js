@@ -68,12 +68,16 @@ const cityMapTitles = {
 };
 let currentMapLanguage = "en";
 let currentMapSource = "assets/maps/myanmar-english.jpg";
+let currentMapTitle = "Myanmar Map";
+let currentMapCaption = "Map of Myanmar";
 let activeMapDropdown = "mapOptions";
 function showUnavailableMap(title, showPopup = true) {
   const image = document.getElementById("selectedImage");
   image.onerror = null;
   image.hidden = true;
   currentMapSource = "";
+  currentMapTitle = title;
+  currentMapCaption = "No map image is available for this selection.";
   document.getElementById("mapDialog").classList.remove("download-flow-only", "has-map-brief");
   document.getElementById("regionBrief").hidden = true;
   document.getElementById("cityBrief").hidden = true;
@@ -101,7 +105,10 @@ function setImage(src, title, caption, alt, showPopup = true, briefType = "") {
   document.getElementById("regionBrief").hidden = briefType !== "region" && briefType !== "state";
   document.getElementById("cityBrief").hidden = briefType !== "city";
   if (briefType === "region" || briefType === "state") {
-    document.querySelector("#regionBrief li").textContent = briefType === "state" ? "ပြည်နယ်မြို့တော်" : "တိုင်းဒေသကြီးမြို့တော်";
+    const capitalLabel = document.querySelector("#regionBrief li");
+    capitalLabel.dataset.en = briefType === "state" ? "State capital" : "Regional capital";
+    capitalLabel.dataset.my = briefType === "state" ? "ပြည်နယ်မြို့တော်" : "တိုင်းဒေသကြီးမြို့တော်";
+    capitalLabel.textContent = capitalLabel.dataset[document.documentElement.lang === "my" ? "my" : "en"];
   }
   const image = document.getElementById("selectedImage");
   image.hidden = false;
@@ -110,6 +117,8 @@ function setImage(src, title, caption, alt, showPopup = true, briefType = "") {
     if (currentMapSource === src) showUnavailableMap(title, false);
   };
   currentMapSource = src;
+  currentMapTitle = title;
+  currentMapCaption = caption;
   image.src = src;
   image.alt = alt;
   document.getElementById("imageTitle").textContent = title;
@@ -222,9 +231,14 @@ const searchableMaps = [
       townshipOptions: "township",
       cityOptions: "city"
     }[dropdown?.id] || "map";
+    const actionName = target.getAttribute("onclick")?.match(/select(?:District|City)\('([^']+)'\)/)?.[1];
+    const mapImage = categoryType === "district"
+      ? districtImages[actionName]
+      : categoryType === "city" ? cityImages[actionName] : "";
     return {
       target, name: target.textContent.trim(), categoryType,
       categoryContext: group?.querySelector("h4"),
+      mapFileName: mapImage?.split("/").pop().replace(/\.[^.]+$/, ""),
       searchText: target.dataset.searchText || target.textContent.toLowerCase()
     };
   }),
@@ -235,10 +249,40 @@ const searchableMaps = [
     searchText: target.textContent.toLowerCase()
   }))
 ];
+function normalizeMapSearchText(value) {
+  return String(value || "")
+    .normalize("NFC")
+    .replace(/\u1025(?:\u103a)?\u102e/g, "\u1026\u1038")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLocaleLowerCase();
+}
+function getMapSearchTerms(item) {
+  const translations = window.dpsMapTranslations || {};
+  const translatedName = translations[item.name];
+  const translatedAliases = Array.from(item.target.querySelectorAll("[data-my]"), element => element.dataset.my);
+  return [
+    item.name,
+    item.searchText,
+    item.categoryContext?.textContent,
+    item.mapFileName,
+    item.target.dataset.mapCaption,
+    item.target.dataset.mapSrc,
+    translatedName,
+    ...translatedAliases
+  ].filter(Boolean).map(normalizeMapSearchText);
+}
+const searchableMapByTarget = new Map(
+  searchableMaps.filter(item => item.target.classList.contains("place-option")).map(item => [item.target, item])
+);
 function renderSearchResults() {
-  const query = searchInput.value.trim().toLocaleLowerCase();
+  const query = normalizeMapSearchText(searchInput.value);
   clearSearchButton.hidden = !query;
-  document.querySelectorAll(".place-option").forEach(button => { button.hidden = Boolean(query) && !button.dataset.searchText.includes(query); });
+  document.querySelectorAll(".place-option").forEach(button => {
+    const item = searchableMapByTarget.get(button);
+    const terms = item ? getMapSearchTerms(item) : [normalizeMapSearchText(button.dataset.searchText)];
+    button.hidden = Boolean(query) && !terms.some(term => term.includes(query));
+  });
   searchResults.replaceChildren();
   if (!query) {
     searchResults.hidden = true;
@@ -246,12 +290,14 @@ function renderSearchResults() {
     return;
   }
   const matches = searchableMaps
-    .filter(item => item.searchText.toLocaleLowerCase().includes(query))
+    .map(item => ({ item, terms: getMapSearchTerms(item) }))
+    .filter(({ terms }) => terms.some(term => term.includes(query)))
     .sort((a, b) =>
-      Number(b.name.toLocaleLowerCase() === query) - Number(a.name.toLocaleLowerCase() === query) ||
-      Number(b.name.toLocaleLowerCase().startsWith(query)) - Number(a.name.toLocaleLowerCase().startsWith(query))
+      Number(b.terms.some(term => term === query)) - Number(a.terms.some(term => term === query)) ||
+      Number(b.terms.some(term => term.startsWith(query))) - Number(a.terms.some(term => term.startsWith(query)))
     )
-    .slice(0, 12);
+    .slice(0, 12)
+    .map(({ item }) => item);
   if (matches.length) {
     matches.forEach(item => {
       const option = document.createElement("article");
@@ -451,7 +497,7 @@ let currentMapPlotSizes = [];
 let currentPaidCategory = "";
 
 function updatePlotSizeOptions() {
-  const mapTitle = document.getElementById("imageTitle").textContent.trim().toLowerCase();
+  const mapTitle = currentMapTitle.trim().toLowerCase();
   const mapSource = currentMapSource.toLowerCase();
   let sizes = mapPlotSizes[mapTitle] || mapPlotSizes[`${mapTitle} map`];
   if (!sizes && mapSource.startsWith("assets/regions/")) {
@@ -532,7 +578,7 @@ function updateRequestPrice() {
   } else {
     const [width, height] = requestMapSize.value.split("x").map(Number);
     area = width * height;
-    sizeLabel = requestMapSize.options[requestMapSize.selectedIndex].text;
+    sizeLabel = `${width} × ${height} ft`;
   }
   const total = area * rate;
   requestPrice.textContent = `Total price: ${money(total)} (${sizeLabel}, ${area.toLocaleString("en-US")} sq ft × ${money(rate)}/sq ft)`;
@@ -555,7 +601,9 @@ document.getElementById("freeDownloadForm").addEventListener("submit", event => 
 
 document.getElementById("requestDownloadForm").addEventListener("submit", event => {
   event.preventDefault();
-  const productLabel = requestMapProduct.options[requestMapProduct.selectedIndex].text.split(" — ")[0];
+  const productLabels = { pdf: "PDF", jpg: "JPG", vinyl: "Vinyl", photopaper: "Photopaper", sticker: "Sticker" };
+  const productLabel = productLabels[requestMapProduct.value];
+  if (!productLabel) throw new Error(`Unknown paid download product: ${requestMapProduct.value}`);
   let sizeLabel = "";
   let total = Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.price || 0);
   if (requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate) {
@@ -565,8 +613,8 @@ document.getElementById("requestDownloadForm").addEventListener("submit", event 
       sizeLabel = `${width} × ${height} ft`;
       total = width * height * Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate);
     } else {
-      sizeLabel = requestMapSize.options[requestMapSize.selectedIndex].text;
       const [width, height] = requestMapSize.value.split("x").map(Number);
+      sizeLabel = `${width} × ${height} ft`;
       total = width * height * Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate);
     }
   } else {
@@ -581,7 +629,5 @@ document.getElementById("requestDownloadForm").addEventListener("submit", event 
 
 function hideKpayPanel() {
   document.getElementById("kpayPanel").hidden = true;
-  const title = document.getElementById("imageTitle").textContent;
-  const caption = document.getElementById("imageCaption").textContent;
-  setImage(currentMapSource, title, caption, title);
+  setImage(currentMapSource, currentMapTitle, currentMapCaption, currentMapTitle);
 }
