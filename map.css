@@ -251,7 +251,7 @@ body.map-dialog-open {
 .map-dialog::backdrop { background: rgb(0 0 0 / 58%); }
 .map-dialog-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
 .map-dialog-header h2 { font-size: 20px; }
-.map-dialog-close { width: 38px; height: 38px; border: 1px solid #ccc; border-radius: 50%; background: white; font-size: 25px; line-height: 1; cursor: pointer; }
+.map-dialog-close { width: 38px; height: 38px; margin-left: auto; border: 1px solid #ccc; border-radius: 50%; background: white; font-size: 25px; line-height: 1; cursor: pointer; }
 .map-dialog-map-layout { display: flex; justify-content: center; gap: 16px; }
 .map-dialog > .map-dialog-map-layout > #selectedImage { display: block; width: 100%; max-height: min(62vh, calc(100dvh - 280px)); object-fit: contain; background: #f4f7f8; }
 .map-dialog.has-region-brief .map-dialog-map-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(250px, .8fr); align-items: stretch; }
@@ -315,6 +315,7 @@ main { padding-top: 60px; }
 .popular-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgb(24 33 43 / 12%); }
 .popular-card-image { position: relative; display: block; overflow: hidden; }
 .popular-card img { display: block; width: 100%; height: 124px; object-fit: contain; background: #fff; }
+.popular-badge { position: absolute; z-index: 2; top: 8px; right: 8px; display: inline-flex; align-items: center; gap: 4px; padding: 5px 9px; border: 1px solid rgb(255 255 255 / 80%); border-radius: 999px; background: rgb(255 255 255 / 92%); color: #b54708; font-size: 12px; font-weight: 700; line-height: 1; box-shadow: 0 2px 6px rgb(15 23 42 / 14%); }
 .popular-card-overlay { position: absolute; inset: 0; display: grid; place-items: center; padding: 14px; background: rgb(53 72 115 / 38%); color: #fff; font-size: 14px; font-weight: 700; line-height: 1.4; text-align: center; opacity: 0; transition: opacity .2s ease; }
 .popular-card:hover .popular-card-overlay,
 .popular-card:focus-visible .popular-card-overlay { opacity: 1; }

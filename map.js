@@ -201,15 +201,37 @@ const searchableMaps = [
   ...Array.from(document.querySelectorAll(".place-option"), target => {
     const group = target.closest(".district-group");
     const dropdown = target.closest(".dropdown-content");
-    const category = group?.querySelector("h4")?.textContent ||
-      (dropdown?.id === "regionOptions" ? "Region and State" : dropdown?.id === "townshipOptions" ? "Township" : "Map");
-    return { target, name: target.textContent.trim(), category, searchText: target.dataset.searchText || target.textContent.toLowerCase() };
+    const categoryType = {
+      regionOptions: "region",
+      districtOptions: "district",
+      townshipOptions: "township",
+      cityOptions: "city"
+    }[dropdown?.id] || "map";
+    return {
+      target, name: target.textContent.trim(), categoryType,
+      categoryContext: group?.querySelector("h4"),
+      searchText: target.dataset.searchText || target.textContent.toLowerCase()
+    };
   }),
   ...Array.from(document.querySelectorAll(".popular-card"), target => ({
-    target, name: target.querySelector("span").textContent.trim(), category: "Popular map",
+    target, name: target.querySelector(".popular-card-label").textContent.trim(),
+    categoryType: "popular",
     searchText: target.textContent.toLowerCase()
   }))
 ];
+function getSearchCategory(item) {
+  const isMyanmar = document.documentElement.lang === "my";
+  const labels = {
+    region: isMyanmar ? "တိုင်းဒေသကြီး/ပြည်နယ်" : "Region/State",
+    district: isMyanmar ? "ခရိုင်" : "District",
+    township: isMyanmar ? "မြို့နယ်" : "Township",
+    city: isMyanmar ? "မြို့" : "City",
+    popular: isMyanmar ? "လူကြိုက်များသောမြေပုံ" : "Popular map",
+    map: isMyanmar ? "မြေပုံ" : "Map"
+  };
+  const context = item.categoryContext?.textContent.trim();
+  return [labels[item.categoryType], context].filter(Boolean).join(" · ");
+}
 function renderSearchResults() {
   const query = searchInput.value.trim().toLocaleLowerCase();
   document.querySelectorAll(".place-option").forEach(button => { button.hidden = Boolean(query) && !button.dataset.searchText.includes(query); });
@@ -232,7 +254,7 @@ function renderSearchResults() {
       const name = document.createElement("span");
       name.textContent = item.name;
       const category = document.createElement("small");
-      category.textContent = item.category;
+      category.textContent = getSearchCategory(item);
       option.append(name, category);
       option.addEventListener("click", () => {
         item.target.click();
