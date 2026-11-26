@@ -424,7 +424,7 @@ const money = amount => `${Number(amount).toLocaleString("en-US")} MMK`;
 const standardPlotSizes = ["2x3", "3x4", "4x6"];
 const mapPlotSizes = {
   "taikkyi city map": standardPlotSizes,
-  "taikkyi township map": standardPlotSizes,
+  "taikkyi township map": [],
   "yangon city map": ["3x4", "4x6"],
   "hmawbi city map": standardPlotSizes,
   "hmawbi township map": standardPlotSizes,
@@ -433,17 +433,19 @@ const mapPlotSizes = {
   "kawhmu city map": standardPlotSizes,
   "kawhmu township map": standardPlotSizes,
   "hlegu city map": standardPlotSizes,
-  "hlegu township map": standardPlotSizes,
+  "hlegu township map": [],
   "kyauktan city map": standardPlotSizes,
   "kyauktan township map": standardPlotSizes,
   "mandalay city map": ["3x4", "4x6"],
   "pyin oo lwin city map": ["3x4"],
+  "pyin oo lwin map": ["3x4"],
   "naypyidaw city map": ["4x6"],
   "naypyitaw city map": ["4x6"],
   "taunggyi city map": ["3x4"],
   "minhla township map": [],
   "minbu township map": [],
-  "ngape township map": []
+  "ngape township map": [],
+  "minhla, minbu and ngape townships map": []
 };
 let currentMapPlotSizes = [];
 let currentPaidCategory = "";
@@ -452,9 +454,7 @@ function updatePlotSizeOptions() {
   const mapTitle = document.getElementById("imageTitle").textContent.trim().toLowerCase();
   const mapSource = currentMapSource.toLowerCase();
   let sizes = mapPlotSizes[mapTitle] || mapPlotSizes[`${mapTitle} map`];
-  if (!sizes && mapSource.startsWith("assets/cities/")) {
-    sizes = standardPlotSizes;
-  } else if (!sizes && mapSource.startsWith("assets/regions/")) {
+  if (!sizes && mapSource.startsWith("assets/regions/")) {
     sizes = standardPlotSizes;
   } else if (!sizes && mapSource.startsWith("assets/townships/")) {
     if (mapSource.includes("/ရန်ကုန်တိုင်း/")) {
