@@ -383,6 +383,11 @@ function showPaidDownloadCategory(category) {
   const availableSizes = updatePlotSizeOptions();
   document.getElementById("requestFormTitle").textContent =
     category === "soft-copy" ? "Soft copy" : "Plotting";
+  const isSoftCopy = category === "soft-copy";
+  document.getElementById("softCopyFormats").hidden = !isSoftCopy;
+  document.getElementById("requestMapProductField").hidden = isSoftCopy;
+  requestMapProduct.disabled = isSoftCopy;
+  requestMapProduct.required = !isSoftCopy;
   requestMapProduct.querySelectorAll("optgroup").forEach(group => {
     group.hidden = group.dataset.category !== category;
     group.disabled = group.dataset.category === "plotting" && availableSizes.length === 0;
@@ -468,10 +473,21 @@ function updatePlotSizeOptions() {
 }
 
 function updateRequestPrice() {
+  const isSoftCopy = currentPaidCategory === "soft-copy";
   const product = requestMapProduct.options[requestMapProduct.selectedIndex];
   const rate = Number(product?.dataset.rate || 0);
   const fixedPrice = Number(product?.dataset.price || 0);
   const isAreaPrice = rate > 0;
+  if (isSoftCopy) {
+    requestMapSizeField.hidden = true;
+    requestMapSize.disabled = true;
+    requestMapSize.required = false;
+    customDimensions.hidden = true;
+    customWidth.required = false;
+    customHeight.required = false;
+    requestPrice.textContent = "Soft copy pricing will be confirmed before payment.";
+    return;
+  }
   requestMapSizeField.hidden = !isAreaPrice;
   requestMapSize.disabled = !isAreaPrice;
   requestMapSize.required = isAreaPrice;
@@ -537,6 +553,20 @@ document.getElementById("freeDownloadForm").addEventListener("submit", event => 
 
 document.getElementById("requestDownloadForm").addEventListener("submit", event => {
   event.preventDefault();
+  if (currentPaidCategory === "soft-copy") {
+    const selectedFormats = Array.from(
+      document.querySelectorAll('input[name="softCopyFormat"]:checked'),
+      input => input.value
+    );
+    if (!selectedFormats.length) {
+      document.getElementById("downloadFormStatus").textContent =
+        "Select at least one Soft copy format before submitting.";
+      return;
+    }
+    document.getElementById("downloadFormStatus").textContent =
+      `Soft copy pricing for ${selectedFormats.join(", ")} must be confirmed before payment. No payment has been started.`;
+    return;
+  }
   const productLabel = requestMapProduct.options[requestMapProduct.selectedIndex].text.split(" — ")[0];
   let sizeLabel = "";
   let total = Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.price || 0);

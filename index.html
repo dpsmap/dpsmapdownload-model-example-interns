@@ -502,7 +502,13 @@
 
     <dialog id="mapDialog" class="map-dialog" aria-labelledby="imageTitle">
       <div class="map-dialog-header">
+        <button type="button" class="download-button paid-flow-back" onclick="showDownloadForm('paid')" aria-label="Back to paid download types" title="Back to paid download types">
+          <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+            <path d="M19 12H5m7 7-7-7 7-7"></path>
+          </svg>
+        </button>
         <h2 id="imageTitle">Myanmar Map</h2>
+        <h3 id="paidDownloadChoicesTitle" class="paid-download-title">Choose paid download type</h3>
         <button type="button" class="map-dialog-close" onclick="closeMapPopup()" aria-label="Close map">×</button>
       </div>
       <div class="map-dialog-map-layout">
@@ -544,10 +550,15 @@
         <button type="button" class="download-button free-button" onclick="showDownloadForm('free')">Free Download</button>
         <button type="button" class="download-button request-button" onclick="showDownloadForm('paid')">Paid Download</button>
       </section>
-      <section id="paidDownloadChoices" class="paid-download-choices" hidden aria-label="Paid download type">
-        <h3>Choose paid download type</h3>
-        <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')">Soft copy</button>
-        <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('plotting')">Plotting</button>
+      <section id="paidDownloadChoices" class="paid-download-choices" hidden aria-labelledby="paidDownloadChoicesTitle">
+        <div class="paid-download-choice">
+          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')">Soft copy</button>
+          <p>JPG/PDF<br>Digital Map</p>
+        </div>
+        <div class="paid-download-choice">
+          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('plotting')">Plotting</button>
+          <p>Various Sizes <br>Hardware Map</p>
+        </div>
       </section>
       <section id="downloadForms" class="download-forms" hidden>
         <form id="freeDownloadForm" class="download-form shared-download-form free-download-form" hidden>
@@ -561,26 +572,16 @@
           <button type="submit" class="download-button free-button">Submit &amp; download map</button>
         </form>
         <form id="requestDownloadForm" class="download-form request-form" hidden>
-          <button type="button" class="download-button paid-flow-back" onclick="showDownloadForm('paid')">Back to paid download types</button>
           <h3 id="requestFormTitle">Paid Download</h3>
+          <fieldset id="softCopyFormats" class="soft-copy-formats" aria-label="Soft copy formats" hidden>
+            <label><input type="checkbox" name="softCopyFormat" value="JPG" checked> JPG</label>
+            <label><input type="checkbox" name="softCopyFormat" value="PDF" checked> PDF</label>
+          </fieldset>
           <div class="shared-form-grid">
             <label>Full name<input name="name" autocomplete="name" placeholder="Your name" required></label>
             <label>Email address<input name="email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
             <label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="09xxxxxxxxx" required></label>
-            <label>Map product / print type
-              <select id="requestMapProduct" name="mapProduct" required>
-                <option value="" selected disabled>Select a product</option>
-                <optgroup label="Soft copy" data-category="soft-copy">
-                  <option value="pdf" data-price="350000">PDF — 350,000 MMK</option>
-                  <option value="jpg" data-price="150000">JPG — 150,000 MMK</option>
-                </optgroup>
-                <optgroup label="Plotting" data-category="plotting">
-                  <option value="vinyl" data-rate="15000">Vinyl — 15,000 MMK per sq ft</option>
-                  <option value="photopaper" data-rate="27000">Photopaper — 27,000 MMK per sq ft</option>
-                  <option value="sticker" data-rate="27000">Sticker — 27,000 MMK per sq ft</option>
-                </optgroup>
-              </select>
-            </label>
+            <label>Reason for download<input name="reason" placeholder="Tell us why you need this map" required></label>
             <label id="requestMapSizeField" hidden>Map size
               <select id="requestMapSize" name="mapSize" required disabled>
                 <option value="" selected disabled>Select a product first</option>
@@ -595,7 +596,20 @@
             </div>
             <p id="requestPrice" class="request-price wide-field" aria-live="polite">Select a product and size to calculate the price.</p>
             <p class="request-info-note wide-field">အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် Email နှင့်ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။</p>
-            <label>Reason for download<input name="reason" placeholder="Tell us why you need this map" required></label>
+            <label id="requestMapProductField">Map product / print type
+              <select id="requestMapProduct" name="mapProduct" required>
+                <option value="" selected disabled>Select a product</option>
+                <optgroup label="Soft copy" data-category="soft-copy">
+                  <option value="pdf" data-price="350000">PDF — 350,000 MMK</option>
+                  <option value="jpg" data-price="150000">JPG — 150,000 MMK</option>
+                </optgroup>
+                <optgroup label="Plotting" data-category="plotting">
+                  <option value="vinyl" data-rate="15000">Vinyl — 15,000 MMK per sq ft</option>
+                  <option value="photopaper" data-rate="27000">Photopaper — 27,000 MMK per sq ft</option>
+                  <option value="sticker" data-rate="27000">Sticker — 27,000 MMK per sq ft</option>
+                </optgroup>
+              </select>
+            </label>
           </div>
           <button type="submit" class="download-button request-button">Submit request</button>
         </form>
@@ -678,6 +692,8 @@
                 "Width in feet": "အကျယ်ကို ပေဖြင့်ထည့်ပါ",
                 "Height in feet": "အမြင့်ကို ပေဖြင့်ထည့်ပါ",
                 "Select a product and size to calculate the price.": "ဈေးနှုန်းတွက်ချက်ရန် ထုတ်ကုန်နှင့် အရွယ်အစားကို ရွေးချယ်ပါ။",
+                "Soft copy pricing will be confirmed before payment.": "Soft copy ဈေးနှုန်းကို ငွေမချေမီ အတည်ပြုပေးပါမည်။",
+                "Soft copy pricing must be confirmed before payment. No payment has been started.": "Soft copy ဈေးနှုန်းကို အရင်အတည်ပြုပါ။ ငွေပေးချေမှု မစတင်ရသေးပါ။",
                 "Submit & download map": "တင်သွင်းပြီး မြေပုံဒေါင်းလုဒ်ရယူရန်",
                 "Submit request": "တောင်းဆိုမှုတင်သွင်းရန်",
                 "Pay with KBZPay": "KBZPay ဖြင့်ငွေပေးချေရန်",

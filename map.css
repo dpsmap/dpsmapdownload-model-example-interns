@@ -251,6 +251,7 @@ body.map-dialog-open {
 .map-dialog::backdrop { background: rgb(0 0 0 / 58%); }
 .map-dialog-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
 .map-dialog-header h2 { font-size: 20px; }
+.paid-download-title { display: none; margin: 0; font-size: 17px; }
 .map-dialog-close { width: 38px; height: 38px; margin-left: auto; border: 1px solid #ccc; border-radius: 50%; background: white; font-size: 25px; line-height: 1; cursor: pointer; }
 .map-dialog-map-layout { display: flex; justify-content: center; gap: 16px; }
 .map-dialog > .map-dialog-map-layout > #selectedImage { display: block; width: 100%; max-height: min(62vh, calc(100dvh - 280px)); object-fit: contain; background: #f4f7f8; }
@@ -279,12 +280,18 @@ body.map-dialog-open {
 .request-button:hover { background: #1c4484; }
 .download-forms { margin-top: 14px; padding: 14px; border: 1px solid #ddd; border-radius: 8px; background: #f8fafc; }
 .paid-download-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
-.paid-download-choices h3 { grid-column: 1 / -1; margin: 0 0 2px; font-size: 17px; }
+.paid-download-choice { display: grid; align-content: start; gap: 6px; text-align: center; }
+.paid-download-choice p { margin: 0; color: #333; font-size: 14px; line-height: 1.5; }
 .paid-flow-back { justify-self: start; }
+.download-button.paid-flow-back { display: none; place-items: center; flex: none; width: 42px; min-height: 42px; padding: 0; border-radius: 50%; }
+.paid-flow-back svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .download-form { display: grid; gap: 12px; }
 .download-form h3 { margin-bottom: 2px; font-size: 17px; }
 .download-form label { display: grid; gap: 5px; color: #334155; font-size: 14px; text-align: left; }
 .download-form input, .download-form textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 5px; font: inherit; }
+.soft-copy-formats { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; padding: 0; border: 0; }
+.soft-copy-formats label { display: inline-flex; min-width: 150px; align-items: center; gap: 14px; padding: 8px 14px; border: 1px solid #aaa; border-radius: 14px; color: #222; font-size: 18px; }
+.soft-copy-formats input[type="checkbox"] { width: 24px; min-height: 24px; height: 24px; margin: 0; padding: 0; accent-color: #111; }
 .download-form-status { margin-top: 10px; color: #334155; font-size: 14px; }
 
 .request-form { color: #243b91; }
@@ -338,6 +345,8 @@ main { padding-top: 60px; }
 .kpay-qr-frame p { color: #64748b; font-size: 13px; }
 .map-dialog.download-flow-only { width: min(94vw, 900px); }
 .map-dialog.download-flow-only .map-dialog-header h2 { display: none; }
+.map-dialog.download-flow-only:has(#paidDownloadChoices:not([hidden])) .paid-download-title { display: block; }
+.map-dialog.download-flow-only:has(#requestDownloadForm:not([hidden])) .paid-flow-back { display: grid; }
 .map-dialog.download-flow-only #selectedImage[hidden], .map-dialog.download-flow-only #imageCaption[hidden] { display: none; }
 @media (max-width: 760px) { .popular-maps { grid-template-columns: repeat(2, minmax(0, 1fr)); } .popular-card img { height: 112px; } }
 @media (max-width: 450px) { .shared-form-grid { grid-template-columns: 1fr; } .popular-maps { gap: 9px; } .popular-card-label { padding: 10px; font-size: 13px; } }
@@ -440,7 +449,7 @@ body { min-width: 320px; overflow-x: clip; }
 .search-empty { margin: 0 !important; padding: 14px; color: #64748b; text-align: left !important; }
 .custom-dimensions { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .request-price { margin: 0; padding: 12px; border: 1px solid #d7e3f3; border-radius: 8px; background: #eef5ff; color: #173b68; font-size: 15px; font-weight: 700; text-align: left; }
-.request-info-note { margin: -4px 0 0; color: #64748b; font-size: 13px; text-align: left; }
+.request-info-note { justify-self: center; width: fit-content; max-width: 100%; margin: -4px 0 0; padding: 6px 10px; border: none; border-radius: 6px; background: #ffe082; color: #5f4b00; font-size: 13px; text-align: center; }
 .kpay-order-summary { margin: 10px auto 14px !important; padding: 12px; width: min(100%, 480px); border-radius: 8px; background: #eef5ff; color: #173b68 !important; font-weight: 700; }
 .kpay-confirmation-note { margin: 10px 0 14px !important; color: #64748b !important; text-align: center; }
 .custom-dimensions[hidden] { display: none !important; }
