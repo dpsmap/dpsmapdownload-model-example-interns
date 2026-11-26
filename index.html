@@ -541,6 +541,19 @@
             <li data-en="Includes details such as bridges." data-my="တံတား စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။">တံတား စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။</li>
           </ul>
         </aside>
+        <aside id="featureBrief" class="map-dialog-brief" aria-labelledby="featureBriefTitle" hidden>
+          <h3 id="featureBriefTitle" data-en="Legend" data-my="ရည်ညွှန်းချက်">ရည်ညွှန်းချက်</h3>
+          <ul>
+            <li data-en="District town" data-my="ခရိုင်မြို့">ခရိုင်မြို့</li>
+            <li data-en="City" data-my="မြို့">မြို့</li>
+            <li data-en="Village" data-my="ကျေးရွာ">ကျေးရွာ</li>
+            <li data-en="Pagoda" data-my="ဘုရား">ဘုရား</li>
+            <li data-en="Lake" data-my="ရေကန်">ရေကန်</li>
+            <li data-en="River" data-my="မြစ်ချောင်း">မြစ်ချောင်း</li>
+            <li data-en="Road" data-my="ကားလမ်း">ကားလမ်း</li>
+            <li data-en="Railway" data-my="ရထားလမ်း">ရထားလမ်း</li>
+          </ul>
+        </aside>
       </div>
       <p id="imageCaption">Choose a district or city to view its map.</p>
       <section id="downloadActions" class="download-actions" hidden aria-label="Download options">
@@ -592,7 +605,11 @@
               <label>Height (ft)<input id="customHeight" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="Height in feet"></label>
             </div>
             <p id="requestPrice" class="request-price wide-field" aria-live="polite">Select a product and size to calculate the price.</p>
+<<<<<<< HEAD
             <p class="request-info-note wide-field">အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် Email နှင့်ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။</p>
+=======
+            <p class="request-info-note wide-field" data-en="Please ensure that your email and phone number are correct to ensure accurate submission." data-my="အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။">အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။</p>
+>>>>>>> 9cdfb53290afff4bb4a4bcfac067fd878960e385
             <label>Reason for download<input name="reason" placeholder="Tell us why you need this map" required></label>
           </div>
           <button type="submit" class="download-button request-button">Submit request</button>
@@ -608,8 +625,8 @@
             onerror="this.hidden=true; this.nextElementSibling.hidden=false">
           <p hidden>Add your KBZPay QR image as <code>assets/payment/kpay-qr.png</code>.</p>
         </div>
-        <p class="kpay-confirmation-note" data-en="After payment, the Admin will verify it and send it to your email." data-my="ငွေလွှဲပြီးပါက Admin မှစိစစ်ပြီး Email သို့ပို့ပေးပါမည်။">ငွေလွှဲပြီးပါက Admin မှစိစစ်ပြီး Email သို့ပို့ပေးပါမည်။</p>
-        <p class="kpay-confirmation-note" data-en="If the payer name differs from the name provided, please include the name in the Note." data-my="ငွေလွှဲသည့်အကောင့်နှင့် နာမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက Note တွင်နာမည်ထည့်သွင်းပေးပါရန်။">ငွေလွှဲသည့်အကောင့်နှင့် နာမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက Note တွင်နာမည်ထည့်သွင်းပေးပါရန်။</p>
+        <p class="kpay-confirmation-note" data-en="After payment, the Admin will verify it and send it to your email." data-my="ငွေလွှဲပြီးပါက စီမံခန့်ခွဲသူမှ စိစစ်ပြီး အီးမေးလ်သို့ ပို့ပေးပါမည်။">ငွေလွှဲပြီးပါက စီမံခန့်ခွဲသူမှ စိစစ်ပြီး အီးမေးလ်သို့ ပို့ပေးပါမည်။</p>
+        <p class="kpay-confirmation-note" data-en="If the payer name differs from the name provided, please include the name in the Note." data-my="ငွေလွှဲသည့်အကောင့်နှင့် အမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက မှတ်ချက်တွင် အမည်ထည့်သွင်းပေးပါရန်။">ငွေလွှဲသည့်အကောင့်နှင့် အမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက မှတ်ချက်တွင် အမည်ထည့်သွင်းပေးပါရန်။</p>
         <button type="button" class="download-button" onclick="hideKpayPanel()">Back to map</button>
       </section>
     </dialog>
@@ -709,9 +726,9 @@
                 "Government building": "အစိုးရအဆောက်အအုံ",
                 "Includes terrain details such as elevation and depression.": "မြေမျက်နှာသွင်ပြင် အနိမ့်၊ အမြင့် စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။",
                 "Includes details such as bridges.": "တံတား စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။",
-                "Please ensure that your email and phone number are correct to ensure accurate submission.": "အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် Email နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။",
-                "After payment, the Admin will verify it and send it to your email.": "ငွေလွှဲပြီးပါက Admin မှ စိစစ်ပြီး Email သို့ ပို့ပေးပါမည်။",
-                "If the payer name differs from the name provided, please include the name in the Note.": "ငွေလွှဲသည့်အကောင့်နှင့် နာမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက Note တွင် နာမည်ထည့်သွင်းပေးပါရန်။",
+                "Please ensure that your email and phone number are correct to ensure accurate submission.": "အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။",
+                "After payment, the Admin will verify it and send it to your email.": "ငွေလွှဲပြီးပါက စီမံခန့်ခွဲသူမှ စိစစ်ပြီး အီးမေးလ်သို့ ပို့ပေးပါမည်။",
+                "If the payer name differs from the name provided, please include the name in the Note.": "ငွေလွှဲသည့်အကောင့်နှင့် အမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက မှတ်ချက်တွင် အမည်ထည့်သွင်းပေးပါရန်။",
                 "Full name": "အမည်အပြည့်အစုံ",
                 "Email address": "အီးမေးလ်လိပ်စာ",
                 "Phone number": "ဖုန်းနံပါတ်",
@@ -737,7 +754,7 @@
                 "Submit & download map": "တင်သွင်းပြီး မြေပုံဒေါင်းလုဒ်ရယူရန်",
                 "Submit request": "တောင်းဆိုမှုတင်သွင်းရန်",
                 "Pay with KBZPay": "KBZPay ဖြင့်ငွေပေးချေရန်",
-                "Scan the KBZPay QR code and enter the displayed total.": "KBZPay QR ကုဒ်ကို scan ဖတ်ပြီး ပြသထားသော စုစုပေါင်းငွေကို ထည့်သွင်းပါ။",
+                "Scan the KBZPay QR code and enter the displayed total.": "KBZPay QR ကုဒ်ကို ဖတ်ပြီး ပြသထားသော စုစုပေါင်းငွေကို ထည့်သွင်းပါ။",
                 "Back to map": "မြေပုံသို့ပြန်သွားရန်",
                 "No matching maps found.": "ကိုက်ညီသောမြေပုံ မတွေ့ပါ။",
                 "Your map download has started.": "သင့်မြေပုံကို ဒေါင်းလုဒ်ရယူနေပါပြီ။",
@@ -871,6 +888,104 @@
                 "Eastern Shan State": "ရှမ်းပြည်နယ်အရှေ့ပိုင်း",
                 "Northern Shan State": "ရှမ်းပြည်နယ်မြောက်ပိုင်း"
             };
+            Object.assign(translations, {
+                "Shan-East State": "ရှမ်းပြည်နယ်အရှေ့ပိုင်း",
+                "Shan-North State": "ရှမ်းပြည်နယ်မြောက်ပိုင်း",
+                "Shan-South State": "ရှမ်းပြည်နယ်တောင်ပိုင်း",
+                "Hmawbi": "မှော်ဘီ",
+                "Kyaukse": "ကျောက်ဆည်",
+                "Myingyan": "မြင်းခြံ",
+                "Minbu": "မင်းဘူး",
+                "Katha": "ကသာ",
+                "Bokpyin": "ဘုတ်ပြင်း",
+                "Hlegu": "လှည်းကူး",
+                "Htantabin": "ထန်းတပင်",
+                "Shwepyitha": "ရွှေပြည်သာ",
+                "Hlaingthaya East": "လှိုင်သာယာအရှေ့ပိုင်း",
+                "Hlaingthaya West": "လှိုင်သာယာအနောက်ပိုင်း",
+                "Thanlyin": "သန်လျင်",
+                "Thongwa": "သုံးခွ",
+                "Kyauktan": "ကျောက်တန်း",
+                "Kayan": "ခရမ်း",
+                "Kungyangon": "ကွမ်းခြံကုန်း",
+                "Kawhmu": "ကော့မှူး",
+                "Seikkyi Kanaungto": "ဆိပ်ကြီးခနောင်တို",
+                "Dala": "ဒလ",
+                "Kyauktada": "ကျောက်တံတား",
+                "Pabedan": "ပန်းဘဲတန်း",
+                "Lanmadaw": "လမ်းမတော်",
+                "Latha": "လသာ",
+                "Dagon": "ဒဂုံ",
+                "Ahlon": "အလုံ",
+                "Kyimyindaing": "ကြည့်မြင်တိုင်",
+                "Sanchaung": "စမ်းချောင်း",
+                "Mayangon": "မရမ်းကုန်း",
+                "Hlaing": "လှိုင်",
+                "North Okkalapa": "မြောက်ဥက္ကလာပ",
+                "Thingangyun": "သင်္ဃန်းကျွန်း",
+                "South Okkalapa": "တောင်ဥက္ကလာပ",
+                "Tamwe": "တာမွေ",
+                "Yankin": "ရန်ကင်း",
+                "Botataung": "ဗိုလ်တထောင်",
+                "Dawbon": "ဒေါပုံ",
+                "Mingala Taungnyunt": "မင်္ဂလာတောင်ညွန့်",
+                "Pazundaung": "ပုဇွန်တောင်",
+                "Thaketa": "သာကေတ",
+                "Dagon Seikkan": "ဒဂုံဆိပ်ကမ်း",
+                "South Dagon": "တောင်ဒဂုံ",
+                "North Dagon": "မြောက်ဒဂုံ",
+                "East Dagon": "အရှေ့ဒဂုံ",
+                "Bahan": "ဗဟန်း",
+                "Aungmyethazan": "အောင်မြေသာစံ",
+                "Aungmyaythazan": "အောင်မြေသာစံ",
+                "Chanayethazan": "ချမ်းအေးသာစံ",
+                "Chanmyathazi": "ချမ်းမြသာစည်",
+                "Tada-U": "တံတားဦး",
+                "Patheingyi": "ပုသိမ်ကြီး",
+                "Pyawbwe": "ပျော်ဘွယ်",
+                "Pyigyidagun": "ပြည်ကြီးတံခွန်",
+                "Maha Aungmye": "မဟာအောင်မြေ",
+                "Yamethin": "ရမည်းသင်း",
+                "Wundwin": "ဝမ်းတွင်း",
+                "Thabeikkyin": "သပိတ်ကျင်း",
+                "Amarapura": "အမရပူရ",
+                "Zabuthiri": "ဇမ္ဗူသီရိ",
+                "Zeyathiri": "ဇေယျာသီရိ",
+                "Tatkon": "တပ်ကုန်း",
+                "Dekkhinathiri": "ဒက္ခိဏသီရိ",
+                "Pobbathiri": "ပုဗ္ဗသီရိ",
+                "Hpakant": "ဖားကန့်",
+                "Myawaddy": "မြဝတီ",
+                "Pindaya": "ပင်းတယ",
+                "Ywangan": "ရွာငံ",
+                "Thantlang": "ထန်တလန်",
+                "Falam": "ဖလမ်း",
+                "Matupi": "မတူပီ",
+                "Hakha": "ဟားခါး",
+                "Homalin": "ဟုမ္မလင်း",
+                "Nyaunglebin": "ညောင်လေးပင်",
+                "Paukkaung": "ပေါက်ခေါင်း",
+                "Saw": "စော",
+                "Salin": "စလင်း",
+                "Sinbaungwe": "ဆင်ပေါင်ဝဲ",
+                "Seikpyu": "ဆိပ်ဖြူ",
+                "Pakokku": "ပခုက္ကူ",
+                "Minhla, Minbu and Ngape Townships": "မင်းလှ၊ မင်းဘူး၊ ငဖဲ မြို့နယ်များ",
+                "Pantanaw": "ပန်းတနော်",
+                "Bogale": "ဘိုကလေး"
+            });
+            document.querySelectorAll(".place-option").forEach(button => {
+                const english = button.textContent.trim();
+                if (translations[english]) return;
+                const source = button.dataset.mapSrc || button.dataset.translationSource;
+                const filename = source?.split(/[\\/]/).pop().replace(/\.[^.]+$/, "").replace(/_+$/, "");
+                if (!filename || !/[\u1000-\u109f\uA9E0-\uA9FF\uAA60-\uAA7F]/.test(filename)) return;
+                const inferred = filename
+                    .replace(/(?:မြို့နယ်အခြေပြမြေပုံ|သုံးမြို့နယ်ဆက်စပ်|မြို့နယ်|ခရိုင်|မြို့)$/, "")
+                    .replace(/[_-]+/g, " ")
+                    .trim();
+                if (inferred) translations[english] = inferred;
+            });
             window.dpsMapTranslations = translations;
             const reverseTranslations = new Map(
                 Object.entries(translations).map(([english, burmese]) => [burmese, english])
@@ -891,6 +1006,18 @@
                         language === "my"
                             ? [/^(.+) × (.+) ft$/, "$1 × $2 ပေ"]
                             : [/^(.+) × (.+) ပေ$/, "$1 × $2 ft"],
+                        language === "my"
+                            ? [/^(.+) Township Map$/i, "$1 မြို့နယ် မြေပုံ"]
+                            : [/^(.+) မြို့နယ် မြေပုံ$/, "$1 Township Map"],
+                        language === "my"
+                            ? [/^(.+) District Map$/i, "$1 ခရိုင် မြေပုံ"]
+                            : [/^(.+) ခရိုင် မြေပုံ$/, "$1 District Map"],
+                        language === "my"
+                            ? [/^(.+) City Map$/i, "$1မြို့ မြေပုံ"]
+                            : [/^(.+)မြို့ မြေပုံ$/, "$1 City Map"],
+                        language === "my"
+                            ? [/^See more about (.+) Township Map$/, "$1 မြို့နယ် မြေပုံအကြောင်း ပိုမိုကြည့်ရန်"]
+                            : [/^(.+) မြို့နယ် မြေပုံအကြောင်း ပိုမိုကြည့်ရန်$/, "See more about $1 Township Map"],
                         language === "my"
                             ? [/^See more about (.+) Map$/, "$1 မြေပုံအကြောင်း ပိုမိုကြည့်ရန်"]
                             : [/^(.+) မြေပုံအကြောင်း ပိုမိုကြည့်ရန်$/, "See more about $1 Map"],

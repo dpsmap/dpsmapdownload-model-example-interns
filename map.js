@@ -70,6 +70,7 @@ let currentMapLanguage = "en";
 let currentMapSource = "assets/maps/myanmar-english.jpg";
 let currentMapTitle = "Myanmar Map";
 let currentMapCaption = "Map of Myanmar";
+let currentMapBriefType = "";
 let activeMapDropdown = "mapOptions";
 function showUnavailableMap(title, showPopup = true) {
   const image = document.getElementById("selectedImage");
@@ -78,9 +79,11 @@ function showUnavailableMap(title, showPopup = true) {
   currentMapSource = "";
   currentMapTitle = title;
   currentMapCaption = "No map image is available for this selection.";
+  currentMapBriefType = "";
   document.getElementById("mapDialog").classList.remove("download-flow-only", "has-map-brief");
   document.getElementById("regionBrief").hidden = true;
   document.getElementById("cityBrief").hidden = true;
+  document.getElementById("featureBrief").hidden = true;
   document.getElementById("imageTitle").textContent = title;
   document.getElementById("imageCaption").textContent = "No map image is available for this selection.";
   document.getElementById("imageCaption").hidden = false;
@@ -99,15 +102,20 @@ function showUnavailableMap(title, showPopup = true) {
 }
 function setImage(src, title, caption, alt, showPopup = true, briefType = "") {
   const dialog = document.getElementById("mapDialog");
-  const showMapBrief = briefType === "region" || briefType === "state" || briefType === "city";
+  const isRegionBrief = briefType === "region" || briefType === "state" || briefType === "overview";
+  const showMapBrief = isRegionBrief || briefType === "city" || briefType === "feature";
+  currentMapBriefType = briefType;
   dialog.classList.remove("download-flow-only");
   dialog.classList.toggle("has-map-brief", showMapBrief);
-  document.getElementById("regionBrief").hidden = briefType !== "region" && briefType !== "state";
+  document.getElementById("regionBrief").hidden = !isRegionBrief;
   document.getElementById("cityBrief").hidden = briefType !== "city";
-  if (briefType === "region" || briefType === "state") {
+  document.getElementById("featureBrief").hidden = briefType !== "feature";
+  if (isRegionBrief) {
     const capitalLabel = document.querySelector("#regionBrief li");
-    capitalLabel.dataset.en = briefType === "state" ? "State capital" : "Regional capital";
-    capitalLabel.dataset.my = briefType === "state" ? "ပြည်နယ်မြို့တော်" : "တိုင်းဒေသကြီးမြို့တော်";
+    const isState = briefType === "state";
+    const isOverview = briefType === "overview";
+    capitalLabel.dataset.en = isOverview ? "Regional and state capitals" : isState ? "State capital" : "Regional capital";
+    capitalLabel.dataset.my = isOverview ? "တိုင်းဒေသကြီးနှင့် ပြည်နယ်မြို့တော်များ" : isState ? "ပြည်နယ်မြို့တော်" : "တိုင်းဒေသကြီးမြို့တော်";
     capitalLabel.textContent = capitalLabel.dataset[document.documentElement.lang === "my" ? "my" : "en"];
   }
   const image = document.getElementById("selectedImage");
@@ -140,15 +148,16 @@ function selectMap(language) {
   const label = language === "my" ? "Myanmar" : "English";
   resetDropdownLabel("mapText");
   const caption = language === "my" ? "မြန်မာနိုင်ငံမြေပုံ" : "Map of Myanmar";
-  setImage(`assets/maps/myanmar-${language === "my" ? "burmese" : "english"}.jpg`, label + " — Myanmar Map", caption, caption);
+  setImage(`assets/maps/myanmar-${language === "my" ? "burmese" : "english"}.jpg`, label + " — Myanmar Map", caption, caption, true, "overview");
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
 }
 function openPopularMap(name, imagePath) {
   const isRegionMap = imagePath.startsWith("assets/regions/");
   const isCityMap = imagePath.startsWith("assets/cities/");
+  const isOverviewMap = imagePath.startsWith("assets/maps/myanmar-");
   const briefType = isRegionMap
     ? (name.endsWith(" State") ? "state" : "region")
-    : isCityMap ? "city" : "";
+    : isCityMap ? "city" : isOverviewMap ? "overview" : "feature";
   activeMapDropdown = isRegionMap ? "regionOptions" : isCityMap ? "cityOptions" : "mapOptions";
   setImage(imagePath, name + " Map", "Popular map for " + name, name + " map", true, briefType);
 }
@@ -157,7 +166,7 @@ function showPlace(name, type) {
   const folder = type === "district" ? "districts/Districts/" : "cities/";
   const file = type === "district" ? districtImages[name] : cityImages[name];
   const title = type === "district" ? name + " District" : cityMapTitles[name] || name + " City";
-  if (file) setImage("assets/" + folder + encodeURI(file), title, "Map for " + name, title, true, type === "city" ? "city" : "");
+  if (file) setImage("assets/" + folder + encodeURI(file), title, "Map for " + name, title, true, type === "city" ? "city" : "feature");
   else showUnavailableMap(title);
   resetDropdownLabel(type + "Text");
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
@@ -205,7 +214,7 @@ function selectRegion(name) {
 function selectTownshipImage(button) {
   activeMapDropdown = "townshipOptions";
   const { mapSrc, mapCaption } = button.dataset;
-  setImage(mapSrc, mapCaption + " Map", mapCaption, mapCaption);
+  setImage(mapSrc, mapCaption + " Map", mapCaption, mapCaption, true, "feature");
   resetDropdownLabel("townshipText");
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
 }
@@ -235,6 +244,7 @@ const searchableMaps = [
     const mapImage = categoryType === "district"
       ? districtImages[actionName]
       : categoryType === "city" ? cityImages[actionName] : "";
+    if (mapImage) target.dataset.translationSource = mapImage;
     return {
       target, name: target.textContent.trim(), categoryType,
       categoryContext: group?.querySelector("h4"),
@@ -663,5 +673,5 @@ document.getElementById("requestDownloadForm").addEventListener("submit", event 
 
 function hideKpayPanel() {
   document.getElementById("kpayPanel").hidden = true;
-  setImage(currentMapSource, currentMapTitle, currentMapCaption, currentMapTitle);
+  setImage(currentMapSource, currentMapTitle, currentMapCaption, currentMapTitle, true, currentMapBriefType);
 }
