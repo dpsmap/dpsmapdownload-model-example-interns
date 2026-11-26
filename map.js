@@ -459,6 +459,10 @@ function showPaidDownloadCategory(category) {
     category === "soft-copy" ? "Soft copy" : "Plotting";
   const isSoftCopy = category === "soft-copy";
   document.getElementById("softCopyFormats").hidden = !isSoftCopy;
+  document.querySelectorAll('input[name="softCopyFormat"]').forEach(input => {
+    input.disabled = !isSoftCopy;
+    input.required = isSoftCopy;
+  });
   document.getElementById("requestMapProductField").hidden = isSoftCopy;
   requestMapProduct.disabled = isSoftCopy;
   requestMapProduct.required = !isSoftCopy;
@@ -553,15 +557,16 @@ function updateRequestPrice() {
   const fixedPrice = Number(product?.dataset.price || 0);
   const isAreaPrice = rate > 0;
   if (isSoftCopy) {
+    requestPrice.hidden = true;
     requestMapSizeField.hidden = true;
     requestMapSize.disabled = true;
     requestMapSize.required = false;
     customDimensions.hidden = true;
     customWidth.required = false;
     customHeight.required = false;
-    requestPrice.textContent = "Soft copy pricing will be confirmed before payment.";
     return;
   }
+  requestPrice.hidden = false;
   requestMapSizeField.hidden = !isAreaPrice;
   requestMapSize.disabled = !isAreaPrice;
   requestMapSize.required = isAreaPrice;
@@ -627,42 +632,43 @@ document.getElementById("freeDownloadForm").addEventListener("submit", event => 
 
 document.getElementById("requestDownloadForm").addEventListener("submit", event => {
   event.preventDefault();
-<<<<<<< HEAD
+  let productLabel;
+  let sizeLabel = "";
+  let total;
   if (currentPaidCategory === "soft-copy") {
-    const selectedFormats = Array.from(
-      document.querySelectorAll('input[name="softCopyFormat"]:checked'),
-      input => input.value
-    );
-    if (!selectedFormats.length) {
+    const selectedFormat = document.querySelector('input[name="softCopyFormat"]:checked');
+    if (!selectedFormat) {
       document.getElementById("downloadFormStatus").textContent =
-        "Select at least one Soft copy format before submitting.";
+        "Select a Soft copy format before submitting.";
       return;
     }
-    document.getElementById("downloadFormStatus").textContent =
-      `Soft copy pricing for ${selectedFormats.join(", ")} must be confirmed before payment. No payment has been started.`;
-    return;
-  }
-  const productLabel = requestMapProduct.options[requestMapProduct.selectedIndex].text.split(" — ")[0];
-=======
-  const productLabels = { pdf: "PDF", jpg: "JPG", vinyl: "Vinyl", photopaper: "Photopaper", sticker: "Sticker" };
-  const productLabel = productLabels[requestMapProduct.value];
-  if (!productLabel) throw new Error(`Unknown paid download product: ${requestMapProduct.value}`);
->>>>>>> 0e4a5ed5eb87eeb9f8dafc5435bfbb66e1f95d75
-  let sizeLabel = "";
-  let total = Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.price || 0);
-  if (requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate) {
-    if (requestMapSize.value === "custom") {
-      const width = Number(customWidth.value);
-      const height = Number(customHeight.value);
-      sizeLabel = `${width} × ${height} ft`;
-      total = width * height * Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate);
-    } else {
-      const [width, height] = requestMapSize.value.split("x").map(Number);
-      sizeLabel = `${width} × ${height} ft`;
-      total = width * height * Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate);
-    }
+    const productOption = Array.from(requestMapProduct.options).find(option =>
+      option.value === selectedFormat.value.toLowerCase()
+    );
+    if (!productOption) throw new Error(`Unknown Soft copy format: ${selectedFormat.value}`);
+    productLabel = selectedFormat.value;
+    sizeLabel = "Digital copy";
+    total = Number(productOption.dataset.price);
+    if (!(total > 0)) throw new Error(`Missing price for Soft copy format: ${selectedFormat.value}`);
   } else {
-    sizeLabel = requestMapProduct.value.endsWith("a3") ? "A3" : "Digital copy";
+    const productLabels = { pdf: "PDF", jpg: "JPG", vinyl: "Vinyl", photopaper: "Photopaper", sticker: "Sticker" };
+    productLabel = productLabels[requestMapProduct.value];
+    if (!productLabel) throw new Error(`Unknown paid download product: ${requestMapProduct.value}`);
+    total = Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.price || 0);
+    if (requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate) {
+      if (requestMapSize.value === "custom") {
+        const width = Number(customWidth.value);
+        const height = Number(customHeight.value);
+        sizeLabel = `${width} × ${height} ft`;
+        total = width * height * Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate);
+      } else {
+        const [width, height] = requestMapSize.value.split("x").map(Number);
+        sizeLabel = `${width} × ${height} ft`;
+        total = width * height * Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate);
+      }
+    } else {
+      sizeLabel = requestMapProduct.value.endsWith("a3") ? "A3" : "Digital copy";
+    }
   }
   document.getElementById("kpayOrderSummary").textContent = `${productLabel} · ${sizeLabel} · Total: ${money(total)}`;
   document.getElementById("downloadFormStatus").textContent = "";
