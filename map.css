@@ -260,7 +260,8 @@ body.map-dialog-open {
 .map-dialog-brief ul { display: grid; gap: 10px; padding-left: 20px; }
 .map-dialog-brief li { color: #475569; font-size: 14px; line-height: 1.45; }
 .map-dialog.download-flow-only #regionBrief,
-.map-dialog.download-flow-only #cityBrief { display: none; }
+.map-dialog.download-flow-only #cityBrief,
+.map-dialog.download-flow-only #featureBrief { display: none; }
 .map-dialog p { margin-top: 10px; color: #555; font-size: 14px; text-align: center; }
 @media (max-width: 600px) {
   .map-dialog { padding: 10px; }
