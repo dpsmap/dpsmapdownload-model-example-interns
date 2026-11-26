@@ -26,7 +26,7 @@ const districtImages = {
   "Myingyan":"မြင်းခြံခရိုင်.jpg", "Pyin Oo Lwin":"ပြင်ဦးလွင်ခရိုင်.jpg", "Maubin":"မအူပင်ခရိုင်.jpg",
   "Kyonpyaw":"ကျုံပျော်ခရိုင်.jpg", "Thayet":"သရက်ခရိုင်.jpg", "Katha":"ကသာခရိုင်.jpg",
   "Shwebo":"ရွှေဘိုခရိုင်.jpg", "Bokpyin":"ဘုတ်ပြင်းခရိုင်.jpg", "Bhamo":"ဗန်းမော်ခရိုင်.jpg",
-  "Myitkyina":"မြစ်ကြီးနားခရိုင်.jpg", "Tiddim":"တီးတန်.jpg", "Minn Buu":"Minn Buu District.jpg"
+  "Myitkyina":"မြစ်ကြီးနားခရိုင်.jpg", "Tiddim":"တီးတန်.jpg", "Minbu":"Minn Buu District.jpg"
 };
 const cityFolder = "city-images/city/မြို့/";
 const cityImages = {
@@ -42,15 +42,13 @@ const cityImages = {
   "Maubin": cityFolder + "ဧရာဝတီတိုင်းဒေသကြီး/မအူပင်မြို့.jpg",
   "Mawlamyinegyun": cityFolder + "ဧရာဝတီတိုင်းဒေသကြီး/မော်လမြိုင်ကျွန်းမြို့.jpg",
   "Pyapon": cityFolder + "ဧရာဝတီတိုင်းဒေသကြီး/ဖျာပုံမြို့.jpg",
-  "Seikphyu": cityFolder + "မကွေးတိုင်း/ဆိပ်ဖြုမြို့.jpg",
+  "Seikpyu": cityFolder + "မကွေးတိုင်း/ဆိပ်ဖြုမြို့.jpg",
   "Magway": cityFolder + "မကွေးတိုင်း/မကွေးမြို့.jpg",
-  "Salin": cityFolder + "မကွေးတိုင်း/စလင်းမြို့.jpg",
   "Bago": cityFolder + "ပဲခူးတိုင်း/Bago.jpg",
-  "Pyinzaluoke": cityFolder + "ပဲခူးတိုင်း/ပိန်းဇလုပ်မြို့.jpg",
+  "Painzalok": cityFolder + "ပဲခူးတိုင်း/ပိန်းဇလုပ်မြို့.jpg",
   "Minhla": cityFolder + "ပဲခူးတိုင်း/မင်းလှမြို့.jpg",
   "Pyay": cityFolder + "ပဲခူးတိုင်း/ပြည်မြို့.jpg",
   "Taungoo": cityFolder + "ပဲခူးတိုင်း/တောင်ငူမြို့.jpg",
-  "Yedashe": cityFolder + "ပဲခူးတိုင်း/ရေတာရှည်.jpg",
   "Naypyidaw": cityFolder + "နေပြည်တော်/Naypyitaw.png",
   "Sagaing": cityFolder + "စစ်ကိုင်းတိုင်း/saging.jpg",
   "Banmauk": cityFolder + "စစ်ကိုင်းတိုင်း/ဗန်မောက်မြို့.jpg",
@@ -58,16 +56,11 @@ const cityImages = {
   "Myitkyina": cityFolder + "ကချင်ပြည်နယ်/မြစ်ကြီးနားမြို့.png",
   "Mawlamyine": cityFolder + "မွန်ပြည်နယ်/မော်လမြိုင်မြို့.jpg",
   "Sittwe": cityFolder + "ရခိုင်ပြည်နယ်/စစ်တွေမြို့.jpg",
-  "Taunggyi": cityFolder + "ရှမ်းပြည်နယ်/Shan State Towngyi.jpg",
+  "Taunggyi": cityFolder + "ရှမ်းပြည်နယ်/တောင်ကြီး.jpg",
   "Hopong": cityFolder + "ရှမ်းပြည်နယ်/ဟိုပုံးမြို့.jpg",
-  "Nyaungshwe": cityFolder + "ရှမ်းပြည်နယ်/ညောင်ရွှေ.jpg",
-  "Loilen": cityFolder + "ရှမ်းပြည်နယ်/လွိုင်လင်_.jpg",
-  "Hsi Hseng": cityFolder + "ရှမ်းပြည်နယ်/ဆီဆိုင်_.jpg",
   "Kalaw": cityFolder + "ရှမ်းပြည်နယ်/ကလော.jpg",
-   "Pindaya": cityFolder + "ရှမ်းပြည်နယ်/ပင်းတယ.jpg",
   "Kengtung": cityFolder + "ရှမ်းပြည်နယ်/ကျိုင်းတုံမြို့.jpg",
   "Tachileik": cityFolder + "ရှမ်းပြည်နယ်/တာချီလိတ်.jpg",
-  "Kokang Self-Administered Zone": cityFolder + "ရှမ်းပြည်နယ်/ကိုးကန့်ကိုယ်ပိုင်အုပ်ချုပ်ခွင့်ရဒေသ.jpg",
   "Lashio": cityFolder + "ရှမ်းပြည်နယ်/လားရှိုး.jpg"
 };
 const cityMapTitles = {
@@ -75,13 +68,15 @@ const cityMapTitles = {
 };
 let currentMapLanguage = "en";
 let currentMapSource = "assets/maps/myanmar-english.jpg";
+let activeMapDropdown = "mapOptions";
 function showUnavailableMap(title, showPopup = true) {
   const image = document.getElementById("selectedImage");
   image.onerror = null;
   image.hidden = true;
   currentMapSource = "";
-  document.getElementById("mapDialog").classList.remove("download-flow-only", "has-region-brief");
+  document.getElementById("mapDialog").classList.remove("download-flow-only", "has-map-brief");
   document.getElementById("regionBrief").hidden = true;
+  document.getElementById("cityBrief").hidden = true;
   document.getElementById("imageTitle").textContent = title;
   document.getElementById("imageCaption").textContent = "No map image is available for this selection.";
   document.getElementById("imageCaption").hidden = false;
@@ -98,13 +93,16 @@ function showUnavailableMap(title, showPopup = true) {
     document.body.classList.add("map-dialog-open");
   }
 }
-function setImage(src, title, caption, alt, showPopup = true, briefType = title === "Yangon Region Map" ? "region" : "") {
+function setImage(src, title, caption, alt, showPopup = true, briefType = "") {
   const dialog = document.getElementById("mapDialog");
-  const showRegionBrief = Boolean(briefType);
+  const showMapBrief = briefType === "region" || briefType === "state" || briefType === "city";
   dialog.classList.remove("download-flow-only");
-  dialog.classList.toggle("has-region-brief", showRegionBrief);
-  document.getElementById("regionBrief").hidden = !showRegionBrief;
-  document.querySelector("#regionBrief li").textContent = briefType === "state" ? "ပြည်နယ်မြို့တော်" : "တိုင်းဒေသကြီးမြို့တော်";
+  dialog.classList.toggle("has-map-brief", showMapBrief);
+  document.getElementById("regionBrief").hidden = briefType !== "region" && briefType !== "state";
+  document.getElementById("cityBrief").hidden = briefType !== "city";
+  if (briefType === "region" || briefType === "state") {
+    document.querySelector("#regionBrief li").textContent = briefType === "state" ? "ပြည်နယ်မြို့တော်" : "တိုင်းဒေသကြီးမြို့တော်";
+  }
   const image = document.getElementById("selectedImage");
   image.hidden = false;
   document.getElementById("imageCaption").hidden = false;
@@ -128,6 +126,7 @@ function setImage(src, title, caption, alt, showPopup = true, briefType = title 
   }
 }
 function selectMap(language) {
+  activeMapDropdown = "mapOptions";
   currentMapLanguage = language;
   const label = language === "my" ? "Myanmar" : "English";
   resetDropdownLabel("mapText");
@@ -137,14 +136,19 @@ function selectMap(language) {
 }
 function openPopularMap(name, imagePath) {
   const isRegionMap = imagePath.startsWith("assets/regions/");
-  const briefType = isRegionMap ? (name.endsWith(" State") ? "state" : "region") : "";
+  const isCityMap = imagePath.startsWith("assets/cities/");
+  const briefType = isRegionMap
+    ? (name.endsWith(" State") ? "state" : "region")
+    : isCityMap ? "city" : "";
+  activeMapDropdown = isRegionMap ? "regionOptions" : isCityMap ? "cityOptions" : "mapOptions";
   setImage(imagePath, name + " Map", "Popular map for " + name, name + " map", true, briefType);
 }
 function showPlace(name, type) {
+  activeMapDropdown = type + "Options";
   const folder = type === "district" ? "districts/Districts/" : "cities/";
   const file = type === "district" ? districtImages[name] : cityImages[name];
   const title = type === "district" ? name + " District" : cityMapTitles[name] || name + " City";
-  if (file) setImage("assets/" + folder + encodeURI(file), title, "Map for " + name, title);
+  if (file) setImage("assets/" + folder + encodeURI(file), title, "Map for " + name, title, true, type === "city" ? "city" : "");
   else showUnavailableMap(title);
   resetDropdownLabel(type + "Text");
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
@@ -179,6 +183,7 @@ const regionMaps = {
       "Tanintharyi Region": [["assets/regions/tanintharyi.jpg", "Tanintharyi Region"]]
     };
 function selectRegion(name) {
+  activeMapDropdown = "regionOptions";
   const entries = regionMaps[name] || [];
   if (entries.length) {
     const briefType = name.endsWith(" State") ? "state" : "region";
@@ -189,6 +194,7 @@ function selectRegion(name) {
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
 }
 function selectTownshipImage(button) {
+  activeMapDropdown = "townshipOptions";
   const { mapSrc, mapCaption } = button.dataset;
   setImage(mapSrc, mapCaption + " Map", mapCaption, mapCaption);
   resetDropdownLabel("townshipText");
@@ -197,6 +203,9 @@ function selectTownshipImage(button) {
 document.querySelectorAll("#districtOptions .district-group button, #cityOptions .district-group button").forEach(button => { button.classList.add("place-option"); button.dataset.searchText = button.textContent.toLowerCase(); });
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
+function focusMapSearch() {
+  searchInput.focus();
+}
 const searchableMaps = [
   ...Array.from(document.querySelectorAll(".place-option"), target => {
     const group = target.closest(".district-group");
@@ -294,6 +303,7 @@ function clearSelection() {
   searchInput.setAttribute("aria-expanded", "false");
   document.querySelectorAll(".place-option").forEach(button => { button.hidden = false; });
   currentMapLanguage = "en";
+  activeMapDropdown = "mapOptions";
   document.getElementById("mapText").textContent = "Myanmar Map";
   document.getElementById("regionText").textContent = "Region and State";
   document.getElementById("townshipText").textContent = "Township";
@@ -308,12 +318,19 @@ function clearSelection() {
   document.getElementById("requestDownloadForm").reset();
   updateRequestPrice();
   document.getElementById("downloadFormStatus").textContent = "";
-  closeMapPopup();
+  closeMapPopup(false);
 }
 
-function closeMapPopup() {
+function closeMapPopup(openSelection = true) {
   const dialog = document.getElementById("mapDialog");
-  if (dialog.open) dialog.close();
+  if (!dialog.open) return;
+  dialog.close();
+  if (openSelection) {
+    setTimeout(() => {
+      document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
+      document.getElementById(activeMapDropdown)?.classList.add("show");
+    }, 0);
+  }
 }
 
 document.getElementById("mapDialog").addEventListener("close", () => {
@@ -362,11 +379,13 @@ function showPaidDownloadCategory(category) {
   const requestForm = document.getElementById("requestDownloadForm");
   document.getElementById("paidDownloadChoices").hidden = true;
   requestForm.hidden = false;
-  updatePlotSizeOptions();
+  currentPaidCategory = category;
+  const availableSizes = updatePlotSizeOptions();
   document.getElementById("requestFormTitle").textContent =
     category === "soft-copy" ? "Soft copy" : "Plotting";
   requestMapProduct.querySelectorAll("optgroup").forEach(group => {
     group.hidden = group.dataset.category !== category;
+    group.disabled = group.dataset.category === "plotting" && availableSizes.length === 0;
   });
   requestMapProduct.value = "";
   requestMapSize.value = "";
@@ -384,43 +403,60 @@ const customWidth = document.getElementById("customWidth");
 const customHeight = document.getElementById("customHeight");
 const requestPrice = document.getElementById("requestPrice");
 const money = amount => `${Number(amount).toLocaleString("en-US")} MMK`;
+const standardPlotSizes = ["2x3", "3x4", "4x6"];
 const mapPlotSizes = {
-  "yangon region map": ["2x3", "3x4", "4x6"],
-  "yangon city map": ["3x4", "4x6", "4x8"],
-  "myanmar map": ["2x4", "2.5x5", "3x6"],
-  "english — myanmar map": ["2x4", "2.5x5", "3x6"],
-  "mandalay map": ["2x3", "3x4", "4x6"],
-  "mandalay region map": ["2x3", "3x4", "4x6"],
-  "naypyidaw map": ["4x6", "4x8"],
-  "naypyidaw city map": ["4x6", "4x8"],
-  "naypyitaw city map": ["4x6", "4x8"],
-  "pyin oo lwin map": ["3x4", "4x6"],
-  "bago region map": ["2x3", "3x4", "4x6"],
-  "mon state map": ["2x3", "3x4", "4x6"]
+  "taikkyi city map": standardPlotSizes,
+  "yangon city map": ["3x4", "4x6"],
+  "hmawbi city map": standardPlotSizes,
+  "kungyangon city map": standardPlotSizes,
+  "kawhmu city map": standardPlotSizes,
+  "hlegu city map": standardPlotSizes,
+  "kyauktan city map": standardPlotSizes,
+  "mandalay city map": ["3x4", "4x6"],
+  "pyin oo lwin city map": ["3x4"],
+  "naypyidaw city map": ["4x6"],
+  "naypyitaw city map": ["4x6"],
+  "taunggyi city map": ["3x4"],
+  "minhla township map": [],
+  "minbu township map": [],
+  "ngape township map": []
 };
-const defaultPlotSizes = Array.from(requestMapSize.options).slice(1).map(option => ({
-  value: option.value,
-  label: option.textContent
-}));
+let currentMapPlotSizes = [];
+let currentPaidCategory = "";
 
 function updatePlotSizeOptions() {
   const mapTitle = document.getElementById("imageTitle").textContent.trim().toLowerCase();
-  const sizes = mapPlotSizes[mapTitle]?.map(value => {
+  const mapSource = currentMapSource.toLowerCase();
+  let sizes = mapPlotSizes[mapTitle];
+  if (!sizes && mapSource.startsWith("assets/regions/")) {
+    sizes = standardPlotSizes;
+  } else if (!sizes && mapSource.startsWith("assets/townships/")) {
+    if (mapSource.includes("/ရန်ကုန်တိုင်း/")) {
+      sizes = standardPlotSizes;
+    } else if (mapTitle === "patheingyi township map") {
+      sizes = ["3x3"];
+    } else {
+      sizes = ["3x4"];
+    }
+  }
+  currentMapPlotSizes = sizes || [];
+  const options = currentMapPlotSizes.map(value => {
     const [width, height] = value.split("x");
     return { value, label: `${width} × ${height} ft` };
-  }) || defaultPlotSizes;
+  });
   const placeholder = document.createElement("option");
   placeholder.value = "";
   placeholder.disabled = true;
   placeholder.selected = true;
-  placeholder.textContent = "Select a map size";
+  placeholder.textContent = options.length ? "Select a map size" : "No sizes listed for this map";
   requestMapSize.replaceChildren(placeholder);
-  sizes.forEach(({ value, label }) => {
+  options.forEach(({ value, label }) => {
     const option = document.createElement("option");
     option.value = value;
     option.textContent = label;
     requestMapSize.append(option);
   });
+  return currentMapPlotSizes;
 }
 
 function updateRequestPrice() {
@@ -438,12 +474,18 @@ function updateRequestPrice() {
   customHeight.required = isCustom;
 
   if (!product || !product.value) {
-    requestPrice.textContent = "Select a product and size to calculate the price.";
+    requestPrice.textContent = currentPaidCategory === "plotting" && !currentMapPlotSizes.length
+      ? "No plotting sizes are listed for this map."
+      : "Select a product and size to calculate the price.";
     return;
   }
   if (fixedPrice) {
     const format = product.value.endsWith("a3") ? "Fixed A3 size" : "Digital copy";
     requestPrice.textContent = `Total price: ${money(fixedPrice)} (${format})`;
+    return;
+  }
+  if (!currentMapPlotSizes.length) {
+    requestPrice.textContent = "No plotting sizes are listed for this map.";
     return;
   }
   if (!requestMapSize.value) {

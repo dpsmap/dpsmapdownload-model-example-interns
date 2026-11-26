@@ -90,16 +90,16 @@
                     <span class="popular-card-label">Naypyidaw Map</span>
                 </button>
 
-                <!-- Pyin Oo Lwin Map -->
+                <!-- Pyinoolwin City Map -->
                 <button class="popular-card" type="button"
-                    onclick="openPopularMap('Pyin Oo Lwin','assets/cities/city-images/city/မြို့/မန္တလေးတိုင်း/PyinOoLwin.jpg')">
+                    onclick="openPopularMap('Pyin Oo Lwin','assets/cities/city-images/city/မြို့/မန္တလေးတိုင်း/ပြင်ဦးလွင်.jpg')">
                     <span class="popular-card-image">
-                        <img src="assets/cities/city-images/city/မြို့/မန္တလေးတိုင်း/PyinOoLwin.jpg" alt="Pyin Oo Lwin Map">
+                        <img src="assets/cities/city-images/city/မြို့/မန္တလေးတိုင်း/ပြင်ဦးလွင်.jpg" alt="Pyinoolwin City Map">
                         <span class="popular-badge" role="img" aria-label="Popular map">🔥</span>
                         <span class="popular-card-overlay" aria-hidden="true"
-                            data-en="Pyin Oo Lwin map" data-my="ပြင်ဦးလွင်မြို့မြေပုံ">Pyin Oo Lwin map</span>
+                            data-en="Pyin Oo Lwin map" data-my="ပြင်ဦးလွင်မြို့မြေပုံ">Pyinoolwin City map</span>
                     </span>
-                    <span class="popular-card-label">Pyin Oo Lwin Map</span>
+                    <span class="popular-card-label">Pyinoolwin City Map</span>
                 </button>
 
                 <!-- Bago Region Map -->
@@ -133,6 +133,12 @@
         <!-- Search Bar -->
         <div class="search-field">
             <input type="search" id="searchInput" class="search-box" placeholder="Search regions, townships, districts, or cities..." autocomplete="off" aria-controls="searchResults" aria-expanded="false">
+            <button type="button" class="search-submit" aria-label="Search maps" onclick="focusMapSearch()">
+                <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                    <circle cx="10.8" cy="10.8" r="6.8"></circle>
+                    <path d="m16 16 5 5"></path>
+                </svg>
+            </button>
             <div id="searchResults" class="search-results" role="listbox" hidden></div>
         </div>
 
@@ -224,7 +230,7 @@
         <div class="district-group">
             <h4>Magway Region</h4>
             <button onclick="selectDistrict('Thayet')">Thayet</button>
-            <button onclick="selectDistrict('Minn Buu')">Minn Buu</button>
+            <button onclick="selectDistrict('Minbu')">Minbu</button>
         </div>
 
         <div class="district-group">
@@ -257,7 +263,7 @@
         <div class="district-group">
           <h4>Yangon Region</h4>
           <button type="button" class="place-option" data-search-text="Taikkyi taikkyi township yangon region" data-map-src="assets/townships/မြို့နယ်များ/ရန်ကုန်တိုင်း/Taikkyi.jpg" data-map-caption="Taikkyi Township" onclick="selectTownshipImage(this)">Taikkyi</button>
-          <button type="button" class="place-option" data-search-text="Hlegu hlegu township yangon region" onclick="showUnavailableMap('Hlegu Township Map')">Hlegu</button>
+          <button type="button" class="place-option" data-search-text="Hlegu hlegu township yangon region" data-map-src="assets/townships/မြို့နယ်များ/ရန်ကုန်တိုင်း/လှည်းကူး.jpg" data-map-caption="Hlegu Township" onclick="selectTownshipImage(this)">Hlegu</button>
           <button type="button" class="place-option" data-search-text="hmawbi hmawbi township yangon region" data-map-src="assets/townships/မြို့နယ်များ/ရန်ကုန်တိုင်း/မှော်ဘီ.jpg" data-map-caption="Hmawbi Township" onclick="selectTownshipImage(this)">Hmawbi</button>
           <button type="button" class="place-option" data-search-text="htantabin htantabin township yangon region" data-map-src="assets/townships/မြို့နယ်များ/ရန်ကုန်တိုင်း/Hantabin.jpg" data-map-caption="Htantabin Township" onclick="selectTownshipImage(this)">Htantabin</button>
           <button type="button" class="place-option" data-search-text="mingaladon mingaladon township yangon region" data-map-src="assets/townships/မြို့နယ်များ/ရန်ကုန်တိုင်း/MGLD_Tsp_Map_over.jpg" data-map-caption="Mingaladon Township" onclick="selectTownshipImage(this)">Mingaladon</button>
@@ -303,17 +309,16 @@
         </div>
         <div class="district-group">
           <h4>Mandalay Region</h4>
-          <button type="button" class="place-option" data-search-text="aung myay thar zan_overall.jpg aungmyaythazan township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/Aung Myay Thar Zan_overall.jpg" data-map-caption="Aungmyaythazan Township" onclick="selectTownshipImage(this)">Aungmyaythazan</button>
+          <button type="button" class="place-option" data-search-text="aung myay thar zan_overall.jpg aungmyaythazan township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/Aung Myay Thar Zan_overall.jpg" data-map-caption="Aungmyaythazan Township" onclick="selectTownshipImage(this)">Aungmyethazan</button>
           <button type="button" class="place-option" data-search-text="chanayetharzan.jpg chanayethazan township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/Chanayetharzan.jpg" data-map-caption="Chanayethazan Township" onclick="selectTownshipImage(this)">Chanayethazan</button>
           <button type="button" class="place-option" data-search-text="ကျောက်ဆည်.jpg kyaukse township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/ကျောက်ဆည်.jpg" data-map-caption="Kyaukse Township" onclick="selectTownshipImage(this)">Kyaukse</button>
           <button type="button" class="place-option" data-search-text="ချမ်းမြသာစည်.jpg chanmyathazi township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/ချမ်းမြသာစည်.jpg" data-map-caption="Chanmyathazi Township" onclick="selectTownshipImage(this)">Chanmyathazi</button>
-          <button type="button" class="place-option" data-search-text="တံတား.jpg tadar township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/တံတား.jpg" data-map-caption="Tadar Township" onclick="selectTownshipImage(this)">Tadar</button>
           <button type="button" class="place-option" data-search-text="တံတားဦးမြို့နယ်.jpg tada-u township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/တံတားဦးမြို့နယ်.jpg" data-map-caption="Tada-U Township" onclick="selectTownshipImage(this)">Tada-U</button>
           <button type="button" class="place-option" data-search-text="ပုသိမ်ကြီး.jpg patheingyi township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/ပုသိမ်ကြီး.jpg" data-map-caption="Patheingyi Township" onclick="selectTownshipImage(this)">Patheingyi</button>
           <button type="button" class="place-option" data-search-text="ပျော်ဘွယ်မြို့နယ်.jpg pyawbwe township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/ပျော်ဘွယ်မြို့နယ်.jpg" data-map-caption="Pyawbwe Township" onclick="selectTownshipImage(this)">Pyawbwe</button>
-          <button type="button" class="place-option" data-search-text="ပြင်ဦးလွင်မြို့နယ်.jpg pyin oo lwin township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/ပြင်ဦးလွင်မြို့နယ်.jpg" data-map-caption="Pyin Oo Lwin Township" onclick="selectTownshipImage(this)">Pyin Oo Lwin</button>
-          <button type="button" class="place-option" data-search-text="ပြည်ကြီးတံခွန်.jpg pyigyitagon township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/ပြည်ကြီးတံခွန်.jpg" data-map-caption="Pyigyitagon Township" onclick="selectTownshipImage(this)">Pyigyitagon</button>
-          <button type="button" class="place-option" data-search-text="မဟာအောင်မြေ.jpg mahaaungmye township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/မဟာအောင်မြေ.jpg" data-map-caption="Mahaaungmye Township" onclick="selectTownshipImage(this)">Mahaaungmye</button>
+          <button type="button" class="place-option" data-search-text="ပြင်ဦးလွင်မြို့နယ်.jpg pyin oo lwin township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/ပြင်ဦးလွင်မြို့နယ်.jpg" data-map-caption="Pyin Oo Lwin Township" onclick="selectTownshipImage(this)">Pyinoolwin</button>
+          <button type="button" class="place-option" data-search-text="ပြည်ကြီးတံခွန်.jpg pyigyitagon township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/ပြည်ကြီးတံခွန်.jpg" data-map-caption="Pyigyitagon Township" onclick="selectTownshipImage(this)">Pyigyidagun</button>
+          <button type="button" class="place-option" data-search-text="မဟာအောင်မြေ.jpg mahaaungmye township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/မဟာအောင်မြေ.jpg" data-map-caption="Mahaaungmye Township" onclick="selectTownshipImage(this)">Maha Aungmye</button>
           <button type="button" class="place-option" data-search-text="မိတ္ထီလာမြို့နယ်.jpg meiktila township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/မိတ္ထီလာမြို့နယ်.jpg" data-map-caption="Meiktila Township" onclick="selectTownshipImage(this)">Meiktila</button>
           <button type="button" class="place-option" data-search-text="ရမည်းသင်းမြို့နယ်.jpg yamethin township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/ရမည်းသင်းမြို့နယ်.jpg" data-map-caption="Yamethin Township" onclick="selectTownshipImage(this)">Yamethin</button>
           <button type="button" class="place-option" data-search-text="ဝမ်းတွင်းမြို့နယ်.jpg wundwin township mandalay region" data-map-src="assets/townships/မြို့နယ်များ/မန္တလေးတိုင်း/ဝမ်းတွင်းမြို့နယ်.jpg" data-map-caption="Wundwin Township" onclick="selectTownshipImage(this)">Wundwin</button>
@@ -339,7 +344,7 @@
         </div>
         <div class="district-group">
           <h4>Shan-South State</h4>
-          <button type="button" class="place-option" data-search-text="ဆီဆိုင်.jpg hsihseng township shan-south state" data-map-src="assets/townships/မြို့နယ်များ/ရှမ်းပြည်နယ်/ရှမ်းတောင်/ဆီဆိုင်.jpg" data-map-caption="Hsihseng Township" onclick="selectTownshipImage(this)">Hsihseng</button>
+          <button type="button" class="place-option" data-search-text="ဆီဆိုင်.jpg hsihseng township shan-south state" data-map-src="assets/townships/မြို့နယ်များ/ရှမ်းပြည်နယ်/ရှမ်းတောင်/ဆီဆိုင်.jpg" data-map-caption="Hsihseng Township" onclick="selectTownshipImage(this)">Hsi Hseng</button>
           <button type="button" class="place-option" data-search-text="ပင်းတယမြို့နယ်.jpg pindaya township shan-south state" data-map-src="assets/townships/မြို့နယ်များ/ရှမ်းပြည်နယ်/ရှမ်းတောင်/ပင်းတယမြို့နယ်.jpg" data-map-caption="Pindaya Township" onclick="selectTownshipImage(this)">Pindaya</button>
           <button type="button" class="place-option" data-search-text="ရွာငံမြို့နယ်.jpg ywangan township shan-south state" data-map-src="assets/townships/မြို့နယ်များ/ရှမ်းပြည်နယ်/ရှမ်းတောင်/ရွာငံမြို့နယ်.jpg" data-map-caption="Ywangan Township" onclick="selectTownshipImage(this)">Ywangan</button>
           <button type="button" class="place-option" data-search-text="လွိုင်လင်မြို့နယ်.jpg loilen township shan-south state" data-map-src="assets/townships/မြို့နယ်များ/ရှမ်းပြည်နယ်/ရှမ်းတောင်/လွိုင်လင်မြို့နယ်.jpg" data-map-caption="Loilen Township" onclick="selectTownshipImage(this)">Loilen</button>
@@ -365,7 +370,7 @@
           <h4>Bago Region</h4>
           <button type="button" class="place-option" data-search-text="nyaung_lay_pin_tsp_overall.jpg nyaunglebin township bago region" data-map-src="assets/townships/မြို့နယ်များ/ပဲခူးတိုင်း/Nyaung_Lay_Pin_Tsp_overall.jpg" data-map-caption="Nyaunglebin Township" onclick="selectTownshipImage(this)">Nyaunglebin</button>
           <button type="button" class="place-option" data-search-text="pyi tsp.jpg pyay township bago region" data-map-src="assets/townships/မြို့နယ်များ/ပဲခူးတိုင်း/Pyi Tsp.jpg" data-map-caption="Pyay Township" onclick="selectTownshipImage(this)">Pyay</button>
-          <button type="button" class="place-option" data-search-text="ပေါက်ခေါင်းမြို့နယ်.jpg paukkhaung township bago region" data-map-src="assets/townships/မြို့နယ်များ/ပဲခူးတိုင်း/ပေါက်ခေါင်းမြို့နယ်.jpg" data-map-caption="Paukkhaung Township" onclick="selectTownshipImage(this)">Paukkhaung</button>
+          <button type="button" class="place-option" data-search-text="ပေါက်ခေါင်းမြို့နယ်.jpg paukkhaung township bago region" data-map-src="assets/townships/မြို့နယ်များ/ပဲခူးတိုင်း/ပေါက်ခေါင်းမြို့နယ်.jpg" data-map-caption="Paukkhaung Township" onclick="selectTownshipImage(this)">Paukkaung</button>
           <button type="button" class="place-option" data-search-text="ပဲခူးမြို့နယ်.jpg bago township bago region" data-map-src="assets/townships/မြို့နယ်များ/ပဲခူးတိုင်း/ပဲခူးမြို့နယ်.jpg" data-map-caption="Bago Township" onclick="selectTownshipImage(this)">Bago</button>
           <button type="button" class="place-option" data-search-text="ရေတာရှည်.jpg yedashe township bago region" data-map-src="assets/townships/မြို့နယ်များ/ပဲခူးတိုင်း/ရေတာရှည်.jpg" data-map-caption="Yedashe Township" onclick="selectTownshipImage(this)">Yedashe</button>
         </div>
@@ -374,15 +379,14 @@
           <button type="button" class="place-option" data-search-text="saw_tsp_overall.jpg saw township magway region" data-map-src="assets/townships/မြို့နယ်များ/မကွေးတိုင်း/Saw_Tsp_overall.jpg" data-map-caption="Saw Township" onclick="selectTownshipImage(this)">Saw</button>
           <button type="button" class="place-option" data-search-text="စလင်း.jpg salin township magway region" data-map-src="assets/townships/မြို့နယ်များ/မကွေးတိုင်း/စလင်း.jpg" data-map-caption="Salin Township" onclick="selectTownshipImage(this)">Salin</button>
           <button type="button" class="place-option" data-search-text="ဆင်ပေါင်ဝဲ.jpg sinbaungwe township magway region" data-map-src="assets/townships/မြို့နယ်များ/မကွေးတိုင်း/ဆင်ပေါင်ဝဲ.jpg" data-map-caption="Sinbaungwe Township" onclick="selectTownshipImage(this)">Sinbaungwe</button>
-          <button type="button" class="place-option" data-search-text="ဆိပ်ဖြူမြို့နယ်.jpg seikphyu township magway region" data-map-src="assets/townships/မြို့နယ်များ/မကွေးတိုင်း/ဆိပ်ဖြူမြို့နယ်.jpg" data-map-caption="Seikphyu Township" onclick="selectTownshipImage(this)">Seikphyu</button>
+          <button type="button" class="place-option" data-search-text="ဆိပ်ဖြူမြို့နယ်.jpg seikphyu township magway region" data-map-src="assets/townships/မြို့နယ်များ/မကွေးတိုင်း/ဆိပ်ဖြူမြို့နယ်.jpg" data-map-caption="Seikphyu Township" onclick="selectTownshipImage(this)">Seikpyu</button>
           <button type="button" class="place-option" data-search-text="ပခုက္ကူမြို့နယ်.jpg pakokku township magway region" data-map-src="assets/townships/မြို့နယ်များ/မကွေးတိုင်း/ပခုက္ကူမြို့နယ်.jpg" data-map-caption="Pakokku Township" onclick="selectTownshipImage(this)">Pakokku</button>
           <button type="button" class="place-option" data-search-text="မင်းလှ_မင်းဘူး_ငဖဲ_သုံးမြို့နယ်ဆက်စပ်.png minhla, minbu and ngape townships magway region" data-map-src="assets/townships/မြို့နယ်များ/မကွေးတိုင်း/မင်းလှ_မင်းဘူး_ငဖဲ_သုံးမြို့နယ်ဆက်စပ်.png" data-map-caption="Minhla, Minbu and Ngape Townships" onclick="selectTownshipImage(this)">Minhla, Minbu and Ngape Townships</button>
-          <button type="button" class="place-option" data-search-text="ရေနံချောင်း.jpg yenangyaung township magway region" data-map-src="assets/townships/မြို့နယ်များ/မကွေးတိုင်း/ရေနံချောင်း.jpg" data-map-caption="Yenangyaung Township" onclick="selectTownshipImage(this)">Yenangyaung</button>
         </div>
         <div class="district-group">
           <h4>Ayeyarwady Region</h4>
-          <button type="button" class="place-option" data-search-text="ပန်းတနော် မြိုု့ နယ်_.jpg pantanaw township ayeyarwady region" data-map-src="assets/townships/မြို့နယ်များ/ဧရာဝတီတိုင်း/ပန်းတနော် မြိုု့ နယ်_.jpg" data-map-caption="Pantanaw Township" onclick="selectTownshipImage(this)">Pantanaw</button>
-          <button type="button" class="place-option" data-search-text="ပုသိမ် မြို့နယ်_.jpg pathein township ayeyarwady region" data-map-src="assets/townships/မြို့နယ်များ/ဧရာဝတီတိုင်း/ပုသိမ် မြို့နယ်_.jpg" data-map-caption="Pathein Township" onclick="selectTownshipImage(this)">Pathein</button>
+          <button type="button" class="place-option" data-search-text="ပန်းတနော်မြို့နယ်.jpg pantanaw township ayeyarwady region" data-map-src="assets/townships/မြို့နယ်များ/ဧရာဝတီတိုင်း/ပန်းတနော်မြို့နယ်.jpg" data-map-caption="Pantanaw Township" onclick="selectTownshipImage(this)">Pantanaw</button>
+          <button type="button" class="place-option" data-search-text="ပုသိမ်မြို့နယ်.jpg pathein township ayeyarwady region" data-map-src="assets/townships/မြို့နယ်များ/ဧရာဝတီတိုင်း/ပုသိမ်မြို့နယ်.jpg" data-map-caption="Pathein Township" onclick="selectTownshipImage(this)">Pathein</button>
           <button type="button" class="place-option" data-search-text="ဘိုကလေးမြို့နယ်.jpg bogale township ayeyarwady region" data-map-src="assets/townships/မြို့နယ်များ/ဧရာဝတီတိုင်း/ဘိုကလေးမြို့နယ်.jpg" data-map-caption="Bogale Township" onclick="selectTownshipImage(this)">Bogale</button>
           <button type="button" class="place-option" data-search-text="ဧရာဝတီတိုင်းဒေသကြီးဟသင်္တမြို့.jpg hinthada township ayeyarwady region" data-map-src="assets/townships/မြို့နယ်များ/ဧရာဝတီတိုင်း/ဧရာဝတီတိုင်းဒေသကြီးဟသင်္တမြို့.jpg" data-map-caption="Hinthada Township" onclick="selectTownshipImage(this)">Hinthada</button>
         </div>
@@ -411,7 +415,7 @@
         <div class="district-group">
             <h4>Mandalay Region</h4>
             <button onclick="selectCity('Mandalay')">Mandalay</button>
-            <button onclick="selectCity('Pyin Oo Lwin')">Pyin Oo Lwin</button>
+            <button onclick="selectCity('Pyin Oo Lwin')">Pyinoolwin</button>
             <button onclick="selectCity('Meiktila')">Meiktila</button>
             <button onclick="selectCity('Bagan')">Bagan</button>
         </div>
@@ -427,19 +431,17 @@
 
         <div class="district-group">
             <h4>Magway Region</h4>
-            <button onclick="selectCity('Seikphyu')">Seikphyu</button>
+            <button onclick="selectCity('Seikpyu')">Seikpyu</button>
             <button onclick="selectCity('Magway')">Magway</button>
-            <button onclick="selectCity('Salin')">Salin</button>
         </div>
 
         <div class="district-group">
             <h4>Bago Region</h4>
             <button onclick="selectCity('Bago')">Bago</button>
-            <button onclick="selectCity('Pyinzaluoke')">Pyinzaluoke</button>
+            <button onclick="selectCity('Painzalok')">Painzalok</button>
             <button onclick="selectCity('Minhla')">Minhla</button>
             <button onclick="selectCity('Pyay')">Pyay</button>
             <button onclick="selectCity('Taungoo')">Taungoo</button>
-            <button onclick="selectCity('Yedashe')">Yedashe</button>
         </div>
 
         <div class="district-group">
@@ -480,11 +482,7 @@
             <h4>Southern Shan State</h4>
             <button onclick="selectCity('Taunggyi')">Taunggyi</button>
             <button onclick="selectCity('Hopong')">Hopong</button>
-            <button onclick="selectCity('Nyaungshwe')">Nyaungshwe</button>
-            <button onclick="selectCity('Loilen')">Loilen</button>
-            <button onclick="selectCity('Hsi Hseng')">Hsi Hseng</button>
             <button onclick="selectCity('Kalaw')">Kalaw</button>
-            <button onclick="selectCity('Pindaya')">Pindaya</button>
         </div>
 
         <div class="district-group">
@@ -495,7 +493,6 @@
 
         <div class="district-group">
             <h4>Northern Shan State</h4>
-            <button onclick="selectCity('Kokang Self-Administered Zone')">Kokang Self-Administered Zone</button>
             <button onclick="selectCity('Lashio')">Lashio</button>
         </div>
 
@@ -524,6 +521,21 @@
             <li>ကားလမ်း</li>
             <li>ရထားလမ်း</li>
             <li>မြေမျက်နှာသွင်ပြင် အနိမ့်၊ အမြင့် စသည့်အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။</li>
+          </ul>
+        </aside>
+        <aside id="cityBrief" class="map-dialog-brief" aria-labelledby="cityBriefTitle" translate="no" hidden>
+          <h3 id="cityBriefTitle">ရည်ညွှန်းချက်</h3>
+          <ul>
+            <li>ကားလမ်း</li>
+            <li>ရထားလမ်း</li>
+            <li>ဘုရား</li>
+            <li>ကျောင်း</li>
+            <li>စေတီ</li>
+            <li>ပန်းခြံ</li>
+            <li>ဘဏ်</li>
+            <li>အစိုးရအဆောက်အအုံ</li>
+            <li>မြစ်ချောင်း</li>
+            <li>တံတား စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။</li>
           </ul>
         </aside>
       </div>
@@ -573,12 +585,8 @@
               <select id="requestMapSize" name="mapSize" required disabled>
                 <option value="" selected disabled>Select a product first</option>
                 <option value="2x3">2 × 3 ft</option>
-                <option value="3x6">3 × 6 ft</option>
-                <option value="4x3">4 × 3 ft</option>
+                <option value="3x6">3 × 4 ft</option>
                 <option value="4x6">4 × 6 ft</option>
-                <option value="4x8">4 × 8 ft</option>
-                <option value="6x9">6 × 9 ft</option>
-                <option value="custom">Custom dimensions</option>
               </select>
             </label>
             <div id="customDimensions" class="custom-dimensions" hidden>
@@ -665,13 +673,6 @@
                 "Soft copy — PDF (350,000 MMK)": "Soft Copy — PDF (၃၅၀,၀၀၀ ကျပ်)",
                 "Soft copy — JPG (150,000 MMK)": "Soft Copy — JPG (၁၅၀,၀၀၀ ကျပ်)",
                 "Map size": "မြေပုံအရွယ်အစား",
-                "Custom dimensions": "စိတ်ကြိုက်အတိုင်းအတာ",
-                "2 × 3 ft": "၂ × ၃ ပေ",
-                "3 × 6 ft": "၃ × ၆ ပေ",
-                "4 × 3 ft": "၄ × ၃ ပေ",
-                "4 × 6 ft": "၄ × ၆ ပေ",
-                "4 × 8 ft": "၄ × ၈ ပေ",
-                "6 × 9 ft": "၆ × ၉ ပေ",
                 "Width (ft)": "အကျယ် (ပေ)",
                 "Height (ft)": "အမြင့် (ပေ)",
                 "Width in feet": "အကျယ်ကို ပေဖြင့်ထည့်ပါ",
