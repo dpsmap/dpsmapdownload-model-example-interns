@@ -17,6 +17,10 @@
     <header class="page-header">
         <div class="page-header-inner">
             <h1 data-en="Map Download ver -1.1" data-my="မြေပုံဒေါင်းလုဒ်">Map Downloads</h1>
+            <div class="language-switcher" role="group" aria-label="Language">
+                <button type="button" class="language-button" lang="en" aria-pressed="true">Eng</button>
+                <button type="button" class="language-button" lang="my" aria-pressed="false">Myan</button>
+            </div>
         </div>
     </header>
     
@@ -132,14 +136,15 @@
 
         <!-- Search Bar -->
         <div class="search-field">
-            <input type="search" id="searchInput" class="search-box" placeholder="Search regions, townships, districts, or cities..." autocomplete="off" aria-controls="searchResults" aria-expanded="false">
             <button type="button" class="search-submit" aria-label="Search maps" onclick="focusMapSearch()">
                 <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
                     <circle cx="10.8" cy="10.8" r="6.8"></circle>
                     <path d="m16 16 5 5"></path>
                 </svg>
             </button>
-            <div id="searchResults" class="search-results" role="listbox" hidden></div>
+            <input type="search" id="searchInput" class="search-box" placeholder="Search regions, townships, districts, or cities..." autocomplete="off" aria-controls="searchResults" aria-expanded="false">
+            <button type="button" id="clearSearch" class="search-clear" aria-label="Clear search" onclick="clearMapSearch()" hidden>×</button>
+            <div id="searchResults" class="search-results" role="list" hidden></div>
         </div>
 
         <!-- Myanmar Map -->
@@ -644,6 +649,9 @@
                 "Explore popular maps or search by region, state, district, township, or city.": "လူကြိုက်များသောမြေပုံများကို ကြည့်ရှုပါ၊ သို့မဟုတ် တိုင်းဒေသကြီး၊ ပြည်နယ်၊ ခရိုင်၊ မြို့နယ်၊ မြို့အလိုက် ရှာဖွေပါ။",
                 "Search regions, townships, districts, or cities...": "တိုင်းဒေသကြီး၊ မြို့နယ်၊ ခရိုင် သို့မဟုတ် မြို့များကို ရှာဖွေပါ...",
                 "Search...": "ရှာဖွေရန်...",
+                "Search maps": "မြေပုံများကို ရှာဖွေရန်",
+                "Clear search": "ရှာဖွေမှုကို ရှင်းလင်းရန်",
+                "See More": "ပိုမိုကြည့်ရန်",
                 "Myanmar Map": "မြန်မာနိုင်ငံမြေပုံ",
                 "Myanmar": "မြန်မာနိုင်ငံ",
                 "English": "အင်္ဂလိပ်",
@@ -742,8 +750,11 @@
                 "Contact DPS": "DPS သို့ ဆက်သွယ်ရန်",
                 "Contact DPS on Viber": "Viber မှတစ်ဆင့် DPS သို့ ဆက်သွယ်ရန်",
                 "Yangon": "ရန်ကုန်",
+                "Yangon City": "ရန်ကုန်မြို့",
                 "Mandalay": "မန္တလေး",
                 "Naypyidaw": "နေပြည်တော်",
+                "Pyinoolwin": "ပြင်ဦးလွင်",
+                "Pyinoolwin City": "ပြင်ဦးလွင်မြို့",
                 "Taikkyi": "တိုက်ကြီး",
                 "Pyin Oo Lwin": "ပြင်ဦးလွင်",
                 "Meiktila": "မိတ္ထီလာ",
@@ -825,6 +836,12 @@
                 let result = language === "my" ? translations[trimmed] : reverseTranslations.get(trimmed);
                 if (!result) {
                     const matchers = [
+                        language === "my"
+                            ? [/^See more about (.+) Map$/, "$1 မြေပုံအကြောင်း ပိုမိုကြည့်ရန်"]
+                            : [/^(.+) မြေပုံအကြောင်း ပိုမိုကြည့်ရန်$/, "See more about $1 Map"],
+                        language === "my"
+                            ? [/^See more about (.+)$/, "$1 အကြောင်း ပိုမိုကြည့်ရန်"]
+                            : [/^(.+) အကြောင်း ပိုမိုကြည့်ရန်$/, "See more about $1"],
                         language === "my"
                             ? [/^(.+) Map$/, "$1 မြေပုံ"]
                             : [/^(.+) မြေပုံ$/, "$1 Map"],

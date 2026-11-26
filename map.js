@@ -203,7 +203,13 @@ function selectTownshipImage(button) {
 document.querySelectorAll("#districtOptions .district-group button, #cityOptions .district-group button").forEach(button => { button.classList.add("place-option"); button.dataset.searchText = button.textContent.toLowerCase(); });
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
+const clearSearchButton = document.getElementById("clearSearch");
 function focusMapSearch() {
+  searchInput.focus();
+}
+function clearMapSearch() {
+  searchInput.value = "";
+  renderSearchResults();
   searchInput.focus();
 }
 const searchableMaps = [
@@ -225,24 +231,13 @@ const searchableMaps = [
   ...Array.from(document.querySelectorAll(".popular-card"), target => ({
     target, name: target.querySelector(".popular-card-label").textContent.trim(),
     categoryType: "popular",
+    categoryContext: null,
     searchText: target.textContent.toLowerCase()
   }))
 ];
-function getSearchCategory(item) {
-  const isMyanmar = document.documentElement.lang === "my";
-  const labels = {
-    region: isMyanmar ? "တိုင်းဒေသကြီး/ပြည်နယ်" : "Region/State",
-    district: isMyanmar ? "ခရိုင်" : "District",
-    township: isMyanmar ? "မြို့နယ်" : "Township",
-    city: isMyanmar ? "မြို့" : "City",
-    popular: isMyanmar ? "လူကြိုက်များသောမြေပုံ" : "Popular map",
-    map: isMyanmar ? "မြေပုံ" : "Map"
-  };
-  const context = item.categoryContext?.textContent.trim();
-  return [labels[item.categoryType], context].filter(Boolean).join(" · ");
-}
 function renderSearchResults() {
   const query = searchInput.value.trim().toLocaleLowerCase();
+  clearSearchButton.hidden = !query;
   document.querySelectorAll(".place-option").forEach(button => { button.hidden = Boolean(query) && !button.dataset.searchText.includes(query); });
   searchResults.replaceChildren();
   if (!query) {
@@ -252,30 +247,52 @@ function renderSearchResults() {
   }
   const matches = searchableMaps
     .filter(item => item.searchText.toLocaleLowerCase().includes(query))
-    .sort((a, b) => Number(b.name.toLocaleLowerCase().startsWith(query)) - Number(a.name.toLocaleLowerCase().startsWith(query)))
+    .sort((a, b) =>
+      Number(b.name.toLocaleLowerCase() === query) - Number(a.name.toLocaleLowerCase() === query) ||
+      Number(b.name.toLocaleLowerCase().startsWith(query)) - Number(a.name.toLocaleLowerCase().startsWith(query))
+    )
     .slice(0, 12);
   if (matches.length) {
     matches.forEach(item => {
-      const option = document.createElement("button");
-      option.type = "button";
+      const option = document.createElement("article");
       option.className = "search-result";
-      option.setAttribute("role", "option");
+      option.setAttribute("role", "listitem");
+      const details = document.createElement("div");
+      details.className = "search-result-details";
       const name = document.createElement("span");
+      name.className = "search-result-name";
       name.textContent = item.name;
-      const category = document.createElement("small");
-      category.textContent = getSearchCategory(item);
-      option.append(name, category);
-      option.addEventListener("click", () => {
+      const location = document.createElement("small");
+      location.className = "search-result-location";
+      const mapIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      mapIcon.classList.add("search-result-map-icon");
+      mapIcon.setAttribute("viewBox", "0 0 24 24");
+      mapIcon.setAttribute("aria-hidden", "true");
+      mapIcon.setAttribute("focusable", "false");
+      const mapIconPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      mapIconPath.setAttribute("d", "M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3Zm0 0V3m6 18V6");
+      mapIcon.append(mapIconPath);
+      location.append(mapIcon, document.createTextNode(item.categoryContext?.textContent.trim() || "Myanmar"));
+      details.append(name, location);
+      const more = document.createElement("button");
+      more.type = "button";
+      more.className = "search-result-more";
+      more.textContent = "See More";
+      more.setAttribute("aria-label", `See more about ${item.name}`);
+      more.addEventListener("click", () => {
         item.target.click();
         searchInput.value = item.name;
+        renderSearchResults();
         searchResults.hidden = true;
         searchInput.setAttribute("aria-expanded", "false");
       });
+      option.append(details, more);
       searchResults.append(option);
     });
   } else {
     const empty = document.createElement("p");
     empty.className = "search-empty";
+    empty.setAttribute("role", "listitem");
     empty.textContent = "No matching maps found.";
     searchResults.append(empty);
   }
@@ -286,7 +303,7 @@ searchInput.addEventListener("input", renderSearchResults);
 searchInput.addEventListener("keydown", event => {
   if (event.key === "Escape") { searchResults.hidden = true; searchInput.setAttribute("aria-expanded", "false"); }
   if (event.key === "Enter" && !searchResults.hidden) {
-    const firstResult = searchResults.querySelector(".search-result");
+    const firstResult = searchResults.querySelector(".search-result-more");
     if (firstResult) { event.preventDefault(); firstResult.click(); }
   }
 });
@@ -294,6 +311,7 @@ document.addEventListener("click", event => {
   if (!event.target.closest(".search-field")) {
     searchResults.hidden = true;
     searchInput.setAttribute("aria-expanded", "false");
+    document.querySelectorAll(".place-option").forEach(button => { button.hidden = false; });
   }
 });
 
