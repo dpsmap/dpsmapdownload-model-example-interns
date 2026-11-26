@@ -78,7 +78,7 @@
                 <button class="popular-card" type="button"
                     onclick="openPopularMap('Naypyidaw','assets/regions/naypyidaw.png')">
                     <span class="popular-card-image">
-                        <img src="assets/regions/naypyidaw.png" alt="Naypyidaw Map">
+                        <img src="assets/regions/naypyidaw.jpg" alt="Naypyidaw Map">
                         <span class="popular-card-overlay" aria-hidden="true"
                             data-en="Naypyidaw map" data-my="နေပြည်တော်မြေပုံ">Naypyidaw map</span>
                     </span>
@@ -398,6 +398,7 @@
             <h4>Yangon Region</h4>
             <button onclick="selectCity('Taikkyi')">Taikkyi</button>
             <button onclick="selectCity('Yangon')">Yangon</button>
+            <button onclick="selectCity('Hmawbi')">Hmawbi</button>
         </div>
 
         <div class="district-group">
@@ -500,7 +501,25 @@
         <h2 id="imageTitle">Myanmar Map</h2>
         <button type="button" class="map-dialog-close" onclick="closeMapPopup()" aria-label="Close map">×</button>
       </div>
-      <img id="selectedImage" src="assets/maps/myanmar-english.jpg" alt="Map of Myanmar in English">
+      <div class="map-dialog-map-layout">
+        <img id="selectedImage" src="assets/maps/myanmar-english.jpg" alt="Map of Myanmar in English">
+        <aside id="regionBrief" class="map-dialog-brief" aria-labelledby="regionBriefTitle" translate="no" hidden>
+          <h3 id="regionBriefTitle">အကျဉ်းချုပ်အချက်အလက်</h3>
+          <ul>
+            <li>တိုင်းဒေသကြီးမြို့တော်</li>
+            <li>ခရိုင်</li>
+            <li>မြို့</li>
+            <li>ကျေးရွာ</li>
+            <li>ဘုရား</li>
+            <li>ရေကန်</li>
+            <li>မြစ်ချောင်း</li>
+            <li>အပြည်ပြည်ဆိုင်ရာလေဆိပ်</li>
+            <li>ကားလမ်း</li>
+            <li>ရထားလမ်း</li>
+            <li>မြေမျက်နှာသွင်ပြင် အနိမ့်၊ အမြင့်</li>
+          </ul>
+        </aside>
+      </div>
       <p id="imageCaption">Choose a district or city to view its map.</p>
       <section id="downloadActions" class="download-actions" hidden aria-label="Download options">
         <button type="button" class="download-button free-button" onclick="showDownloadForm('free')">Free Download</button>
@@ -862,7 +881,7 @@
             }
 
             function translateTextNode(node) {
-                if (!node.parentElement || node.parentElement.closest("[data-en][data-my]")) return;
+                if (!node.parentElement || node.parentElement.closest("[data-en][data-my], [translate='no']")) return;
                 const english = originalText.get(node) ?? node.nodeValue;
                 originalText.set(node, english);
                 const localized = translate(english);

@@ -32,6 +32,7 @@ const cityFolder = "city-images/city/မြို့/";
 const cityImages = {
   "Taikkyi": cityFolder + "ရန်ကုန်တိုင်း/တိုက်ကြီးမြို့.jpg",
   "Yangon": cityFolder + "ရန်ကုန်တိုင်း/ရန်ကုန်မြို့.jpg",
+  "Hmawbi": cityFolder + "ရန်ကုန်တိုင်း/မှော်ဘီ.jpg",
   "Mandalay": cityFolder + "မန္တလေးတိုင်း/The map of mandalay.jpg",
   "Pyin Oo Lwin": cityFolder + "မန္တလေးတိုင်း/ပြင်ဦးလွင်.jpg",
   "Meiktila": cityFolder + "မန္တလေးတိုင်း/မိတ္ထီလာမြို့.jpg",
@@ -79,7 +80,8 @@ function showUnavailableMap(title, showPopup = true) {
   image.onerror = null;
   image.hidden = true;
   currentMapSource = "";
-  document.getElementById("mapDialog").classList.remove("download-flow-only");
+  document.getElementById("mapDialog").classList.remove("download-flow-only", "has-region-brief");
+  document.getElementById("regionBrief").hidden = true;
   document.getElementById("imageTitle").textContent = title;
   document.getElementById("imageCaption").textContent = "No map image is available for this selection.";
   document.getElementById("imageCaption").hidden = false;
@@ -96,8 +98,13 @@ function showUnavailableMap(title, showPopup = true) {
     document.body.classList.add("map-dialog-open");
   }
 }
-function setImage(src, title, caption, alt, showPopup = true) {
-  document.getElementById("mapDialog").classList.remove("download-flow-only");
+function setImage(src, title, caption, alt, showPopup = true, briefType = title === "Yangon Region Map" ? "region" : "") {
+  const dialog = document.getElementById("mapDialog");
+  const showRegionBrief = Boolean(briefType);
+  dialog.classList.remove("download-flow-only");
+  dialog.classList.toggle("has-region-brief", showRegionBrief);
+  document.getElementById("regionBrief").hidden = !showRegionBrief;
+  document.querySelector("#regionBrief li").textContent = briefType === "state" ? "ပြည်နယ်မြို့တော်" : "တိုင်းဒေသကြီးမြို့တော်";
   const image = document.getElementById("selectedImage");
   image.hidden = false;
   document.getElementById("imageCaption").hidden = false;
@@ -109,7 +116,6 @@ function setImage(src, title, caption, alt, showPopup = true) {
   image.alt = alt;
   document.getElementById("imageTitle").textContent = title;
   document.getElementById("imageCaption").textContent = caption;
-  const dialog = document.getElementById("mapDialog");
   document.getElementById("downloadActions").hidden = false;
   document.getElementById("paidDownloadChoices").hidden = true;
   document.getElementById("downloadForms").hidden = true;
@@ -130,7 +136,9 @@ function selectMap(language) {
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
 }
 function openPopularMap(name, imagePath) {
-  setImage(imagePath, name + " Map", "Popular map for " + name, name + " map");
+  const isRegionMap = imagePath.startsWith("assets/regions/");
+  const briefType = isRegionMap ? (name.endsWith(" State") ? "state" : "region") : "";
+  setImage(imagePath, name + " Map", "Popular map for " + name, name + " map", true, briefType);
 }
 function showPlace(name, type) {
   const folder = type === "district" ? "districts/Districts/" : "cities/";
@@ -153,7 +161,7 @@ document.addEventListener("click", event => {
 const regionMaps = {
       "Yangon Region": [["assets/regions/yangon.jpg", "Yangon Region"], ["assets/regions/yangon-overview.png", "Yangon Region overview map"]],
       "Mandalay Region": [["assets/regions/mandalay.jpg", "Mandalay Region"]],
-      "Naypyidaw Union Territory": [["assets/regions/naypyidaw.png", "Naypyidaw Union Territory"]],
+      "Naypyidaw Union Territory": [["assets/regions/naypyidaw.jpg", "Naypyidaw Union Territory"]],
       "Ayeyarwady Region": [["assets/regions/ayeyarwady.jpg", "Ayeyarwady Region"]],
       "Bago Region": [["assets/regions/bago.jpg", "Bago Region"]],
       "Chin State": [["assets/regions/chin.jpg", "Chin State"]],
@@ -172,7 +180,10 @@ const regionMaps = {
     };
 function selectRegion(name) {
   const entries = regionMaps[name] || [];
-  if (entries.length) setImage(entries[0][0], name + " Map", entries[0][1], entries[0][1]);
+  if (entries.length) {
+    const briefType = name.endsWith(" State") ? "state" : "region";
+    setImage(entries[0][0], name + " Map", entries[0][1], entries[0][1], true, briefType);
+  }
   else showUnavailableMap(name + " Map");
   resetDropdownLabel("regionText");
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
