@@ -72,6 +72,29 @@ let currentMapTitle = "Myanmar Map";
 let currentMapCaption = "Map of Myanmar";
 let currentMapBriefType = "";
 let activeMapDropdown = "mapOptions";
+const regionEnglishMapSources = {
+  "assets/regions/ayeyarwady.jpg": "assets/regions/ayeyarwady-english.jpg",
+  "assets/regions/bago.jpg": "assets/regions/bago-english.jpg",
+  "assets/regions/chin.jpg": "assets/regions/chin-english.jpg",
+  "assets/regions/kachin.jpg": "assets/regions/kachin-english.jpg",
+  "assets/regions/kayah.jpg": "assets/regions/kayah-english.jpg",
+  "assets/regions/kayin.jpg": "assets/regions/kayin-english.jpg",
+  "assets/regions/magway.jpg": "assets/regions/magway-english.jpg",
+  "assets/regions/mandalay.jpg": "assets/regions/mandalay-english.jpg",
+  "assets/regions/mon.jpg": "assets/regions/mon-english.jpg",
+  "assets/regions/naypyidaw.jpg": "assets/regions/naypyidaw-english.jpg",
+  "assets/regions/rakhine.jpg": "assets/regions/rakhine-english.jpg",
+  "assets/regions/sagaing.jpg": "assets/regions/sagaing-english.jpg",
+  "assets/regions/shan.jpg": "assets/regions/shan-english.jpg",
+  "assets/regions/tanintharyi.jpg": "assets/regions/tanintharyi-english.jpg",
+  "assets/regions/yangon.jpg": "assets/regions/yangon-english.jpg"
+};
+function getRegionMapVersions(src) {
+  const entry = Object.entries(regionEnglishMapSources).find(([myanmar, english]) =>
+    src === myanmar || src === english
+  );
+  return entry ? { myanmar: entry[0], english: entry[1] } : null;
+}
 function showUnavailableMap(title, showPopup = true) {
   const image = document.getElementById("selectedImage");
   image.onerror = null;
@@ -80,7 +103,8 @@ function showUnavailableMap(title, showPopup = true) {
   currentMapTitle = title;
   currentMapCaption = "No map image is available for this selection.";
   currentMapBriefType = "";
-  document.getElementById("mapDialog").classList.remove("download-flow-only", "has-map-brief");
+  document.getElementById("mapDialog").classList.remove("download-flow-only", "has-map-brief", "has-dual-map-versions");
+  document.getElementById("mapVersionChoices").hidden = true;
   document.getElementById("regionBrief").hidden = true;
   document.getElementById("cityBrief").hidden = true;
   document.getElementById("featureBrief").hidden = true;
@@ -102,11 +126,44 @@ function showUnavailableMap(title, showPopup = true) {
 }
 function setImage(src, title, caption, alt, showPopup = true, briefType = "") {
   const dialog = document.getElementById("mapDialog");
+  dialog.classList.remove("download-flow-only");
+  setMapSelection(src, title, caption, alt, briefType);
+  document.getElementById("downloadActions").hidden = false;
+  document.getElementById("paidDownloadChoices").hidden = true;
+  document.getElementById("downloadForms").hidden = true;
+  document.getElementById("freeDownloadForm").hidden = true;
+  document.getElementById("requestDownloadForm").hidden = true;
+  document.getElementById("downloadFormStatus").textContent = "";
+  if (showPopup && !dialog.open) {
+    dialog.showModal();
+    document.body.classList.add("map-dialog-open");
+  }
+}
+function setMapSelection(src, title, caption, alt, briefType) {
+  const dialog = document.getElementById("mapDialog");
+  const mapVersions = getRegionMapVersions(src);
+  const hasMapVersions = Boolean(mapVersions);
   const isRegionBrief = briefType === "region" || briefType === "state" || briefType === "overview";
   const showMapBrief = isRegionBrief || briefType === "city" || briefType === "feature";
   currentMapBriefType = briefType;
-  dialog.classList.remove("download-flow-only");
   dialog.classList.toggle("has-map-brief", showMapBrief);
+  dialog.classList.toggle("has-dual-map-versions", hasMapVersions);
+  const versionChoices = document.getElementById("mapVersionChoices");
+  versionChoices.hidden = !hasMapVersions;
+  if (mapVersions) {
+    const regionName = title.replace(/ Map$/, "");
+    versionChoices.setAttribute("aria-label", `${regionName} map versions`);
+  }
+  document.querySelectorAll(".map-version-choice").forEach(button => {
+    if (mapVersions) {
+      const mapSrc = button.dataset.mapLanguage === "my" ? mapVersions.myanmar : mapVersions.english;
+      button.dataset.mapSrc = mapSrc;
+      button.querySelector("img").src = mapSrc;
+      button.querySelector("img").alt =
+        `${title.replace(/ Map$/, "")} map in ${button.dataset.mapLanguage === "my" ? "Myanmar" : "English"}`;
+    }
+    button.setAttribute("aria-pressed", String(Boolean(mapVersions) && button.dataset.mapSrc === src));
+  });
   document.getElementById("regionBrief").hidden = !isRegionBrief;
   document.getElementById("cityBrief").hidden = briefType !== "city";
   document.getElementById("featureBrief").hidden = briefType !== "feature";
@@ -119,7 +176,7 @@ function setImage(src, title, caption, alt, showPopup = true, briefType = "") {
     capitalLabel.textContent = capitalLabel.dataset[document.documentElement.lang === "my" ? "my" : "en"];
   }
   const image = document.getElementById("selectedImage");
-  image.hidden = false;
+  image.hidden = hasMapVersions;
   document.getElementById("imageCaption").hidden = false;
   image.onerror = () => {
     if (currentMapSource === src) showUnavailableMap(title, false);
@@ -131,16 +188,21 @@ function setImage(src, title, caption, alt, showPopup = true, briefType = "") {
   image.alt = alt;
   document.getElementById("imageTitle").textContent = title;
   document.getElementById("imageCaption").textContent = caption;
-  document.getElementById("downloadActions").hidden = false;
-  document.getElementById("paidDownloadChoices").hidden = true;
-  document.getElementById("downloadForms").hidden = true;
-  document.getElementById("freeDownloadForm").hidden = true;
-  document.getElementById("requestDownloadForm").hidden = true;
-  document.getElementById("downloadFormStatus").textContent = "";
-  if (showPopup && !dialog.open) {
-    dialog.showModal();
-    document.body.classList.add("map-dialog-open");
+}
+function selectRegionMapVersion(button) {
+  const { mapSrc } = button.dataset;
+  if (!getRegionMapVersions(mapSrc)) {
+    throw new Error(`Unknown region map version: ${mapSrc}`);
   }
+  const mapTitle = currentMapTitle;
+  const regionName = mapTitle.replace(/ Map$/, "");
+  setMapSelection(
+    mapSrc,
+    mapTitle,
+    currentMapCaption,
+    `${regionName} map in ${button.dataset.mapLanguage === "my" ? "Myanmar" : "English"}`,
+    currentMapBriefType
+  );
 }
 function selectMap(language) {
   activeMapDropdown = "mapOptions";
@@ -180,6 +242,9 @@ document.addEventListener("click", event => {
 
 
 // Region and township data from reto.zip.
+const paidMapSelection = document.getElementById("paidMapSelection");
+const paidMapVersionField = document.getElementById("paidMapVersionField");
+const paidMapChoiceButtons = document.querySelectorAll("#paidDownloadChoices .paid-download-choice .download-button");
 const regionMaps = {
       "Yangon Region": [["assets/regions/yangon.jpg", "Yangon Region"], ["assets/regions/yangon-overview.png", "Yangon Region overview map"]],
       "Mandalay Region": [["assets/regions/mandalay.jpg", "Mandalay Region"]],
@@ -200,6 +265,7 @@ const regionMaps = {
       "Shan-South State": [["assets/regions/shan-south.jpg", "Southern Shan State"]],
       "Tanintharyi Region": [["assets/regions/tanintharyi.jpg", "Tanintharyi Region"]]
     };
+paidMapVersionField.addEventListener("change", applyPaidMapSelection);
 function selectRegion(name) {
   activeMapDropdown = "regionOptions";
   const entries = regionMaps[name] || [];
@@ -410,7 +476,9 @@ function closeMapPopup(openSelection = true) {
 function backToMap() {
   const dialog = document.getElementById("mapDialog");
   dialog.classList.remove("download-flow-only");
-  document.getElementById("selectedImage").hidden = false;
+  const hasMapVersions = Boolean(getRegionMapVersions(currentMapSource));
+  document.getElementById("selectedImage").hidden = hasMapVersions;
+  document.getElementById("mapVersionChoices").hidden = !hasMapVersions;
   document.getElementById("imageCaption").hidden = false;
   document.getElementById("downloadActions").hidden = false;
   document.getElementById("paidDownloadChoices").hidden = true;
@@ -444,13 +512,14 @@ function updatePaidFlowBackLabel(label) {
   button.title = label;
 }
 
-function showDownloadForm(kind) {
+function showDownloadForm(kind, preservePaidMapSelection = false) {
   const forms = document.getElementById("downloadForms");
   const dialog = document.getElementById("mapDialog");
   const isFree = kind === "free";
   const isPaid = kind === "paid";
   dialog.classList.add("download-flow-only");
   document.getElementById("selectedImage").hidden = true;
+  document.getElementById("mapVersionChoices").hidden = true;
   document.getElementById("imageCaption").hidden = true;
   document.getElementById("downloadActions").hidden = true;
   document.getElementById("kpayPanel").hidden = true;
@@ -460,6 +529,7 @@ function showDownloadForm(kind) {
   document.getElementById("downloadFormStatus").textContent = "";
   forms.hidden = isPaid;
   if (isPaid) {
+    if (!preservePaidMapSelection) resetPaidMapSelection();
     updatePaidFlowBackLabel("Back to map");
     document.getElementById("paidDownloadChoices").scrollIntoView({ behavior: "smooth", block: "nearest" });
   } else {
@@ -471,17 +541,23 @@ function showPaidDownloadCategory(category) {
   if (category !== "soft-copy" && category !== "plotting") {
     throw new Error(`Unknown paid download category: ${category}`);
   }
+  if (!isPaidMapSelectionReady()) {
+    document.getElementById("downloadFormStatus").textContent =
+      "Select a map before choosing Soft copy or Plotting.";
+    return;
+  }
   const forms = document.getElementById("downloadForms");
   const requestForm = document.getElementById("requestDownloadForm");
   document.getElementById("paidDownloadChoices").hidden = true;
   requestForm.hidden = false;
   currentPaidCategory = category;
   updatePlotSizeOptions();
+  document.getElementById("paidSelectedMap").textContent = getPaidMapDisplayName();
   document.getElementById("requestFormTitle").textContent =
     category === "soft-copy" ? "Soft copy" : "Plotting";
   const isSoftCopy = category === "soft-copy";
   const isPlotting = category === "plotting";
-  updatePaidFlowBackLabel("Back to paid download types");
+  updatePaidFlowBackLabel("Back to map selection");
   document.getElementById("softCopyFormats").hidden = !isSoftCopy;
   document.querySelectorAll('input[name="softCopyFormat"]').forEach(input => {
     input.disabled = !isSoftCopy;
@@ -510,13 +586,15 @@ function showPaidDownloadCategory(category) {
 function handlePaidFlowBack() {
   const paidDownloadChoices = document.getElementById("paidDownloadChoices");
   if (paidDownloadChoices.hidden) {
-    showDownloadForm("paid");
+    showDownloadForm("paid", true);
     return;
   }
 
   const dialog = document.getElementById("mapDialog");
   dialog.classList.remove("download-flow-only");
-  document.getElementById("selectedImage").hidden = false;
+  const hasMapVersions = Boolean(getRegionMapVersions(currentMapSource));
+  document.getElementById("selectedImage").hidden = hasMapVersions;
+  document.getElementById("mapVersionChoices").hidden = !hasMapVersions;
   document.getElementById("imageCaption").hidden = false;
   document.getElementById("downloadActions").hidden = false;
   paidDownloadChoices.hidden = true;
@@ -526,6 +604,79 @@ function handlePaidFlowBack() {
   document.getElementById("kpayPanel").hidden = true;
   document.getElementById("downloadFormStatus").textContent = "";
   document.getElementById("downloadActions").scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function isPaidMapSelectionReady() {
+  if (!currentMapSource) return false;
+  if (!paidMapVersionField.hidden && !document.querySelector('input[name="paidMapLanguage"]:checked')) return false;
+  return true;
+}
+
+function getPaidMapDisplayName() {
+  const mapVersions = getRegionMapVersions(currentMapSource);
+  if (!mapVersions) return currentMapTitle;
+  const version = currentMapSource === mapVersions.english ? "English Version" : "Myanmar Version";
+  return `${currentMapTitle} — ${version}`;
+}
+
+function resetPaidMapSelection() {
+  document.querySelectorAll('input[name="paidMapLanguage"]').forEach(input => { input.checked = false; });
+  paidMapSelection.hidden = true;
+  paidMapVersionField.hidden = true;
+  paidMapVersionField.disabled = true;
+  const isMyanmarMap = currentMapSource === "assets/maps/myanmar-burmese.jpg"
+    || currentMapSource === "assets/maps/myanmar-english.jpg";
+  if (getRegionMapVersions(currentMapSource) || isMyanmarMap) {
+    paidMapSelection.hidden = false;
+    paidMapVersionField.hidden = false;
+    paidMapVersionField.disabled = false;
+  }
+
+  paidMapChoiceButtons.forEach(button => { button.disabled = !isPaidMapSelectionReady(); });
+}
+
+function applyPaidMapSelection() {
+  if (!isPaidMapSelectionReady()) {
+    paidMapChoiceButtons.forEach(button => { button.disabled = true; });
+    return;
+  }
+
+  if (!paidMapVersionField.hidden) {
+    const language = document.querySelector('input[name="paidMapLanguage"]:checked').value;
+    const regionVersions = getRegionMapVersions(currentMapSource);
+    if (regionVersions) {
+      const mapSource = language === "my" ? regionVersions.myanmar : regionVersions.english;
+      const regionName = currentMapTitle.replace(/ Map$/, "");
+      setMapSelection(
+        mapSource,
+        currentMapTitle,
+        currentMapCaption,
+        `${regionName} map in ${language === "my" ? "Myanmar" : "English"}`,
+        currentMapBriefType
+      );
+    } else if (currentMapSource === "assets/maps/myanmar-burmese.jpg"
+      || currentMapSource === "assets/maps/myanmar-english.jpg") {
+      const mapName = language === "my" ? "Myanmar" : "English";
+      const caption = language === "my" ? "မြန်မာနိုင်ငံမြေပုံ" : "Map of Myanmar";
+      currentMapLanguage = language;
+      setMapSelection(
+        `assets/maps/myanmar-${language === "my" ? "burmese" : "english"}.jpg`,
+        `${mapName} — Myanmar Map`,
+        caption,
+        caption,
+        "overview"
+      );
+    } else {
+      throw new Error(`No paid map version is configured for: ${currentMapSource}`);
+    }
+  }
+
+  document.getElementById("selectedImage").hidden = true;
+  document.getElementById("mapVersionChoices").hidden = true;
+  document.getElementById("imageCaption").hidden = true;
+  document.getElementById("downloadActions").hidden = true;
+  document.getElementById("paidDownloadChoices").hidden = false;
+  paidMapChoiceButtons.forEach(button => { button.disabled = false; });
 }
 
 const requestMapProduct = document.getElementById("requestMapProduct");
@@ -767,6 +918,7 @@ document.getElementById("requestDownloadForm").addEventListener("submit", event 
       sizeLabel = requestMapProduct.value.endsWith("a3") ? "A3" : "Digital copy";
     }
   }
+  document.getElementById("kpaySelectedMap").textContent = getPaidMapDisplayName();
   document.getElementById("kpayOrderSummary").textContent = `${productLabel} · ${sizeLabel} · Total: ${money(total)}`;
   document.getElementById("downloadFormStatus").textContent = "";
   document.getElementById("downloadForms").hidden = true;
