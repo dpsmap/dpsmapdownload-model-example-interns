@@ -409,6 +409,21 @@ function closeMapPopup(openSelection = true) {
   }
 }
 
+function backToMap() {
+  const dialog = document.getElementById("mapDialog");
+  dialog.classList.remove("download-flow-only");
+  document.getElementById("selectedImage").hidden = false;
+  document.getElementById("imageCaption").hidden = false;
+  document.getElementById("downloadActions").hidden = false;
+  document.getElementById("paidDownloadChoices").hidden = true;
+  document.getElementById("downloadForms").hidden = true;
+  document.getElementById("freeDownloadForm").hidden = true;
+  document.getElementById("requestDownloadForm").hidden = true;
+  document.getElementById("requestBackButton").hidden = true;
+  document.getElementById("kpayPanel").hidden = true;
+  document.getElementById("downloadFormStatus").textContent = "";
+}
+
 document.getElementById("mapDialog").addEventListener("close", () => {
   document.body.classList.remove("map-dialog-open");
 });

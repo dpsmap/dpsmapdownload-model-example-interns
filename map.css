@@ -399,6 +399,13 @@ main { padding-top: 60px; }
 .download-button:hover, .free-button:hover, .request-button:hover, .request-form-grid .download-button:hover { background: #e9e9e9; }
 .request-form, .request-form-heading h3, .request-form-grid label, .request-form-heading p { color: #333; }
 .request-form-grid input:focus, .request-form-grid select:focus { outline-color: #aaa; }
+.map-dialog .download-button { transition: background-color .16s ease, border-color .16s ease, color .16s ease; }
+.map-dialog .download-button:hover,
+.map-dialog .download-button:focus-visible { border-color: #2457a6; background: #2457a6; color: #fff; }
+.download-button.map-flow-back { display: none; place-items: center; flex: none; width: 42px; min-height: 42px; margin: 0; padding: 0; border-radius: 50%; }
+.map-flow-back svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.map-dialog.download-flow-only:has(#freeDownloadForm:not([hidden])) .map-flow-back,
+.map-dialog.download-flow-only:has(#paidDownloadChoices:not([hidden])) .map-flow-back { display: grid; }
 
 /* Mobile and small-screen layout */
 html { width: 100%; overflow-x: clip; }
