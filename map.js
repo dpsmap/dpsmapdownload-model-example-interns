@@ -554,6 +554,7 @@ function showPaidDownloadCategory(category) {
   document.getElementById("paidDownloadChoices").hidden = true;
   requestForm.hidden = false;
   currentPaidCategory = category;
+  updateRequestAddressField();
   updatePlotSizeOptions();
   document.getElementById("paidSelectedMap").textContent = getPaidMapDisplayName();
   document.getElementById("requestFormTitle").textContent =
@@ -721,6 +722,9 @@ const customDimensions = document.getElementById("customDimensions");
 const customWidth = document.getElementById("customWidth");
 const customHeight = document.getElementById("customHeight");
 const requestPrice = document.getElementById("requestPrice");
+const requestAddressLabel = document.getElementById("requestAddressLabel");
+const requestAddressInput = document.getElementById("requestAddressInput");
+const requestInfoNote = document.getElementById("requestInfoNote");
 const money = amount => `${Number(amount).toLocaleString("en-US")} MMK`;
 const standardPlotSizes = ["2x3", "3x4", "4x6"];
 const myanmarPlotSizes = ["2x4", "3x6", "4x8"];
@@ -729,7 +733,7 @@ const mapPlotSizes = {
   "english — myanmar map": myanmarPlotSizes,
   "myanmar — myanmar map": myanmarPlotSizes,
   "taikkyi city map": standardPlotSizes,
-  "taikkyi township map": [],
+  "taikkyi township map": standardPlotSizes,
   "yangon city map": ["3x4", "4x6"],
   "hmawbi city map": standardPlotSizes,
   "hmawbi township map": standardPlotSizes,
@@ -738,7 +742,7 @@ const mapPlotSizes = {
   "kawhmu city map": standardPlotSizes,
   "kawhmu township map": standardPlotSizes,
   "hlegu city map": standardPlotSizes,
-  "hlegu township map": [],
+  "hlegu township map": standardPlotSizes,
   "kyauktan city map": standardPlotSizes,
   "kyauktan township map": standardPlotSizes,
   "mandalay city map": ["3x4", "4x6"],
@@ -750,7 +754,48 @@ const mapPlotSizes = {
   "minhla township map": [],
   "minbu township map": [],
   "ngape township map": [],
-  "minhla, minbu and ngape townships map": []
+  "minhla, minbu and ngape townships map": [],
+  "saw township map": ["3x4", "4x5.5"],
+  "sinbaungwe township map": ["3x4", "4x5"],
+  "salin township map": ["3x4", "4x5.5"],
+  "seikphyu township map": ["3x4", "4x3", "5x4"],
+  "hmawbi district map": ["4x4", "5x5", "6x6"],
+  "dagon myothit district map": ["4x4", "5x5", "6x6"],
+  "insein district map": ["3x4", "4x5.5"],
+  "kamayut district map": ["4x3", "5x4"],
+  "twante district map": ["3x4", "3.5x5"],
+  "botahtaung district map": ["3x4", "4x5"],
+  "mingaladon district map": ["4x3", "3.5x5"],
+  "kyaukse district map": ["4x3.5", "5x6"],
+  "nyaung-u district map": standardPlotSizes,
+  "myingyan district map": standardPlotSizes,
+  "pyin oo lwin district map": standardPlotSizes,
+  "maubin district map": ["4x5.5"],
+  "kyonpyaw district map": standardPlotSizes,
+  "thayet district map": standardPlotSizes,
+  "katha district map": standardPlotSizes,
+  "shwebo district map": standardPlotSizes,
+  "bokpyin district map": standardPlotSizes,
+  "bhamo district map": standardPlotSizes,
+  "myitkyina district map": standardPlotSizes,
+  "tiddim district map": standardPlotSizes,
+  "minbu district map": ["4x4", "5x5"],
+  "hinthada city map": ["4x4", "5x5", "6x6"],
+  "meiktila city map": ["4x4", "5x5", "6x6"],
+  "maubin city map": ["3x4", "4x5.5"],
+  "mawlamyinegyun city map": ["3x4", "4x5.5"],
+  "pyapon city map": ["3x4", "4x5.5"],
+  "seikpyu city map": ["4x3", "5x4"],
+  "magway city map": ["4x3", "5x3.5"],
+  "bago city map": ["3x4"],
+  "painzalok city map": ["2x3", "4x2.5"],
+  "minhla city map": ["4x3", "5x4"],
+  "pyay city map": ["4x3", "5x4"],
+  "taungoo city map": ["4x4", "5x5", "6x6"],
+  "sagaing city map": ["4x6", "5x7.5"],
+  "banmauk city map": ["3x2", "4x3"],
+  "shwebo city map": ["4x3.5", "5x4.5"],
+  "myitkyina city map": ["6x6", "7x7", "8x8"]
 };
 let currentMapPlotSizes = [];
 let currentPaidCategory = "";
@@ -790,6 +835,28 @@ function updatePlotSizeOptions() {
     requestMapSize.append(option);
   });
   return currentMapPlotSizes;
+}
+
+function updateRequestAddressField() {
+  const isSoftCopy = currentPaidCategory === "soft-copy";
+  const language = document.documentElement.lang === "my" ? "my" : "en";
+  requestAddressLabel.dataset.en = isSoftCopy ? "Email Address" : "Address";
+  requestAddressLabel.dataset.my = isSoftCopy ? "အီးမေးလ်လိပ်စာ" : "လိပ်စာ";
+  requestAddressLabel.textContent = requestAddressLabel.dataset[language];
+  const inputType = isSoftCopy ? "email" : "text";
+  if (requestAddressInput.type !== inputType) requestAddressInput.value = "";
+  requestAddressInput.type = inputType;
+  requestAddressInput.autocomplete = isSoftCopy ? "email" : "street-address";
+  requestAddressInput.placeholder = isSoftCopy
+    ? "name@gmail.com"
+    : "No. 45, Inya Road, Bahan Township, Yangon";
+  requestInfoNote.dataset.en = isSoftCopy
+    ? "Please ensure that your email address and phone number are correct to ensure accurate submission."
+    : "Please ensure that your address and phone number are correct to ensure accurate submission.";
+  requestInfoNote.dataset.my = isSoftCopy
+    ? "အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်လိပ်စာနှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။"
+    : "အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် လိပ်စာနှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။";
+  requestInfoNote.textContent = requestInfoNote.dataset[language];
 }
 
 function updateRequestPrice() {
