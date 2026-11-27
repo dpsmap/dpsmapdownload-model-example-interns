@@ -499,7 +499,12 @@
 
     <dialog id="mapDialog" class="map-dialog" aria-labelledby="imageTitle">
       <div class="map-dialog-header">
-        <button type="button" class="download-button paid-flow-back" onclick="showDownloadForm('paid')" aria-label="Back to paid download types" title="Back to paid download types">
+        <button type="button" class="download-button kpay-back-button" onclick="hideKpayPanel()" aria-label="Back to map" title="Back to map">
+          <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+            <path d="M19 12H5m7 7-7-7 7-7"></path>
+          </svg>
+        </button>
+        <button id="requestBackButton" type="button" class="download-button paid-flow-back" onclick="showDownloadForm('paid')" aria-label="Back to paid download types" title="Back to paid download types">
           <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
             <path d="M19 12H5m7 7-7-7 7-7"></path>
           </svg>
@@ -656,7 +661,6 @@
         </div>
         <p class="kpay-confirmation-note" data-en="After payment, the Admin will verify it and send it to your email." data-my="ငွေလွှဲပြီးပါက စီမံခန့်ခွဲသူမှ စိစစ်ပြီး အီးမေးလ်သို့ ပို့ပေးပါမည်။">ငွေလွှဲပြီးပါက စီမံခန့်ခွဲသူမှ စိစစ်ပြီး အီးမေးလ်သို့ ပို့ပေးပါမည်။</p>
         <p class="kpay-confirmation-note" data-en="If the payer name differs from the name provided, please include the name in the Note." data-my="ငွေလွှဲသည့်အကောင့်နှင့် အမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက မှတ်ချက်တွင် အမည်ထည့်သွင်းပေးပါရန်။">ငွေလွှဲသည့်အကောင့်နှင့် အမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက မှတ်ချက်တွင် အမည်ထည့်သွင်းပေးပါရန်။</p>
-        <button type="button" class="download-button" onclick="hideKpayPanel()">Back to map</button>
       </section>
     </dialog>
     </main>
