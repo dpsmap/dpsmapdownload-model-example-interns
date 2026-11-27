@@ -702,5 +702,6 @@ document.getElementById("requestDownloadForm").addEventListener("submit", event 
 
 function hideKpayPanel() {
   document.getElementById("kpayPanel").hidden = true;
-  setImage(currentMapSource, currentMapTitle, currentMapCaption, currentMapTitle, true, currentMapBriefType);
+  document.getElementById("downloadForms").hidden = false;
+  showPaidDownloadCategory(currentPaidCategory);
 }
