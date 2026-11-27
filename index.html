@@ -499,7 +499,7 @@
 
     <dialog id="mapDialog" class="map-dialog" aria-labelledby="imageTitle">
       <div class="map-dialog-header">
-        <button type="button" class="download-button paid-flow-back" onclick="showDownloadForm('paid')" aria-label="Back to paid download types" title="Back to paid download types">
+        <button type="button" class="download-button paid-flow-back" onclick="handlePaidFlowBack()" aria-label="Back to paid download types" title="Back to paid download types">
           <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
             <path d="M19 12H5m7 7-7-7 7-7"></path>
           </svg>
@@ -587,8 +587,24 @@
         <form id="requestDownloadForm" class="download-form request-form" hidden>
           <h3 id="requestFormTitle">Paid Download</h3>
           <fieldset id="softCopyFormats" class="soft-copy-formats" aria-label="Soft copy formats" hidden>
-            <label><input type="checkbox" name="softCopyFormat" value="JPG" checked> JPG</label>
-            <label><input type="checkbox" name="softCopyFormat" value="PDF" checked> PDF</label>
+            <div class="soft-copy-format-list">
+              <label class="soft-copy-format-option">
+                <span class="soft-copy-format-title"><input type="radio" name="softCopyFormat" value="JPG" checked> JPG</span>
+                <ul class="soft-copy-format-benefits">
+                  <li data-en="Fair price" data-my="အကုန်အကျသက်သာခြင်း">Fair price</li>
+                  <li data-en="Suitable image quality" data-my="သင့်တော်သော ရုပ်ထွက်အရည်အသွေးရှိသည်။">Suitable image quality</li>
+                  <li data-en="Smaller file size" data-my="ဖိုင်အရွယ်အစား သေးငယ်သည်။">Smaller file size</li>
+                </ul>
+              </label>
+              <label class="soft-copy-format-option">
+                <span class="soft-copy-format-title"><input type="radio" name="softCopyFormat" value="PDF"> PDF</span>
+                <ul class="soft-copy-format-benefits">
+                  <li data-en="High image quality" data-my="ရုပ်ထွက်ကောင်းမွန်သည်။">High image quality</li>
+                  <li data-en="Free size" data-my="အရွယ်အစား လွတ်လပ်စွာ ရရှိသည်။">Free size</li>
+                  <li data-en="Can be printed on Vinyl / Photopaper" data-my="Vinyl / Photopaper အဖြစ် ပုံနှိပ်နိုင်သည်။">Can be printed on Vinyl / Photopaper</li>
+                </ul>
+              </label>
+            </div>
           </fieldset>
           <div id="plottingProductChoices" class="plotting-product-choices" role="group" aria-label="Plotting material" hidden>
             <button type="button" class="plotting-product-choice" data-product-value="vinyl" aria-pressed="false">

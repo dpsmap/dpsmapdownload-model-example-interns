@@ -438,6 +438,12 @@ function downloadCurrentMap() {
   link.remove();
 }
 
+function updatePaidFlowBackLabel(label) {
+  const button = document.querySelector(".paid-flow-back");
+  button.setAttribute("aria-label", label);
+  button.title = label;
+}
+
 function showDownloadForm(kind) {
   const forms = document.getElementById("downloadForms");
   const dialog = document.getElementById("mapDialog");
@@ -454,6 +460,7 @@ function showDownloadForm(kind) {
   document.getElementById("downloadFormStatus").textContent = "";
   forms.hidden = isPaid;
   if (isPaid) {
+    updatePaidFlowBackLabel("Back to map");
     document.getElementById("paidDownloadChoices").scrollIntoView({ behavior: "smooth", block: "nearest" });
   } else {
     forms.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -474,6 +481,7 @@ function showPaidDownloadCategory(category) {
     category === "soft-copy" ? "Soft copy" : "Plotting";
   const isSoftCopy = category === "soft-copy";
   const isPlotting = category === "plotting";
+  updatePaidFlowBackLabel("Back to paid download types");
   document.getElementById("softCopyFormats").hidden = !isSoftCopy;
   document.querySelectorAll('input[name="softCopyFormat"]').forEach(input => {
     input.disabled = !isSoftCopy;
@@ -497,6 +505,27 @@ function showPaidDownloadCategory(category) {
   customHeight.value = "";
   updateRequestPrice();
   forms.hidden = false;
+}
+
+function handlePaidFlowBack() {
+  const paidDownloadChoices = document.getElementById("paidDownloadChoices");
+  if (paidDownloadChoices.hidden) {
+    showDownloadForm("paid");
+    return;
+  }
+
+  const dialog = document.getElementById("mapDialog");
+  dialog.classList.remove("download-flow-only");
+  document.getElementById("selectedImage").hidden = false;
+  document.getElementById("imageCaption").hidden = false;
+  document.getElementById("downloadActions").hidden = false;
+  paidDownloadChoices.hidden = true;
+  document.getElementById("downloadForms").hidden = true;
+  document.getElementById("freeDownloadForm").hidden = true;
+  document.getElementById("requestDownloadForm").hidden = true;
+  document.getElementById("kpayPanel").hidden = true;
+  document.getElementById("downloadFormStatus").textContent = "";
+  document.getElementById("downloadActions").scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 const requestMapProduct = document.getElementById("requestMapProduct");
