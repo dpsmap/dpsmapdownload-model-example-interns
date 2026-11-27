@@ -712,6 +712,7 @@
         <h3>Pay with KBZPay</h3>
         <p id="kpaySelectedMap" class="kpay-selected-map"></p>
         <p id="kpayOrderSummary" class="kpay-order-summary"></p>
+        <p id="kpayTokenNumber" class="kpay-token-number"></p>
         <p>Scan the KBZPay QR code and enter the displayed total.<br><strong>Aye Minn Oo (*****0177)</strong></p>
         <div class="kpay-qr-frame">
           <img src="assets/payment/kpay-qr.png" alt="KBZPay payment QR code"
@@ -1218,6 +1219,13 @@
                 language = nextLanguage === "my" ? "my" : "en";
                 document.documentElement.lang = language;
                 document.title = language === "my" ? "မြန်မာနိုင်ငံမြေပုံများ ဒေါင်းလုဒ်ရယူရန် | DPS Map" : "Download Myanmar Maps | DPS Map";
+                const kpayTokenElement = document.getElementById("kpayTokenNumber");
+                if (kpayTokenElement && kpayTokenElement.textContent) {
+                    const tokenNumber = kpayTokenElement.textContent.match(/\d+$/)?.[0];
+                    if (tokenNumber) {
+                        kpayTokenElement.textContent = `${language === "my" ? "တိုကင်နံပါတ်" : "Token Number"} - ${tokenNumber}`;
+                    }
+                }
                 document.querySelectorAll("[data-en][data-my]").forEach((element) => {
                     element.textContent = element.dataset[language];
                 });

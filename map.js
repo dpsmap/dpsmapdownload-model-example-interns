@@ -245,6 +245,8 @@ document.addEventListener("click", event => {
 const paidMapSelection = document.getElementById("paidMapSelection");
 const paidMapVersionField = document.getElementById("paidMapVersionField");
 const paidMapChoiceButtons = document.querySelectorAll("#paidDownloadChoices .paid-download-choice .download-button");
+const kpayTokenStorageKey = "dpsmap-kpay-token-counter";
+let kpayFallbackToken = 0;
 const regionMaps = {
       "Yangon Region": [["assets/regions/yangon.jpg", "Yangon Region"], ["assets/regions/yangon-overview.png", "Yangon Region overview map"]],
       "Mandalay Region": [["assets/regions/mandalay.jpg", "Mandalay Region"]],
@@ -921,6 +923,24 @@ plottingProductChoices.addEventListener("click", event => {
 });
 updateRequestPrice();
 
+function getNextKpayTokenNumber() {
+  let currentToken = 0;
+  try {
+    currentToken = Number.parseInt(localStorage.getItem(kpayTokenStorageKey) || "0", 10);
+    if (!Number.isInteger(currentToken) || currentToken < 0) currentToken = 0;
+  } catch {
+    currentToken = kpayFallbackToken;
+  }
+
+  const nextToken = currentToken + 1;
+  try {
+    localStorage.setItem(kpayTokenStorageKey, String(nextToken));
+  } catch {
+    kpayFallbackToken = nextToken;
+  }
+  return nextToken;
+}
+
 document.getElementById("freeDownloadForm").addEventListener("submit", event => {
   event.preventDefault();
   downloadCurrentMap();
@@ -987,6 +1007,9 @@ document.getElementById("requestDownloadForm").addEventListener("submit", event 
       input.dataset[`summary${document.documentElement.lang === "my" ? "My" : "En"}`]
     )
     : [];
+  const tokenNumber = getNextKpayTokenNumber();
+  const tokenLabel = document.documentElement.lang === "my" ? "တိုကင်နံပါတ်" : "Token Number";
+  document.getElementById("kpayTokenNumber").textContent = `${tokenLabel} - ${tokenNumber}`;
   document.getElementById("kpayOrderSummary").textContent =
     [productLabel, sizeLabel, ...selectedFinishes, `Total: ${money(total)}`].join(" · ");
   document.getElementById("downloadFormStatus").textContent = "";

@@ -613,4 +613,5 @@ body { min-width: 320px; overflow-x: clip; }
 .request-price { margin: 0; padding: 12px; border: 1px solid #d7e3f3; border-radius: 8px; background: #eef5ff; color: #173b68; font-size: 15px; font-weight: 700; text-align: left; }
 .request-info-note { justify-self: center; width: fit-content; max-width: 100%; margin: -4px 0 0; padding: 8px 10px; border: 1px solid #ffe69c; border-radius: 6px; background: #ffe082; color: #5f4b00; font-size: 13px; text-align: center; }
 .kpay-order-summary { margin: 10px auto 14px !important; padding: 12px; width: min(100%, 480px); border-radius: 8px; background: #eef5ff; color: #173b68 !important; font-weight: 700; }
+.kpay-token-number { margin: 8px auto 10px !important; color: #1e40af !important; font-size: 18px; font-weight: 800; }
 .kpay-confirmation-note { margin: 10px 0 14px !important; padding: 8px 10px; border: 1px solid #ffe69c; border-radius: 6px; background: #fff3cd; color: #664d03 !important; text-align: center; }
