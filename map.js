@@ -539,7 +539,11 @@ const customHeight = document.getElementById("customHeight");
 const requestPrice = document.getElementById("requestPrice");
 const money = amount => `${Number(amount).toLocaleString("en-US")} MMK`;
 const standardPlotSizes = ["2x3", "3x4", "4x6"];
+const myanmarPlotSizes = ["2x4", "3x6", "4x8"];
 const mapPlotSizes = {
+  "myanmar map": myanmarPlotSizes,
+  "english — myanmar map": myanmarPlotSizes,
+  "myanmar — myanmar map": myanmarPlotSizes,
   "taikkyi city map": standardPlotSizes,
   "taikkyi township map": [],
   "yangon city map": ["3x4", "4x6"],
