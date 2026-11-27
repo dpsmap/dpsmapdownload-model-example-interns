@@ -572,15 +572,17 @@
       </section>
       <section id="paidDownloadChoices" class="paid-download-choices" hidden aria-labelledby="paidDownloadChoicesTitle">
         <div class="paid-download-choice">
-          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')">Soft copy</button>
-          <p>JPG/PDF<br>Digital Map</p>
+          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')">
+            <span class="paid-download-choice-label">Soft copy</span>
+            <span class="paid-download-choice-description">JPG/PDF<br>Digital Map</span>
+          </button>
         </div>
         <div class="paid-download-choice paid-download-choice--popular">
           <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('plotting')">
             <span class="paid-download-choice-label">Plotting</span>
             <span class="paid-download-popular-badge"><span aria-hidden="true">🔥</span><span data-en="More Popular" data-my="ပိုမိုလူကြိုက်များ">More Popular</span></span>
+            <span class="paid-download-choice-description">Various Sizes<br>Hardware Map</span>
           </button>
-          <p>Various Sizes <br>Hardware Map</p>
         </div>
       </section>
       <section id="downloadForms" class="download-forms" hidden>
