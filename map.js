@@ -90,7 +90,6 @@ function showUnavailableMap(title, showPopup = true) {
   document.getElementById("downloadActions").hidden = true;
   document.getElementById("paidDownloadChoices").hidden = true;
   document.getElementById("downloadForms").hidden = true;
-  document.getElementById("requestBackButton").hidden = true;
   document.getElementById("kpayPanel").hidden = true;
   document.getElementById("freeDownloadForm").hidden = true;
   document.getElementById("requestDownloadForm").hidden = true;
@@ -135,7 +134,6 @@ function setImage(src, title, caption, alt, showPopup = true, briefType = "") {
   document.getElementById("downloadActions").hidden = false;
   document.getElementById("paidDownloadChoices").hidden = true;
   document.getElementById("downloadForms").hidden = true;
-  document.getElementById("requestBackButton").hidden = true;
   document.getElementById("freeDownloadForm").hidden = true;
   document.getElementById("requestDownloadForm").hidden = true;
   document.getElementById("downloadFormStatus").textContent = "";
@@ -451,7 +449,6 @@ function showDownloadForm(kind) {
   document.getElementById("downloadActions").hidden = true;
   document.getElementById("kpayPanel").hidden = true;
   document.getElementById("paidDownloadChoices").hidden = !isPaid;
-  document.getElementById("requestBackButton").hidden = true;
   document.getElementById("freeDownloadForm").hidden = !isFree;
   document.getElementById("requestDownloadForm").hidden = true;
   document.getElementById("downloadFormStatus").textContent = "";
@@ -469,54 +466,43 @@ function showPaidDownloadCategory(category) {
   }
   const forms = document.getElementById("downloadForms");
   const requestForm = document.getElementById("requestDownloadForm");
-  const isPlotting = category === "plotting";
-  updatePlotSizeOptions();
   document.getElementById("paidDownloadChoices").hidden = true;
   requestForm.hidden = false;
-  document.getElementById("requestBackButton").hidden = false;
   currentPaidCategory = category;
+  const availableSizes = updatePlotSizeOptions();
   document.getElementById("requestFormTitle").textContent =
     category === "soft-copy" ? "Soft copy" : "Plotting";
   const isSoftCopy = category === "soft-copy";
   document.getElementById("softCopyFormats").hidden = !isSoftCopy;
-  plottingProductChoices.hidden = !isPlotting;
-  selectedPlotProduct = null;
-  plottingProductChoices.querySelectorAll(".plotting-product-choice").forEach(button => {
-    button.setAttribute("aria-pressed", "false");
+  document.querySelectorAll('input[name="softCopyFormat"]').forEach(input => {
+    input.disabled = !isSoftCopy;
+    input.required = isSoftCopy;
   });
-  requestMapProductField.hidden = true;
-  requestMapProduct.disabled = true;
-  requestMapProduct.required = false;
+  document.getElementById("requestMapProductField").hidden = isSoftCopy;
+  requestMapProduct.disabled = isSoftCopy;
+  requestMapProduct.required = !isSoftCopy;
+  requestMapProduct.querySelectorAll("optgroup").forEach(group => {
+    group.hidden = group.dataset.category !== category;
+    group.disabled = group.dataset.category === "plotting" && availableSizes.length === 0;
+  });
   requestMapProduct.value = "";
   requestMapSize.value = "";
-  requestMapSizeField.hidden = true;
-  requestMapSize.disabled = true;
-  requestMapSize.required = false;
-  if (isPlotting) {
-    requestMapProductField.after(requestReasonField);
-  } else {
-    requestInfoNote.after(requestReasonField);
-  }
+  customWidth.value = "";
+  customHeight.value = "";
   updateRequestPrice();
-  requestPrice.hidden = false;
   forms.hidden = false;
-  forms.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 const requestMapProduct = document.getElementById("requestMapProduct");
-const requestMapProductField = document.getElementById("requestMapProductField");
 const requestMapSize = document.getElementById("requestMapSize");
 const requestMapSizeField = document.getElementById("requestMapSizeField");
-const requestReasonField = document.getElementById("requestReasonField");
-const requestInfoNote = document.getElementById("requestInfoNote");
-const plottingProductChoices = document.getElementById("plottingProductChoices");
+const customDimensions = document.getElementById("customDimensions");
+const customWidth = document.getElementById("customWidth");
+const customHeight = document.getElementById("customHeight");
 const requestPrice = document.getElementById("requestPrice");
 const money = amount => `${Number(amount).toLocaleString("en-US")} MMK`;
 const standardPlotSizes = ["2x3", "3x4", "4x6"];
 const mapPlotSizes = {
-  "myanmar map": standardPlotSizes,
-  "english — myanmar map": standardPlotSizes,
-  "myanmar — myanmar map": standardPlotSizes,
   "taikkyi city map": standardPlotSizes,
   "taikkyi township map": [],
   "yangon city map": ["3x4", "4x6"],
@@ -543,7 +529,6 @@ const mapPlotSizes = {
 };
 let currentMapPlotSizes = [];
 let currentPaidCategory = "";
-let selectedPlotProduct = null;
 
 function updatePlotSizeOptions() {
   const mapTitle = currentMapTitle.trim().toLowerCase();
@@ -580,61 +565,45 @@ function updatePlotSizeOptions() {
   return currentMapPlotSizes;
 }
 
-function getSelectedPlotSize() {
-  if (!currentMapPlotSizes.includes(requestMapSize.value)) return null;
-  const [width, height] = requestMapSize.value.split("x").map(Number);
-  return {
-    area: width * height,
-    label: requestMapSize.options[requestMapSize.selectedIndex].text
-  };
-}
-
 function updateRequestPrice() {
-  if (currentPaidCategory === "plotting") {
-    requestMapSizeField.hidden = !selectedPlotProduct || currentMapPlotSizes.length === 0;
-    requestMapSize.disabled = !selectedPlotProduct || currentMapPlotSizes.length === 0;
-    requestMapSize.required = Boolean(selectedPlotProduct) && currentMapPlotSizes.length > 0;
-    const size = getSelectedPlotSize();
-    if (!selectedPlotProduct) {
-      requestPrice.textContent = currentMapPlotSizes.length
-        ? "Select a material to view map sizes and calculate the total."
-        : "Select a material. No size is listed for this map; contact DPS Map to confirm the total.";
-      return;
-    }
-    if (!size) {
-      requestPrice.textContent = currentMapPlotSizes.length
-        ? `Rate: ${money(selectedPlotProduct.rate)} per sq ft. Select a map size to calculate the total.`
-        : `Rate: ${money(selectedPlotProduct.rate)} per sq ft. No size is listed for this map; contact DPS Map to confirm the total.`;
-      return;
-    }
-    const total = size.area * selectedPlotProduct.rate;
-    requestPrice.textContent = `Total price: ${money(total)} (${size.label}, ${size.area.toLocaleString("en-US")} sq ft × ${money(selectedPlotProduct.rate)}/sq ft)`;
-    return;
-  }
   const isSoftCopy = currentPaidCategory === "soft-copy";
-  if (isSoftCopy) {
-    requestMapSizeField.hidden = true;
-    requestMapSize.disabled = true;
-    requestMapSize.required = false;
-    requestPrice.textContent = "Soft copy pricing will be confirmed before payment.";
-    return;
-  }
   const product = requestMapProduct.options[requestMapProduct.selectedIndex];
   const rate = Number(product?.dataset.rate || 0);
   const fixedPrice = Number(product?.dataset.price || 0);
   const isAreaPrice = rate > 0;
+  if (isSoftCopy) {
+    requestPrice.hidden = true;
+    requestMapSizeField.hidden = true;
+    requestMapSize.disabled = true;
+    requestMapSize.required = false;
+    customDimensions.hidden = true;
+    customWidth.required = false;
+    customHeight.required = false;
+    return;
+  }
+  requestPrice.hidden = false;
   requestMapSizeField.hidden = !isAreaPrice;
   requestMapSize.disabled = !isAreaPrice;
   requestMapSize.required = isAreaPrice;
   if (!isAreaPrice) requestMapSize.value = "";
+  const isCustom = isAreaPrice && requestMapSize.value === "custom";
+  customDimensions.hidden = !isCustom;
+  customWidth.required = isCustom;
+  customHeight.required = isCustom;
 
   if (!product || !product.value) {
-    requestPrice.textContent = "Select a product and size to calculate the price.";
+    requestPrice.textContent = currentPaidCategory === "plotting" && !currentMapPlotSizes.length
+      ? "No plotting sizes are listed for this map."
+      : "Select a product and size to calculate the price.";
     return;
   }
   if (fixedPrice) {
     const format = product.value.endsWith("a3") ? "Fixed A3 size" : "Digital copy";
     requestPrice.textContent = `Total price: ${money(fixedPrice)} (${format})`;
+    return;
+  }
+  if (!currentMapPlotSizes.length) {
+    requestPrice.textContent = "No plotting sizes are listed for this map.";
     return;
   }
   if (!requestMapSize.value) {
@@ -643,28 +612,28 @@ function updateRequestPrice() {
   }
   let area;
   let sizeLabel;
-  const [width, height] = requestMapSize.value.split("x").map(Number);
-  area = width * height;
-  sizeLabel = requestMapSize.options[requestMapSize.selectedIndex].text;
+  if (isCustom) {
+    const width = Number(customWidth.value);
+    const height = Number(customHeight.value);
+    if (!(width > 0 && height > 0)) {
+      requestPrice.textContent = `Rate: ${money(rate)} per sq ft. Enter width and height to calculate the total.`;
+      return;
+    }
+    area = width * height;
+    sizeLabel = `${width} × ${height} ft`;
+  } else {
+    const [width, height] = requestMapSize.value.split("x").map(Number);
+    area = width * height;
+    sizeLabel = `${width} × ${height} ft`;
+  }
   const total = area * rate;
   requestPrice.textContent = `Total price: ${money(total)} (${sizeLabel}, ${area.toLocaleString("en-US")} sq ft × ${money(rate)}/sq ft)`;
 }
 
 requestMapProduct.addEventListener("change", updateRequestPrice);
 requestMapSize.addEventListener("change", updateRequestPrice);
-plottingProductChoices.addEventListener("click", event => {
-  const button = event.target.closest(".plotting-product-choice");
-  if (!button) return;
-  selectedPlotProduct = {
-    name: button.dataset.productName,
-    rate: Number(button.dataset.rate)
-  };
-  plottingProductChoices.querySelectorAll(".plotting-product-choice").forEach(option => {
-    option.setAttribute("aria-pressed", String(option === button));
-  });
-  document.getElementById("downloadFormStatus").textContent = "";
-  updateRequestPrice();
-});
+customWidth.addEventListener("input", updateRequestPrice);
+customHeight.addEventListener("input", updateRequestPrice);
 updateRequestPrice();
 
 document.getElementById("freeDownloadForm").addEventListener("submit", event => {
@@ -673,46 +642,54 @@ document.getElementById("freeDownloadForm").addEventListener("submit", event => 
   document.getElementById("downloadFormStatus").textContent = "Your map download has started.";
 });
 
-function showKpayPanel(productLabel, sizeLabel, total) {
-  document.getElementById("requestBackButton").hidden = true;
-  document.getElementById("kpayOrderSummary").textContent =
-    `${productLabel} · ${sizeLabel} · Total: ${money(total)}`;
+
+
+
+document.getElementById("requestDownloadForm").addEventListener("submit", event => {
+  event.preventDefault();
+  let productLabel;
+  let sizeLabel = "";
+  let total;
+  if (currentPaidCategory === "soft-copy") {
+    const selectedFormat = document.querySelector('input[name="softCopyFormat"]:checked');
+    if (!selectedFormat) {
+      document.getElementById("downloadFormStatus").textContent =
+        "Select a Soft copy format before submitting.";
+      return;
+    }
+    const productOption = Array.from(requestMapProduct.options).find(option =>
+      option.value === selectedFormat.value.toLowerCase()
+    );
+    if (!productOption) throw new Error(`Unknown Soft copy format: ${selectedFormat.value}`);
+    productLabel = selectedFormat.value;
+    sizeLabel = "Digital copy";
+    total = Number(productOption.dataset.price);
+    if (!(total > 0)) throw new Error(`Missing price for Soft copy format: ${selectedFormat.value}`);
+  } else {
+    const productLabels = { pdf: "PDF", jpg: "JPG", vinyl: "Vinyl", photopaper: "Photopaper", sticker: "Sticker" };
+    productLabel = productLabels[requestMapProduct.value];
+    if (!productLabel) throw new Error(`Unknown paid download product: ${requestMapProduct.value}`);
+    total = Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.price || 0);
+    if (requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate) {
+      if (requestMapSize.value === "custom") {
+        const width = Number(customWidth.value);
+        const height = Number(customHeight.value);
+        sizeLabel = `${width} × ${height} ft`;
+        total = width * height * Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate);
+      } else {
+        const [width, height] = requestMapSize.value.split("x").map(Number);
+        sizeLabel = `${width} × ${height} ft`;
+        total = width * height * Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate);
+      }
+    } else {
+      sizeLabel = requestMapProduct.value.endsWith("a3") ? "A3" : "Digital copy";
+    }
+  }
+  document.getElementById("kpayOrderSummary").textContent = `${productLabel} · ${sizeLabel} · Total: ${money(total)}`;
   document.getElementById("downloadFormStatus").textContent = "";
   document.getElementById("downloadForms").hidden = true;
   document.getElementById("kpayPanel").hidden = false;
   document.getElementById("kpayPanel").scrollIntoView({ behavior: "smooth", block: "nearest" });
-}
-
-document.getElementById("requestDownloadForm").addEventListener("submit", event => {
-  event.preventDefault();
-  if (currentPaidCategory === "soft-copy") {
-    const selectedFormats = document.querySelectorAll('input[name="softCopyFormat"]:checked');
-    if (!selectedFormats.length) {
-      document.getElementById("downloadFormStatus").textContent =
-        "Select at least one Soft copy format before submitting.";
-      return;
-    }
-    document.getElementById("downloadFormStatus").textContent =
-      "Soft copy pricing must be confirmed before payment. No payment has been started.";
-    return;
-  }
-  if (currentPaidCategory === "plotting") {
-    if (!selectedPlotProduct) {
-      document.getElementById("downloadFormStatus").textContent =
-        "Select Vinyl, Photopaper, or Sticker to continue.";
-      return;
-    }
-    const size = getSelectedPlotSize();
-    if (!size) {
-      document.getElementById("downloadFormStatus").textContent = currentMapPlotSizes.length
-        ? "Select a map size to continue."
-        : "No size is listed for this map. Please contact DPS Map to confirm the total before making payment.";
-      return;
-    }
-    showKpayPanel(selectedPlotProduct.name, size.label, size.area * selectedPlotProduct.rate);
-    return;
-  }
-  throw new Error(`Unknown paid download category: ${currentPaidCategory}`);
 });
 
 function hideKpayPanel() {

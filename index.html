@@ -596,31 +596,32 @@
         </form>
         <form id="requestDownloadForm" class="download-form request-form" hidden>
           <h3 id="requestFormTitle">Paid Download</h3>
-          <div id="plottingProductChoices" class="plotting-product-choices" role="group" aria-label="Plotting material" hidden>
-              <button type="button" class="plotting-product-choice" data-product-name="Vinyl" data-rate="15000" aria-pressed="false">
-                <span>Vinyl</span>
-                <small>15,000 MMK / sq ft</small>
-                <small class="material-description" data-en="Durable, water-resistant, and affordable. For hanging, four holes can be made for rings. For sticking, a white margin is left for adhesive." data-my="အကြမ်းခံပြီး ရေစိုခံနိုင်ကာ ဈေးနှုန်းလည်း သက်သာသည်။ ချိတ်ဆွဲအသုံးပြုမည်ဆိုပါက ကွင်းတပ်ရန် အပေါက် ၄ ပေါက် ဖောက်ပေးနိုင်ပြီး၊ ကပ်၍အသုံးပြုမည်ဆိုပါက ကပ်ရန်အတွက် အဖြူသားချန်ပေးသည်။">အကြမ်းခံပြီး ရေစိုခံနိုင်ကာ ဈေးနှုန်းလည်း သက်သာသည်။ ချိတ်ဆွဲအသုံးပြုမည်ဆိုပါက ကွင်းတပ်ရန် အပေါက် ၄ ပေါက် ဖောက်ပေးနိုင်ပြီး၊ ကပ်၍အသုံးပြုမည်ဆိုပါက ကပ်ရန်အတွက် အဖြူသားချန်ပေးသည်။</small>
-              </button>
-              <button type="button" class="plotting-product-choice" data-product-name="Photopaper" data-rate="27000" aria-pressed="false">
-                <span>Photopaper</span>
-                <small>27,000 MMK / sq ft</small>
-                <small class="material-description" data-en="Smooth surface and high-quality printing produce vivid images and colors. It is less durable. Free waterproof laminate is included in Glossy or Matte; Glossy reflects light like a mirror." data-my="မျက်နှာပြင်နူးညံ့ပြီး ဆေးသားအရည်အသွေးကောင်းမွန်ကာ ပုံရိပ်နှင့် အရောင်အသွေးလှပသည်။ အကြမ်းခံနိုင်စွမ်းအားနည်းသည်။ ရေစိုခံ Laminate ကို အခမဲ့ လောင်းပေးပြီး အပြောင် (Glossy) နှင့် အမှိန် (Matte) နှစ်မျိုးရှိသည်။ အပြောင်အမျိုးအစားမှာ မှန်ကဲ့သို့ အလင်းပြန်တတ်သည်။">မျက်နှာပြင်နူးညံ့ပြီး ဆေးသားအရည်အသွေးကောင်းမွန်ကာ ပုံရိပ်နှင့် အရောင်အသွေးလှပသည်။ အကြမ်းခံနိုင်စွမ်းအားနည်းသည်။ ရေစိုခံ Laminate ကို အခမဲ့ လောင်းပေးပြီး အပြောင် (Glossy) နှင့် အမှိန် (Matte) နှစ်မျိုးရှိသည်။ အပြောင်အမျိုးအစားမှာ မှန်ကဲ့သို့ အလင်းပြန်တတ်သည်။</small>
-              </button>
-              <button type="button" class="plotting-product-choice" data-product-name="Sticker" data-rate="27000" aria-pressed="false">
-                <span>Sticker</span>
-                <small>27,000 MMK / sq ft</small>
-                <small class="material-description" data-en="Adheres to walls, glass, and other surfaces, including in meeting rooms. It comes with an adhesive backing. Free waterproof laminate is included." data-my="အစည်းအဝေးခန်းများတွင် နံရံ၊ မှန်နှင့် အခြားမျက်နှာပြင်များပေါ်၌ ကပ်၍အသုံးပြုနိုင်သည်။ ကပ်ခွာပုံစံဖြင့် အသုံးပြုနိုင်သည်။ ရေစိုခံ Laminate ကို အခမဲ့ လောင်းပေးသည်။">အစည်းအဝေးခန်းများတွင် နံရံ၊ မှန်နှင့် အခြားမျက်နှာပြင်များပေါ်၌ ကပ်၍အသုံးပြုနိုင်သည်။ ကပ်ခွာပုံစံဖြင့် အသုံးပြုနိုင်သည်။ ရေစိုခံ Laminate ကို အခမဲ့ လောင်းပေးသည်။</small>
-              </button>
-          </div>
           <fieldset id="softCopyFormats" class="soft-copy-formats" aria-label="Soft copy formats" hidden>
-            <label><input type="checkbox" name="softCopyFormat" value="JPG" checked> JPG</label>
-            <label><input type="checkbox" name="softCopyFormat" value="PDF" checked> PDF</label>
+            <legend data-en="Select one format" data-my="ဖိုင်အမျိုးအစားတစ်ခု ရွေးချယ်ပါ">Select one format</legend>
+            <div class="soft-copy-format-list">
+              <label class="soft-copy-format-option">
+                <span class="soft-copy-format-title"><input type="radio" name="softCopyFormat" value="JPG" required disabled><span data-en="JPG (150,000 MMK)" data-my="JPG (၁၅၀,၀၀၀ ကျပ်)">JPG (150,000 MMK)</span></span>
+                <ul class="soft-copy-format-benefits">
+                  <li data-en="Affordable cost" data-my="အကုန်အကျသက်သာခြင်း">အကုန်အကျသက်သာခြင်း</li>
+                  <li data-en="Good, suitable image quality" data-my="သင့်တင့်သော အရည်အသွေးရှိခြင်း">သင့်တင့်သော အရည်အသွေးရှိခြင်း</li>
+                  <li data-en="Lightweight file size" data-my="ပေါ့ပါးသော file size ရှိခြင်း">ပေါ့ပါးသော file size ရှိခြင်း</li>
+                </ul>
+              </label>
+              <label class="soft-copy-format-option">
+                <span class="soft-copy-format-title"><input type="radio" name="softCopyFormat" value="PDF" required disabled><span data-en="PDF (350,000 MMK)" data-my="PDF (၃၅၀,၀၀၀ ကျပ်)">PDF (350,000 MMK)</span></span>
+                <ul class="soft-copy-format-benefits">
+                  <li data-en="High-quality output" data-my="ရုပ်ထွက်ကောင်းမွန်ခြင်း">ရုပ်ထွက်ကောင်းမွန်ခြင်း</li>
+                  <li data-en="Available in any size" data-my="Free size ရရှိနိုင်ခြင်း">Free size ရရှိနိုင်ခြင်း</li>
+                  <li data-en="Can be printed on Vinyl or Photopaper" data-my="Vinyl / Photopaper အဖြစ်ပုံထုတ်နိုင်ခြင်း">Vinyl / Photopaper အဖြစ်ပုံထုတ်နိုင်ခြင်း</li>
+                </ul>
+              </label>
+            </div>
           </fieldset>
           <div class="shared-form-grid">
             <label>Full name<input name="name" autocomplete="name" placeholder="Your name" required></label>
             <label>Email address<input name="email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
             <label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="09xxxxxxxxx" required></label>
+            <label>Reason for download<input name="reason" placeholder="Tell us why you need this map" required></label>
             <label id="requestMapProductField">Map product / print type
               <select id="requestMapProduct" name="mapProduct" required>
                 <option value="" selected disabled>Select a product</option>
@@ -643,9 +644,12 @@
                 <option value="4x6">4 × 6 ft</option>
               </select>
             </label>
+            <div id="customDimensions" class="custom-dimensions" hidden>
+              <label>Width (ft)<input id="customWidth" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="Width in feet"></label>
+              <label>Height (ft)<input id="customHeight" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="Height in feet"></label>
+            </div>
             <p id="requestPrice" class="request-price wide-field" aria-live="polite">Select a product and size to calculate the price.</p>
-            <p id="requestInfoNote" class="request-info-note wide-field" data-en="Please ensure that your email and phone number are correct to ensure accurate submission." data-my="အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။">အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။</p>
-            <label id="requestReasonField">Reason for download<input name="reason" placeholder="Tell us why you need this map" required></label>
+            <p class="request-info-note wide-field" data-en="Please ensure that your email and phone number are correct to ensure accurate submission." data-my="အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။">အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။</p>
           </div>
           <button type="submit" class="download-button request-button">Submit request</button>
         </form>
@@ -700,9 +704,6 @@
                 "Download options": "ဒေါင်းလုဒ်ရွေးချယ်စရာများ",
                 "Paid download type": "အခပေးဒေါင်းလုဒ်အမျိုးအစား",
                 "More Popular": "ပိုမိုလူကြိုက်များ",
-                "Digital Map": "ဒစ်ဂျစ်တယ်မြေပုံ",
-                "Various Sizes": "အရွယ်အစားအမျိုးမျိုး",
-                "Hardware Map": "ပုံနှိပ်မြေပုံ",
                 "Regions and states": "တိုင်းဒေသကြီးနှင့် ပြည်နယ်များ",
                 "Townships": "မြို့နယ်များ",
                 "Popular map": "လူကြိုက်များသောမြေပုံ",
@@ -739,6 +740,7 @@
                 "Fixed A3 size": "A3 အရွယ်အစား",
                 "Digital copy": "ဒစ်ဂျစ်တယ်မိတ္တူ",
                 "A3": "A3",
+                "Custom dimensions": "စိတ်ကြိုက်အတိုင်းအတာ",
                 "Select a map size": "မြေပုံအရွယ်အစားကို ရွေးပါ",
                 "No sizes listed for this map": "ဤမြေပုံအတွက် အရွယ်အစား မရှိပါ",
                 "No plotting sizes are listed for this map.": "ဤမြေပုံအတွက် ပုံနှိပ်အရွယ်အစားများ မရှိပါ။",
@@ -781,17 +783,12 @@
                 "Soft copy — PDF (350,000 MMK)": "Soft Copy — PDF (၃၅၀,၀၀၀ ကျပ်)",
                 "Soft copy — JPG (150,000 MMK)": "Soft Copy — JPG (၁၅၀,၀၀၀ ကျပ်)",
                 "Map size": "မြေပုံအရွယ်အစား",
-                "Select a map size": "မြေပုံအရွယ်အစားကို ရွေးချယ်ပါ",
-                "No sizes listed for this map": "ဤမြေပုံအတွက် အရွယ်အစားစာရင်းမရှိပါ",
+                "Width (ft)": "အကျယ် (ပေ)",
+                "Height (ft)": "အမြင့် (ပေ)",
+                "Width in feet": "အကျယ်ကို ပေဖြင့်ထည့်ပါ",
+                "Height in feet": "အမြင့်ကို ပေဖြင့်ထည့်ပါ",
                 "Select a product and size to calculate the price.": "ဈေးနှုန်းတွက်ချက်ရန် ထုတ်ကုန်နှင့် အရွယ်အစားကို ရွေးချယ်ပါ။",
-                "Select a material to view map sizes and calculate the total.": "မြေပုံအရွယ်အစားကြည့်ရန်နှင့် စုစုပေါင်းတွက်ချက်ရန် ပစ္စည်းအမျိုးအစားကို ရွေးချယ်ပါ။",
-                "Select Vinyl, Photopaper, or Sticker to continue.": "ဆက်လက်ရန် Vinyl၊ Photopaper သို့မဟုတ် Sticker ကို ရွေးချယ်ပါ။",
-                "Select a material. No size is listed for this map; contact DPS Map to confirm the total.": "ပစ္စည်းအမျိုးအစားကို ရွေးချယ်ပါ။ ဤမြေပုံအတွက် အရွယ်အစားစာရင်းမရှိပါ၊ စုစုပေါင်းဈေးနှုန်းအတည်ပြုရန် DPS Map ကို ဆက်သွယ်ပါ။",
-                "Select a map size to continue.": "ဆက်လက်လုပ်ဆောင်ရန် မြေပုံအရွယ်အစားကို ရွေးချယ်ပါ။",
-                "No size is listed for this map. Please contact DPS Map to confirm the total before making payment.": "ဤမြေပုံအတွက် အရွယ်အစားစာရင်းမရှိပါ။ ငွေမပေးချေမီ စုစုပေါင်းဈေးနှုန်းအတည်ပြုရန် DPS Map ကို ဆက်သွယ်ပါ။",
-                "Soft copy pricing will be confirmed before payment.": "Soft copy ဈေးနှုန်းကို ငွေမချေမီ အတည်ပြုပေးပါမည်။",
-                "Soft copy pricing must be confirmed before payment. No payment has been started.": "Soft copy ဈေးနှုန်းကို အရင်အတည်ပြုပါ။ ငွေပေးချေမှု မစတင်ရသေးပါ။",
-                "Select at least one Soft copy format before submitting.": "တင်သွင်းရန် Soft copy အမျိုးအစား အနည်းဆုံးတစ်ခု ရွေးချယ်ပါ။",
+                "Select a Soft copy format before submitting.": "မတင်သွင်းမီ Soft copy ဖိုင်အမျိုးအစားတစ်ခု ရွေးချယ်ပါ။",
                 "Submit & download map": "တင်သွင်းပြီး မြေပုံဒေါင်းလုဒ်ရယူရန်",
                 "Submit request": "တောင်းဆိုမှုတင်သွင်းရန်",
                 "Pay with KBZPay": "KBZPay ဖြင့်ငွေပေးချေရန်",
@@ -1090,8 +1087,8 @@
                             ? [/^Rate: (.+) per sq ft\. Select a map size to calculate the total\.$/, "နှုန်းထား: တစ်စတုရန်းပေလျှင် $1။ စုစုပေါင်းတွက်ရန် မြေပုံအရွယ်အစားကို ရွေးချယ်ပါ။"]
                             : [/^နှုန်းထား: တစ်စတုရန်းပေလျှင် (.+)။ စုစုပေါင်းတွက်ရန် မြေပုံအရွယ်အစားကို ရွေးချယ်ပါ။$/, "Rate: $1 per sq ft. Select a map size to calculate the total."],
                         language === "my"
-                            ? [/^Rate: (.+) per sq ft\. No size is listed for this map; contact DPS Map to confirm the total\.$/, "နှုန်းထား: တစ်စတုရန်းပေလျှင် $1။ ဤမြေပုံအတွက် အရွယ်အစားစာရင်းမရှိပါ၊ စုစုပေါင်းဈေးနှုန်းအတည်ပြုရန် DPS Map ကို ဆက်သွယ်ပါ။"]
-                            : [/^နှုန်းထား: တစ်စတုရန်းပေလျှင် (.+)။ ဤမြေပုံအတွက် အရွယ်အစားစာရင်းမရှိပါ၊ စုစုပေါင်းဈေးနှုန်းအတည်ပြုရန် DPS Map ကို ဆက်သွယ်ပါ။$/, "Rate: $1 per sq ft. No size is listed for this map; contact DPS Map to confirm the total."]
+                            ? [/^Rate: (.+) per sq ft\. Enter width and height to calculate the total\.$/, "နှုန်းထား: တစ်စတုရန်းပေလျှင် $1။ စုစုပေါင်းတွက်ရန် အကျယ်နှင့် အမြင့်ကို ထည့်ပါ။"]
+                            : [/^နှုန်းထား: တစ်စတုရန်းပေလျှင် (.+)။ စုစုပေါင်းတွက်ရန် အကျယ်နှင့် အမြင့်ကို ထည့်ပါ။$/, "Rate: $1 per sq ft. Enter width and height to calculate the total."]
                     ];
                     for (const [pattern, replacement] of matchers) {
                         const found = trimmed.match(pattern);
@@ -1100,7 +1097,7 @@
                                 let value = language === "my"
                                     ? translations[capture] || capture
                                     : reverseTranslations.get(capture) || capture;
-                                ["Fixed A3 size", "Digital copy"].forEach(term => {
+                                ["Fixed A3 size", "Digital copy", "Custom dimensions"].forEach(term => {
                                     const translatedTerm = translations[term];
                                     if (!translatedTerm) return;
                                     value = language === "my"
@@ -1111,12 +1108,14 @@
                                     value = value
                                         .replace(/\bper sq ft\b/gi, "တစ်စတုရန်းပေလျှင်")
                                         .replace(/\bsq ft\b/gi, "စတုရန်းပေ")
+                                        .replace(/\bcustom dimensions\b/gi, "စိတ်ကြိုက်အတိုင်းအတာ")
                                         .replace(/\bft\b/gi, "ပေ")
                                         .replace(/\bMMK\b/g, "ကျပ်");
                                 } else {
                                     value = value
                                         .replace(/တစ်စတုရန်းပေလျှင်/g, "per sq ft")
                                         .replace(/စတုရန်းပေ/g, "sq ft")
+                                        .replace(/စိတ်ကြိုက်အတိုင်းအတာ/g, "Custom dimensions")
                                         .replace(/ပေ/g, "ft")
                                         .replace(/ကျပ်/g, "MMK");
                                 }
