@@ -292,21 +292,32 @@ body.map-dialog-open {
 .paid-flow-back svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .download-form { display: grid; gap: 12px; }
 .download-form h3 { margin-bottom: 2px; font-size: 17px; }
-.plotting-product-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; min-width: 0; }
-.plotting-product-choice { display: grid; align-content: start; gap: 5px; min-width: 0; padding: 9px; border: 1px solid #cbd5e1; border-radius: 7px; background: #fff; color: #334155; font: inherit; font-size: 14px; text-align: center; cursor: pointer; }
-.plotting-product-choice small { color: #64748b; font-size: 11px; }
-.plotting-product-choice .material-description { padding-top: 6px; border-top: 1px solid #e2e8f0; color: #475569; font-size: 12px; font-weight: 400; line-height: 1.5; text-align: left; }
-.plotting-product-choice:hover, .plotting-product-choice[aria-pressed="true"] { border-color: #2457a6; background: #eef5ff; }
+.plotting-product-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; min-width: 0; }
+.plotting-product-choice { display: grid; align-content: start; gap: 10px; min-width: 0; padding: 12px; border: 1px solid #aaa; border-radius: 12px; background: #fff; color: #222; font: inherit; font-size: 14px; text-align: left; cursor: pointer; }
+.plotting-product-title { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; color: #111; font-size: 16px; }
+.plotting-product-radio { display: grid; flex: 0 0 24px; width: 24px; height: 24px; place-items: center; border: 1px solid #666; border-radius: 50%; }
+.plotting-product-radio::after { width: 14px; height: 14px; border-radius: 50%; background: #111; content: ""; opacity: 0; }
+.plotting-product-choice[aria-pressed="true"] .plotting-product-radio::after { opacity: 1; }
+.plotting-product-price { color: #475569; font-size: 13px; font-weight: 400; white-space: nowrap; }
+.plotting-product-choice:hover, .plotting-product-choice[aria-pressed="true"] { border-color: #666; }
+.soft-copy-format-option, .plotting-product-choice { transition: border-color .16s ease, background-color .16s ease; }
+.soft-copy-format-option:hover, .plotting-product-choice:not(:disabled):hover { border-color: #2457a6; background: #eef5ff; }
+.plotting-product-choice:focus-visible { outline: 2px solid #2457a6; outline-offset: 2px; }
+.plotting-product-benefits { min-width: 0; overflow-wrap: anywhere; }
+html:lang(my) .plotting-product-title { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 4px 8px; align-items: center; }
+html:lang(my) .plotting-product-title > .plotting-product-radio { grid-column: 1; grid-row: 1 / span 2; }
+html:lang(my) .plotting-product-title > span:not(.plotting-product-radio):not(.plotting-product-price) { grid-column: 2; min-width: 0; overflow-wrap: anywhere; }
+html:lang(my) .plotting-product-title > .plotting-product-price { grid-column: 2; white-space: normal; overflow-wrap: anywhere; }
 .download-form label { display: grid; gap: 5px; color: #334155; font-size: 14px; text-align: left; }
 .download-form input, .download-form textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 5px; font: inherit; }
 .soft-copy-formats { min-width: 0; margin: 0; padding: 0; border: 0; }
 .soft-copy-formats legend { margin-bottom: 8px; color: #334155; font-size: 14px; font-weight: 600; }
 .soft-copy-format-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .soft-copy-format-option { display: grid !important; align-content: start; gap: 10px !important; padding: 12px; border: 1px solid #aaa; border-radius: 12px; background: #fff; color: #222 !important; cursor: pointer; }
-.soft-copy-format-option:focus-within { outline: 2px solid #2457a6; outline-offset: 2px; }
+.soft-copy-format-option:focus-within { border-color: #2457a6; outline: none; }
 .soft-copy-format-title { display: flex; align-items: center; gap: 12px; font-size: 18px; }
 .soft-copy-format-title input[type="radio"] { width: 24px; min-height: 24px; height: 24px; margin: 0; padding: 0; accent-color: #111; }
-.soft-copy-format-benefits { display: grid; gap: 5px; margin: 0; padding-left: 22px; color: #475569; font-size: 14px; line-height: 1.45; }
+.soft-copy-format-benefits, .plotting-product-benefits { display: grid; gap: 5px; margin: 0; padding-left: 22px; color: #475569; font-size: 14px; line-height: 1.45; }
 .download-form-status { margin-top: 10px; color: #334155; font-size: 14px; }
 
 .request-form { color: #243b91; }
@@ -323,9 +334,7 @@ body.map-dialog-open {
 @media (max-width: 600px) { .request-form-grid { grid-template-columns: 1fr; } .wide-field { grid-column: auto; } .request-form-heading h3 { font-size: 21px; } }
 @media (max-width: 760px) {
   .plotting-product-choices { grid-template-columns: 1fr; gap: 6px; }
-  .plotting-product-choice { padding: 8px; font-size: 13px; text-align: left; }
-  .plotting-product-choice > span, .plotting-product-choice > small { text-align: left; }
-  .plotting-product-choice .material-description { font-size: 13px; }
+  .plotting-product-choice { padding: 10px; }
 }
 
 /* Popular maps */
@@ -384,9 +393,8 @@ main { padding-top: 60px; }
 .map-dialog.download-flow-only .shared-form-grid { gap: 6px 10px; }
 .map-dialog.download-flow-only .shared-form-grid label { gap: 2px; font-size: 15px; }
 .map-dialog.download-flow-only .shared-form-grid input { min-height: 38px; }
-.map-dialog.download-flow-only .plotting-product-choice { gap: 3px; padding: 6px; font-size: 16px; }
-.map-dialog.download-flow-only .plotting-product-choice small { font-size: 13px; }
-.map-dialog.download-flow-only .plotting-product-choice .material-description { padding-top: 3px; font-size: 12px; line-height: 1.3; }
+.map-dialog.download-flow-only .plotting-product-choice { gap: 10px; padding: 10px; font-size: 16px; }
+.map-dialog.download-flow-only .plotting-product-title { font-size: 16px; }
 .map-dialog.download-flow-only .request-price { padding: 7px; font-size: 16px; }
 .map-dialog.download-flow-only .request-info-note { font-size: 14px; }
 .map-dialog.download-flow-only .download-button { min-height: 38px; padding: 5px 9px; font-size: 17px; }

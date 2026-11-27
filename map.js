@@ -469,21 +469,27 @@ function showPaidDownloadCategory(category) {
   document.getElementById("paidDownloadChoices").hidden = true;
   requestForm.hidden = false;
   currentPaidCategory = category;
-  const availableSizes = updatePlotSizeOptions();
+  updatePlotSizeOptions();
   document.getElementById("requestFormTitle").textContent =
     category === "soft-copy" ? "Soft copy" : "Plotting";
   const isSoftCopy = category === "soft-copy";
+  const isPlotting = category === "plotting";
   document.getElementById("softCopyFormats").hidden = !isSoftCopy;
   document.querySelectorAll('input[name="softCopyFormat"]').forEach(input => {
     input.disabled = !isSoftCopy;
     input.required = isSoftCopy;
   });
-  document.getElementById("requestMapProductField").hidden = isSoftCopy;
+  plottingProductChoices.hidden = !isPlotting;
+  plottingProductChoices.querySelectorAll(".plotting-product-choice").forEach(button => {
+    button.setAttribute("aria-pressed", "false");
+    button.disabled = !isPlotting;
+  });
+  document.getElementById("requestMapProductField").hidden = true;
   requestMapProduct.disabled = isSoftCopy;
-  requestMapProduct.required = !isSoftCopy;
+  requestMapProduct.required = false;
   requestMapProduct.querySelectorAll("optgroup").forEach(group => {
     group.hidden = group.dataset.category !== category;
-    group.disabled = group.dataset.category === "plotting" && availableSizes.length === 0;
+    group.disabled = false;
   });
   requestMapProduct.value = "";
   requestMapSize.value = "";
@@ -494,6 +500,7 @@ function showPaidDownloadCategory(category) {
 }
 
 const requestMapProduct = document.getElementById("requestMapProduct");
+const plottingProductChoices = document.getElementById("plottingProductChoices");
 const requestMapSize = document.getElementById("requestMapSize");
 const requestMapSizeField = document.getElementById("requestMapSizeField");
 const customDimensions = document.getElementById("customDimensions");
@@ -582,11 +589,12 @@ function updateRequestPrice() {
     return;
   }
   requestPrice.hidden = false;
-  requestMapSizeField.hidden = !isAreaPrice;
-  requestMapSize.disabled = !isAreaPrice;
-  requestMapSize.required = isAreaPrice;
-  if (!isAreaPrice) requestMapSize.value = "";
-  const isCustom = isAreaPrice && requestMapSize.value === "custom";
+  const hasPlotSizes = currentPaidCategory !== "plotting" || currentMapPlotSizes.length > 0;
+  requestMapSizeField.hidden = !isAreaPrice || !hasPlotSizes;
+  requestMapSize.disabled = !isAreaPrice || !hasPlotSizes;
+  requestMapSize.required = isAreaPrice && hasPlotSizes;
+  if (!isAreaPrice || !hasPlotSizes) requestMapSize.value = "";
+  const isCustom = isAreaPrice && hasPlotSizes && requestMapSize.value === "custom";
   customDimensions.hidden = !isCustom;
   customWidth.required = isCustom;
   customHeight.required = isCustom;
@@ -634,6 +642,17 @@ requestMapProduct.addEventListener("change", updateRequestPrice);
 requestMapSize.addEventListener("change", updateRequestPrice);
 customWidth.addEventListener("input", updateRequestPrice);
 customHeight.addEventListener("input", updateRequestPrice);
+plottingProductChoices.addEventListener("click", event => {
+  const button = event.target.closest(".plotting-product-choice");
+  if (!button || button.disabled) return;
+  const isSelected = button.getAttribute("aria-pressed") === "true";
+  requestMapProduct.value = isSelected ? "" : button.dataset.productValue;
+  plottingProductChoices.querySelectorAll(".plotting-product-choice").forEach(option => {
+    option.setAttribute("aria-pressed", String(!isSelected && option === button));
+  });
+  document.getElementById("downloadFormStatus").textContent = "";
+  updateRequestPrice();
+});
 updateRequestPrice();
 
 document.getElementById("freeDownloadForm").addEventListener("submit", event => {
@@ -647,6 +666,17 @@ document.getElementById("freeDownloadForm").addEventListener("submit", event => 
 
 document.getElementById("requestDownloadForm").addEventListener("submit", event => {
   event.preventDefault();
+  if (currentPaidCategory === "plotting" && !requestMapProduct.value) {
+    document.getElementById("downloadFormStatus").textContent = currentMapPlotSizes.length
+      ? "Select Vinyl, Photopaper, or Sticker to continue."
+      : "No plotting sizes are listed for this map.";
+    return;
+  }
+  if (currentPaidCategory === "plotting" && !currentMapPlotSizes.length) {
+    document.getElementById("downloadFormStatus").textContent =
+      "No plotting sizes are listed for this map.";
+    return;
+  }
   let productLabel;
   let sizeLabel = "";
   let total;
