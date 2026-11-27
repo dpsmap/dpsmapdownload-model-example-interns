@@ -418,6 +418,10 @@ main { padding-top: 60px; }
 .map-dialog.download-flow-only .plotting-product-title { font-size: 18px; }
 .map-dialog.download-flow-only .request-price { padding: 7px; font-size: 16px; }
 .map-dialog.download-flow-only .request-info-note { font-size: 14px; }
+@media (min-width: 451px) {
+  .map-dialog.download-flow-only .vinyl-finish-options-list { margin-top: 20px; }
+  .map-dialog.download-flow-only .vinyl-finish-options legend { transform: translateY(16px); }
+}
 .map-dialog.download-flow-only .download-button { min-height: 38px; padding: 5px 9px; font-size: 17px; }
 .map-dialog.download-flow-only .kpay-panel { margin-top: 6px; padding: 8px; }
 .map-dialog.download-flow-only .kpay-panel > p { margin-bottom: 8px; }
