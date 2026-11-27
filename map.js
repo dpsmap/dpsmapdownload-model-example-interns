@@ -841,6 +841,10 @@ function updateRequestAddressField() {
   requestAddressLabel.dataset.en = isSoftCopy ? "Email Address" : "Address";
   requestAddressLabel.dataset.my = isSoftCopy ? "အီးမေးလ်လိပ်စာ" : "လိပ်စာ";
   requestAddressLabel.textContent = requestAddressLabel.dataset[language];
+  const inputType = isSoftCopy ? "email" : "text";
+  if (requestAddressInput.type !== inputType) requestAddressInput.value = "";
+  requestAddressInput.type = inputType;
+  requestAddressInput.autocomplete = isSoftCopy ? "email" : "street-address";
   requestAddressInput.placeholder = isSoftCopy
     ? "name@gmail.com"
     : "No. 45, Inya Road, Bahan Township, Yangon";
