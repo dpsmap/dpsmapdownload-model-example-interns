@@ -505,11 +505,21 @@
           </svg>
         </button>
         <h2 id="imageTitle">Myanmar Map</h2>
-        <h3 id="paidDownloadChoicesTitle" class="paid-download-title">Choose paid download type</h3>
+        <h3 id="paidDownloadChoicesTitle" class="paid-download-title" data-en="Choose Paid Download Type" data-my="မြေပုံနှင့် အခပေးဒေါင်းလုဒ်အမျိုးအစားကို ရွေးပါ">Choose a map and paid download type</h3>
         <button type="button" class="map-dialog-close" onclick="closeMapPopup()" aria-label="Close map">×</button>
       </div>
       <div class="map-dialog-map-layout">
         <img id="selectedImage" src="assets/maps/myanmar-english.jpg" alt="Map of Myanmar in English">
+        <div id="mapVersionChoices" class="map-version-choices" role="group" aria-label="Region map versions" hidden>
+          <button type="button" class="map-version-choice" data-map-language="my" data-map-src="assets/regions/ayeyarwady.jpg" aria-pressed="true" onclick="selectRegionMapVersion(this)">
+            <span class="map-version-label" data-en="Myanmar Version" data-my="မြန်မာဗားရှင်း">Myanmar Version</span>
+            <img src="assets/regions/ayeyarwady.jpg" alt="Ayeyarwady Region map in Myanmar">
+          </button>
+          <button type="button" class="map-version-choice" data-map-language="en" data-map-src="assets/regions/ayeyarwady-english.jpg" aria-pressed="false" onclick="selectRegionMapVersion(this)">
+            <span class="map-version-label" data-en="English Version" data-my="အင်္ဂလိပ်ဗားရှင်း">English Version</span>
+            <img src="assets/regions/ayeyarwady-english.jpg" alt="Ayeyarwady Region map in English">
+          </button>
+        </div>
         <aside id="regionBrief" class="map-dialog-brief" aria-labelledby="regionBriefTitle" hidden>
           <h3 id="regionBriefTitle">ရည်ညွှန်းချက်</h3>
           <ul>
@@ -561,14 +571,29 @@
         <button type="button" class="download-button request-button" onclick="showDownloadForm('paid')">Paid Download</button>
       </section>
       <section id="paidDownloadChoices" class="paid-download-choices" hidden aria-labelledby="paidDownloadChoicesTitle">
+        <div id="paidMapSelection" class="paid-map-selection" hidden>
+          <fieldset id="paidMapVersionField" class="paid-map-version" hidden disabled>
+            <legend data-en="Select Map Version" data-my="မြေပုံဗားရှင်းကို ရွေးပါ">Select Map Version</legend>
+            <div class="paid-map-version-options">
+              <label class="paid-map-version-option">
+                <input type="radio" name="paidMapLanguage" value="my">
+                <span data-en="Myanmar Version" data-my="မြန်မာဗားရှင်း">Myanmar Version</span>
+              </label>
+              <label class="paid-map-version-option">
+                <input type="radio" name="paidMapLanguage" value="en">
+                <span data-en="English Version" data-my="အင်္ဂလိပ်ဗားရှင်း">English Version</span>
+              </label>
+            </div>
+          </fieldset>
+        </div>
         <div class="paid-download-choice">
-          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')">
+          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')" disabled>
             <span class="paid-download-choice-label" data-en="Soft copy" data-my="ဒစ်ဂျစ်တယ်မိတ္တူ">Soft copy</span>
             <span class="paid-download-choice-description"><span data-en="JPG/PDF" data-my="JPG/PDF">JPG/PDF</span><span data-en="Digital Map" data-my="ဒစ်ဂျစ်တယ်မြေပုံ">Digital Map</span></span>
           </button>
         </div>
         <div class="paid-download-choice paid-download-choice--popular">
-          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('plotting')">
+          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('plotting')" disabled>
             <span class="paid-download-choice-label">Plotting</span>
             <span class="paid-download-popular-badge"><span aria-hidden="true">🔥</span><span data-en="More Popular" data-my="ပိုမိုလူကြိုက်များ">More Popular</span></span>
             <span class="paid-download-choice-description"><span data-en="Various Sizes" data-my="အရွယ်အစားအမျိုးမျိုး">Various Sizes</span><span data-en="Hardware Map" data-my="ပုံနှိပ်မြေပုံ">Hardware Map</span></span>
@@ -588,6 +613,7 @@
         </form>
         <form id="requestDownloadForm" class="download-form request-form" hidden>
           <h3 id="requestFormTitle">Paid Download</h3>
+          <p class="paid-selected-map"><span data-en="Selected map:" data-my="ရွေးချယ်ထားသောမြေပုံ">Selected map:</span> <strong id="paidSelectedMap"></strong></p>
           <fieldset id="softCopyFormats" class="soft-copy-formats" aria-label="Soft copy formats" hidden>
             <div class="soft-copy-format-list">
               <label class="soft-copy-format-option">
@@ -684,6 +710,7 @@
       </section>
       <section id="kpayPanel" class="kpay-panel" hidden aria-live="polite">
         <h3>Pay with KBZPay</h3>
+        <p id="kpaySelectedMap" class="kpay-selected-map"></p>
         <p id="kpayOrderSummary" class="kpay-order-summary"></p>
         <p>Scan the KBZPay QR code and enter the displayed total.<br><strong>Aye Minn Oo (*****0177)</strong></p>
         <div class="kpay-qr-frame">
@@ -756,6 +783,8 @@
                 "Request Download": "ဒေါင်းလုဒ်တောင်းဆိုရန်",
                 "Choose paid download type": "အခပေးဒေါင်းလုဒ်အမျိုးအစားကို ရွေးပါ",
                 "Back to paid download types": "အခပေးဒေါင်းလုဒ်အမျိုးအစားများသို့ ပြန်သွားရန်",
+                "Back to map selection": "မြေပုံရွေးချယ်မှုသို့ ပြန်သွားရန်",
+                "Select a map before choosing Soft copy or Plotting.": "Soft copy သို့မဟုတ် Plotting မရွေးချယ်မီ မြေပုံကို အရင်ရွေးပါ။",
                 "Soft copy": "ဒစ်ဂျစ်တယ်မိတ္တူ",
                 "Plotting": "ပုံနှိပ်ခြင်း",
                 "PDF": "PDF",
