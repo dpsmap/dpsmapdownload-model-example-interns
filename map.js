@@ -559,6 +559,16 @@ function showPaidDownloadCategory(category) {
   const isPlotting = category === "plotting";
   updatePaidFlowBackLabel("Back to map selection");
   document.getElementById("softCopyFormats").hidden = !isSoftCopy;
+  vinylFinishOptions.hidden = !isPlotting || currentMapPlotSizes.length === 0;
+  vinylFinishOptions.querySelectorAll(".vinyl-finish-options-list").forEach(group => {
+    group.hidden = group.dataset.finishGroup !== "vinyl";
+  });
+  selectedFinishingInput = null;
+  vinylFinishOptions.querySelectorAll('input[name="vinylFinish"]').forEach(input => {
+    input.checked = false;
+    input.disabled = true;
+    input.required = false;
+  });
   document.querySelectorAll('input[name="softCopyFormat"]').forEach(input => {
     input.disabled = !isSoftCopy;
     input.required = false;
@@ -681,6 +691,7 @@ function applyPaidMapSelection() {
 
 const requestMapProduct = document.getElementById("requestMapProduct");
 const softCopyFormats = document.getElementById("softCopyFormats");
+const vinylFinishOptions = document.getElementById("vinylFinishOptions");
 const plottingProductChoices = document.getElementById("plottingProductChoices");
 const requestMapSize = document.getElementById("requestMapSize");
 const requestMapSizeField = document.getElementById("requestMapSizeField");
@@ -722,6 +733,7 @@ const mapPlotSizes = {
 let currentMapPlotSizes = [];
 let currentPaidCategory = "";
 let selectedSoftCopyFormat = null;
+let selectedFinishingInput = null;
 
 function updatePlotSizeOptions() {
   const mapTitle = currentMapTitle.trim().toLowerCase();
@@ -775,11 +787,11 @@ function updateRequestPrice() {
     return;
   }
   requestPrice.hidden = false;
-  const hasPlotSizes = currentPaidCategory !== "plotting" || currentMapPlotSizes.length > 0;
-  requestMapSizeField.hidden = !isAreaPrice || !hasPlotSizes;
-  requestMapSize.disabled = !isAreaPrice || !hasPlotSizes;
+  const hasPlotSizes = currentPaidCategory === "plotting" && currentMapPlotSizes.length > 0;
+  requestMapSizeField.hidden = !hasPlotSizes;
+  requestMapSize.disabled = !hasPlotSizes;
   requestMapSize.required = isAreaPrice && hasPlotSizes;
-  if (!isAreaPrice || !hasPlotSizes) requestMapSize.value = "";
+  if (!hasPlotSizes) requestMapSize.value = "";
   const isCustom = isAreaPrice && hasPlotSizes && requestMapSize.value === "custom";
   customDimensions.hidden = !isCustom;
   customWidth.required = isCustom;
@@ -845,11 +857,42 @@ softCopyFormats.addEventListener("click", event => {
     document.getElementById("downloadFormStatus").textContent = "";
   });
 });
+vinylFinishOptions.addEventListener("change", event => {
+  const input = event.target;
+  if (!(input instanceof HTMLInputElement) || input.name !== "vinylFinish") return;
+  selectedFinishingInput = input.checked ? input : null;
+  document.getElementById("downloadFormStatus").textContent = "";
+});
+vinylFinishOptions.addEventListener("click", event => {
+  const label = event.target instanceof Element ? event.target.closest("label") : null;
+  const input = label ? label.querySelector('input[name="vinylFinish"]') : null;
+  if (!(input instanceof HTMLInputElement) || input.disabled || input !== selectedFinishingInput) return;
+  event.preventDefault();
+  requestAnimationFrame(() => {
+    input.checked = false;
+    selectedFinishingInput = null;
+    document.getElementById("downloadFormStatus").textContent = "";
+  });
+});
 plottingProductChoices.addEventListener("click", event => {
   const button = event.target.closest(".plotting-product-choice");
   if (!button || button.disabled) return;
   const isSelected = button.getAttribute("aria-pressed") === "true";
   requestMapProduct.value = isSelected ? "" : button.dataset.productValue;
+  const isPaperSelected = ["photopaper", "sticker"].includes(requestMapProduct.value);
+  const finishGroupName = isPaperSelected ? "paper" : "vinyl";
+  const isFinishingRequired = Boolean(requestMapProduct.value) && currentMapPlotSizes.length > 0;
+  vinylFinishOptions.hidden = currentMapPlotSizes.length === 0;
+  vinylFinishOptions.querySelectorAll(".vinyl-finish-options-list").forEach(group => {
+    group.hidden = group.dataset.finishGroup !== finishGroupName;
+  });
+  selectedFinishingInput = null;
+  vinylFinishOptions.querySelectorAll('input[name="vinylFinish"]').forEach(input => {
+    const isActiveGroup = input.closest(".vinyl-finish-options-list").dataset.finishGroup === finishGroupName;
+    input.checked = false;
+    input.disabled = !isActiveGroup || !isFinishingRequired;
+    input.required = isActiveGroup && isFinishingRequired;
+  });
   plottingProductChoices.querySelectorAll(".plotting-product-choice").forEach(option => {
     option.setAttribute("aria-pressed", String(!isSelected && option === button));
   });
@@ -919,7 +962,13 @@ document.getElementById("requestDownloadForm").addEventListener("submit", event 
     }
   }
   document.getElementById("kpaySelectedMap").textContent = getPaidMapDisplayName();
-  document.getElementById("kpayOrderSummary").textContent = `${productLabel} · ${sizeLabel} · Total: ${money(total)}`;
+  const selectedFinishes = currentPaidCategory === "plotting" && requestMapProduct.value
+    ? Array.from(vinylFinishOptions.querySelectorAll('input[name="vinylFinish"]:checked')).map(input =>
+      input.dataset[`summary${document.documentElement.lang === "my" ? "My" : "En"}`]
+    )
+    : [];
+  document.getElementById("kpayOrderSummary").textContent =
+    [productLabel, sizeLabel, ...selectedFinishes, `Total: ${money(total)}`].join(" · ");
   document.getElementById("downloadFormStatus").textContent = "";
   document.getElementById("downloadForms").hidden = true;
   document.getElementById("kpayPanel").hidden = false;
