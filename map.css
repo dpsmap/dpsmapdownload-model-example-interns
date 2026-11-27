@@ -411,6 +411,14 @@ main { padding-top: 60px; }
 .map-flow-back svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .map-dialog.download-flow-only:has(#freeDownloadForm:not([hidden])) .map-flow-back,
 .map-dialog.download-flow-only:has(#paidDownloadChoices:not([hidden])) .map-flow-back { display: grid; }
+button:not(:disabled):not(.popular-card):not(.plotting-product-choice):hover,
+button:not(:disabled):not(.popular-card):not(.plotting-product-choice):focus-visible {
+  border-color: #2457a6;
+  background-color: #2457a6;
+  color: #fff;
+}
+.popular-card:hover .popular-card-label,
+.popular-card:focus-visible .popular-card-label { background: #2457a6; color: #fff; }
 
 /* Mobile and small-screen layout */
 html { width: 100%; overflow-x: clip; }
