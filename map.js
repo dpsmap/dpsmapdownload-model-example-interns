@@ -68,15 +68,22 @@ const cityMapTitles = {
 };
 let currentMapLanguage = "en";
 let currentMapSource = "assets/maps/myanmar-english.jpg";
+let currentMapTitle = "Myanmar Map";
+let currentMapCaption = "Map of Myanmar";
+let currentMapBriefType = "";
 let activeMapDropdown = "mapOptions";
 function showUnavailableMap(title, showPopup = true) {
   const image = document.getElementById("selectedImage");
   image.onerror = null;
   image.hidden = true;
   currentMapSource = "";
+  currentMapTitle = title;
+  currentMapCaption = "No map image is available for this selection.";
+  currentMapBriefType = "";
   document.getElementById("mapDialog").classList.remove("download-flow-only", "has-map-brief");
   document.getElementById("regionBrief").hidden = true;
   document.getElementById("cityBrief").hidden = true;
+  document.getElementById("featureBrief").hidden = true;
   document.getElementById("imageTitle").textContent = title;
   document.getElementById("imageCaption").textContent = "No map image is available for this selection.";
   document.getElementById("imageCaption").hidden = false;
@@ -96,13 +103,21 @@ function showUnavailableMap(title, showPopup = true) {
 }
 function setImage(src, title, caption, alt, showPopup = true, briefType = "") {
   const dialog = document.getElementById("mapDialog");
-  const showMapBrief = briefType === "region" || briefType === "state" || briefType === "city";
+  const isRegionBrief = briefType === "region" || briefType === "state" || briefType === "overview";
+  const showMapBrief = isRegionBrief || briefType === "city" || briefType === "feature";
+  currentMapBriefType = briefType;
   dialog.classList.remove("download-flow-only");
   dialog.classList.toggle("has-map-brief", showMapBrief);
-  document.getElementById("regionBrief").hidden = briefType !== "region" && briefType !== "state";
+  document.getElementById("regionBrief").hidden = !isRegionBrief;
   document.getElementById("cityBrief").hidden = briefType !== "city";
-  if (briefType === "region" || briefType === "state") {
-    document.querySelector("#regionBrief li").textContent = briefType === "state" ? "ပြည်နယ်မြို့တော်" : "တိုင်းဒေသကြီးမြို့တော်";
+  document.getElementById("featureBrief").hidden = briefType !== "feature";
+  if (isRegionBrief) {
+    const capitalLabel = document.querySelector("#regionBrief li");
+    const isState = briefType === "state";
+    const isOverview = briefType === "overview";
+    capitalLabel.dataset.en = isOverview ? "Regional and state capitals" : isState ? "State capital" : "Regional capital";
+    capitalLabel.dataset.my = isOverview ? "တိုင်းဒေသကြီးနှင့် ပြည်နယ်မြို့တော်များ" : isState ? "ပြည်နယ်မြို့တော်" : "တိုင်းဒေသကြီးမြို့တော်";
+    capitalLabel.textContent = capitalLabel.dataset[document.documentElement.lang === "my" ? "my" : "en"];
   }
   const image = document.getElementById("selectedImage");
   image.hidden = false;
@@ -111,6 +126,8 @@ function setImage(src, title, caption, alt, showPopup = true, briefType = "") {
     if (currentMapSource === src) showUnavailableMap(title, false);
   };
   currentMapSource = src;
+  currentMapTitle = title;
+  currentMapCaption = caption;
   image.src = src;
   image.alt = alt;
   document.getElementById("imageTitle").textContent = title;
@@ -133,15 +150,16 @@ function selectMap(language) {
   const label = language === "my" ? "Myanmar" : "English";
   resetDropdownLabel("mapText");
   const caption = language === "my" ? "မြန်မာနိုင်ငံမြေပုံ" : "Map of Myanmar";
-  setImage(`assets/maps/myanmar-${language === "my" ? "burmese" : "english"}.jpg`, label + " — Myanmar Map", caption, caption);
+  setImage(`assets/maps/myanmar-${language === "my" ? "burmese" : "english"}.jpg`, label + " — Myanmar Map", caption, caption, true, "overview");
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
 }
 function openPopularMap(name, imagePath) {
   const isRegionMap = imagePath.startsWith("assets/regions/");
   const isCityMap = imagePath.startsWith("assets/cities/");
+  const isOverviewMap = imagePath.startsWith("assets/maps/myanmar-");
   const briefType = isRegionMap
     ? (name.endsWith(" State") ? "state" : "region")
-    : isCityMap ? "city" : "";
+    : isCityMap ? "city" : isOverviewMap ? "overview" : "feature";
   activeMapDropdown = isRegionMap ? "regionOptions" : isCityMap ? "cityOptions" : "mapOptions";
   setImage(imagePath, name + " Map", "Popular map for " + name, name + " map", true, briefType);
 }
@@ -150,7 +168,7 @@ function showPlace(name, type) {
   const folder = type === "district" ? "districts/Districts/" : "cities/";
   const file = type === "district" ? districtImages[name] : cityImages[name];
   const title = type === "district" ? name + " District" : cityMapTitles[name] || name + " City";
-  if (file) setImage("assets/" + folder + encodeURI(file), title, "Map for " + name, title, true, type === "city" ? "city" : "");
+  if (file) setImage("assets/" + folder + encodeURI(file), title, "Map for " + name, title, true, type === "city" ? "city" : "feature");
   else showUnavailableMap(title);
   resetDropdownLabel(type + "Text");
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
@@ -198,7 +216,7 @@ function selectRegion(name) {
 function selectTownshipImage(button) {
   activeMapDropdown = "townshipOptions";
   const { mapSrc, mapCaption } = button.dataset;
-  setImage(mapSrc, mapCaption + " Map", mapCaption, mapCaption);
+  setImage(mapSrc, mapCaption + " Map", mapCaption, mapCaption, true, "feature");
   resetDropdownLabel("townshipText");
   document.querySelectorAll(".dropdown-content").forEach(menu => menu.classList.remove("show"));
 }
@@ -224,9 +242,15 @@ const searchableMaps = [
       townshipOptions: "township",
       cityOptions: "city"
     }[dropdown?.id] || "map";
+    const actionName = target.getAttribute("onclick")?.match(/select(?:District|City)\('([^']+)'\)/)?.[1];
+    const mapImage = categoryType === "district"
+      ? districtImages[actionName]
+      : categoryType === "city" ? cityImages[actionName] : "";
+    if (mapImage) target.dataset.translationSource = mapImage;
     return {
       target, name: target.textContent.trim(), categoryType,
       categoryContext: group?.querySelector("h4"),
+      mapFileName: mapImage?.split("/").pop().replace(/\.[^.]+$/, ""),
       searchText: target.dataset.searchText || target.textContent.toLowerCase()
     };
   }),
@@ -237,10 +261,40 @@ const searchableMaps = [
     searchText: target.textContent.toLowerCase()
   }))
 ];
+function normalizeMapSearchText(value) {
+  return String(value || "")
+    .normalize("NFC")
+    .replace(/\u1025(?:\u103a)?\u102e/g, "\u1026\u1038")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLocaleLowerCase();
+}
+function getMapSearchTerms(item) {
+  const translations = window.dpsMapTranslations || {};
+  const translatedName = translations[item.name];
+  const translatedAliases = Array.from(item.target.querySelectorAll("[data-my]"), element => element.dataset.my);
+  return [
+    item.name,
+    item.searchText,
+    item.categoryContext?.textContent,
+    item.mapFileName,
+    item.target.dataset.mapCaption,
+    item.target.dataset.mapSrc,
+    translatedName,
+    ...translatedAliases
+  ].filter(Boolean).map(normalizeMapSearchText);
+}
+const searchableMapByTarget = new Map(
+  searchableMaps.filter(item => item.target.classList.contains("place-option")).map(item => [item.target, item])
+);
 function renderSearchResults() {
-  const query = searchInput.value.trim().toLocaleLowerCase();
+  const query = normalizeMapSearchText(searchInput.value);
   clearSearchButton.hidden = !query;
-  document.querySelectorAll(".place-option").forEach(button => { button.hidden = Boolean(query) && !button.dataset.searchText.includes(query); });
+  document.querySelectorAll(".place-option").forEach(button => {
+    const item = searchableMapByTarget.get(button);
+    const terms = item ? getMapSearchTerms(item) : [normalizeMapSearchText(button.dataset.searchText)];
+    button.hidden = Boolean(query) && !terms.some(term => term.includes(query));
+  });
   searchResults.replaceChildren();
   if (!query) {
     searchResults.hidden = true;
@@ -248,12 +302,14 @@ function renderSearchResults() {
     return;
   }
   const matches = searchableMaps
-    .filter(item => item.searchText.toLocaleLowerCase().includes(query))
+    .map(item => ({ item, terms: getMapSearchTerms(item) }))
+    .filter(({ terms }) => terms.some(term => term.includes(query)))
     .sort((a, b) =>
-      Number(b.name.toLocaleLowerCase() === query) - Number(a.name.toLocaleLowerCase() === query) ||
-      Number(b.name.toLocaleLowerCase().startsWith(query)) - Number(a.name.toLocaleLowerCase().startsWith(query))
+      Number(b.terms.some(term => term === query)) - Number(a.terms.some(term => term === query)) ||
+      Number(b.terms.some(term => term.startsWith(query))) - Number(a.terms.some(term => term.startsWith(query)))
     )
-    .slice(0, 12);
+    .slice(0, 12)
+    .map(({ item }) => item);
   if (matches.length) {
     matches.forEach(item => {
       const option = document.createElement("article");
@@ -399,30 +455,28 @@ function showPaidDownloadCategory(category) {
   const forms = document.getElementById("downloadForms");
   const requestForm = document.getElementById("requestDownloadForm");
   const isPlotting = category === "plotting";
-  const availableSizes = updatePlotSizeOptions();
+  updatePlotSizeOptions();
   document.getElementById("paidDownloadChoices").hidden = true;
   requestForm.hidden = false;
   document.getElementById("requestBackButton").hidden = false;
   currentPaidCategory = category;
   document.getElementById("requestFormTitle").textContent =
     category === "soft-copy" ? "Soft copy" : "Plotting";
+  const isSoftCopy = category === "soft-copy";
+  document.getElementById("softCopyFormats").hidden = !isSoftCopy;
   plottingProductChoices.hidden = !isPlotting;
   selectedPlotProduct = null;
   plottingProductChoices.querySelectorAll(".plotting-product-choice").forEach(button => {
     button.setAttribute("aria-pressed", "false");
   });
-  requestMapProduct.querySelectorAll("optgroup").forEach(group => {
-    group.hidden = group.dataset.category !== category;
-    group.disabled = group.dataset.category === "plotting" && availableSizes.length === 0;
-  });
+  requestMapProductField.hidden = true;
+  requestMapProduct.disabled = true;
+  requestMapProduct.required = false;
   requestMapProduct.value = "";
   requestMapSize.value = "";
-  requestMapProductField.hidden = isPlotting;
-  requestMapProduct.disabled = isPlotting;
-  requestMapProduct.required = !isPlotting;
-  requestMapSizeField.hidden = !isPlotting;
-  requestMapSize.disabled = !isPlotting || availableSizes.length === 0;
-  requestMapSize.required = isPlotting && availableSizes.length > 0;
+  requestMapSizeField.hidden = true;
+  requestMapSize.disabled = true;
+  requestMapSize.required = false;
   if (isPlotting) {
     requestMapProductField.after(requestReasonField);
   } else {
@@ -477,7 +531,7 @@ let currentPaidCategory = "";
 let selectedPlotProduct = null;
 
 function updatePlotSizeOptions() {
-  const mapTitle = document.getElementById("imageTitle").textContent.trim().toLowerCase();
+  const mapTitle = currentMapTitle.trim().toLowerCase();
   const mapSource = currentMapSource.toLowerCase();
   let sizes = mapPlotSizes[mapTitle] || mapPlotSizes[`${mapTitle} map`];
   if (!sizes && mapSource.startsWith("assets/regions/")) {
@@ -540,6 +594,14 @@ function updateRequestPrice() {
     }
     const total = size.area * selectedPlotProduct.rate;
     requestPrice.textContent = `Total price: ${money(total)} (${size.label}, ${size.area.toLocaleString("en-US")} sq ft × ${money(selectedPlotProduct.rate)}/sq ft)`;
+    return;
+  }
+  const isSoftCopy = currentPaidCategory === "soft-copy";
+  if (isSoftCopy) {
+    requestMapSizeField.hidden = true;
+    requestMapSize.disabled = true;
+    requestMapSize.required = false;
+    requestPrice.textContent = "Soft copy pricing will be confirmed before payment.";
     return;
   }
   const product = requestMapProduct.options[requestMapProduct.selectedIndex];
@@ -608,6 +670,17 @@ function showKpayPanel(productLabel, sizeLabel, total) {
 
 document.getElementById("requestDownloadForm").addEventListener("submit", event => {
   event.preventDefault();
+  if (currentPaidCategory === "soft-copy") {
+    const selectedFormats = document.querySelectorAll('input[name="softCopyFormat"]:checked');
+    if (!selectedFormats.length) {
+      document.getElementById("downloadFormStatus").textContent =
+        "Select at least one Soft copy format before submitting.";
+      return;
+    }
+    document.getElementById("downloadFormStatus").textContent =
+      "Soft copy pricing must be confirmed before payment. No payment has been started.";
+    return;
+  }
   if (currentPaidCategory === "plotting") {
     if (!selectedPlotProduct) {
       document.getElementById("downloadFormStatus").textContent =
@@ -621,26 +694,13 @@ document.getElementById("requestDownloadForm").addEventListener("submit", event 
         : "No size is listed for this map. Please contact DPS Map to confirm the total before making payment.";
       return;
     }
-    const total = size.area * selectedPlotProduct.rate;
-    showKpayPanel(selectedPlotProduct.name, size.label, total);
+    showKpayPanel(selectedPlotProduct.name, size.label, size.area * selectedPlotProduct.rate);
     return;
   }
-  const productLabel = requestMapProduct.options[requestMapProduct.selectedIndex].text.split(" — ")[0];
-  let sizeLabel = "";
-  let total = Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.price || 0);
-  if (requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate) {
-    sizeLabel = requestMapSize.options[requestMapSize.selectedIndex].text;
-    const [width, height] = requestMapSize.value.split("x").map(Number);
-    total = width * height * Number(requestMapProduct.options[requestMapProduct.selectedIndex].dataset.rate);
-  } else {
-    sizeLabel = requestMapProduct.value.endsWith("a3") ? "A3" : "Digital copy";
-  }
-  showKpayPanel(productLabel, sizeLabel, total);
+  throw new Error(`Unknown paid download category: ${currentPaidCategory}`);
 });
 
 function hideKpayPanel() {
   document.getElementById("kpayPanel").hidden = true;
-  const title = document.getElementById("imageTitle").textContent;
-  const caption = document.getElementById("imageCaption").textContent;
-  setImage(currentMapSource, title, caption, title);
+  setImage(currentMapSource, currentMapTitle, currentMapCaption, currentMapTitle, true, currentMapBriefType);
 }

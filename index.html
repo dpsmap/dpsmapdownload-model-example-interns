@@ -18,8 +18,8 @@
         <div class="page-header-inner">
             <h1 data-en="Map Download ver -1.1" data-my="မြေပုံဒေါင်းလုဒ်">Map Downloads</h1>
             <div class="language-switcher" role="group" aria-label="Language">
-                <button type="button" class="language-button" lang="en" aria-pressed="true">Eng</button>
-                <button type="button" class="language-button" lang="my" aria-pressed="false">Myan</button>
+                <button type="button" class="language-button" lang="my" aria-pressed="false">မြန်</button>
+                <button type="button" class="language-button" lang="en" aria-pressed="true">EN</button>
             </div>
         </div>
     </header>
@@ -499,41 +499,59 @@
 
     <dialog id="mapDialog" class="map-dialog" aria-labelledby="imageTitle">
       <div class="map-dialog-header">
+        <button id="requestBackButton" type="button" class="download-button paid-flow-back" onclick="showDownloadForm('paid')" aria-label="Back to paid download types" title="Back to paid download types">
+          <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+            <path d="M19 12H5m7 7-7-7 7-7"></path>
+          </svg>
+        </button>
         <h2 id="imageTitle">Myanmar Map</h2>
-        <button id="requestBackButton" type="button" class="map-dialog-back" aria-label="Back to paid download types" title="Back to paid download types" onclick="showDownloadForm('paid')" hidden>←</button>
+        <h3 id="paidDownloadChoicesTitle" class="paid-download-title">Choose paid download type</h3>
         <button type="button" class="map-dialog-close" onclick="closeMapPopup()" aria-label="Close map">×</button>
       </div>
       <div class="map-dialog-map-layout">
         <img id="selectedImage" src="assets/maps/myanmar-english.jpg" alt="Map of Myanmar in English">
-        <aside id="regionBrief" class="map-dialog-brief" aria-labelledby="regionBriefTitle" translate="no" hidden>
+        <aside id="regionBrief" class="map-dialog-brief" aria-labelledby="regionBriefTitle" hidden>
           <h3 id="regionBriefTitle">ရည်ညွှန်းချက်</h3>
           <ul>
-            <li>တိုင်းဒေသကြီးမြို့တော်</li>
-            <li>ခရိုင်မြို့</li>
-            <li>မြို့</li>
-            <li>ကျေးရွာ</li>
-            <li>ဘုရား</li>
-            <li>ရေကန်</li>
-            <li>မြစ်ချောင်း</li>
-            <li>အပြည်ပြည်ဆိုင်ရာလေဆိပ်</li>
-            <li>ကားလမ်း</li>
-            <li>ရထားလမ်း</li>
-            <li>မြေမျက်နှာသွင်ပြင် အနိမ့်၊ အမြင့် စသည့်အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။</li>
+            <li data-en="Regional capital" data-my="တိုင်းဒေသကြီးမြို့တော်">တိုင်းဒေသကြီးမြို့တော်</li>
+            <li data-en="District town" data-my="ခရိုင်မြို့">ခရိုင်မြို့</li>
+            <li data-en="City" data-my="မြို့">မြို့</li>
+            <li data-en="Village" data-my="ကျေးရွာ">ကျေးရွာ</li>
+            <li data-en="Pagoda" data-my="ဘုရား">ဘုရား</li>
+            <li data-en="Lake" data-my="ရေကန်">ရေကန်</li>
+            <li data-en="River" data-my="မြစ်ချောင်း">မြစ်ချောင်း</li>
+            <li data-en="International airport" data-my="အပြည်ပြည်ဆိုင်ရာလေဆိပ်">အပြည်ပြည်ဆိုင်ရာလေဆိပ်</li>
+            <li data-en="Road" data-my="ကားလမ်း">ကားလမ်း</li>
+            <li data-en="Railway" data-my="ရထားလမ်း">ရထားလမ်း</li>
+            <li data-en="Includes terrain details such as elevation and depression." data-my="မြေမျက်နှာသွင်ပြင် အနိမ့်၊ အမြင့် စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။">မြေမျက်နှာသွင်ပြင် အနိမ့်၊ အမြင့် စသည့်အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။</li>
           </ul>
         </aside>
-        <aside id="cityBrief" class="map-dialog-brief" aria-labelledby="cityBriefTitle" translate="no" hidden>
+        <aside id="cityBrief" class="map-dialog-brief" aria-labelledby="cityBriefTitle" hidden>
           <h3 id="cityBriefTitle">ရည်ညွှန်းချက်</h3>
           <ul>
-            <li>ကားလမ်း</li>
-            <li>ရထားလမ်း</li>
-            <li>ဘုရား</li>
-            <li>ကျောင်း</li>
-            <li>စေတီ</li>
-            <li>ပန်းခြံ</li>
-            <li>ဘဏ်</li>
-            <li>အစိုးရအဆောက်အအုံ</li>
-            <li>မြစ်ချောင်း</li>
-            <li>တံတား စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။</li>
+            <li data-en="Road" data-my="ကားလမ်း">ကားလမ်း</li>
+            <li data-en="Railway" data-my="ရထားလမ်း">ရထားလမ်း</li>
+            <li data-en="Pagoda" data-my="ဘုရား">ဘုရား</li>
+            <li data-en="School" data-my="ကျောင်း">ကျောင်း</li>
+            <li data-en="Stupa" data-my="စေတီ">စေတီ</li>
+            <li data-en="Park" data-my="ပန်းခြံ">ပန်းခြံ</li>
+            <li data-en="Bank" data-my="ဘဏ်">ဘဏ်</li>
+            <li data-en="Government building" data-my="အစိုးရအဆောက်အအုံ">အစိုးရအဆောက်အအုံ</li>
+            <li data-en="River" data-my="မြစ်ချောင်း">မြစ်ချောင်း</li>
+            <li data-en="Includes details such as bridges." data-my="တံတား စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။">တံတား စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။</li>
+          </ul>
+        </aside>
+        <aside id="featureBrief" class="map-dialog-brief" aria-labelledby="featureBriefTitle" hidden>
+          <h3 id="featureBriefTitle" data-en="Legend" data-my="ရည်ညွှန်းချက်">ရည်ညွှန်းချက်</h3>
+          <ul>
+            <li data-en="District town" data-my="ခရိုင်မြို့">ခရိုင်မြို့</li>
+            <li data-en="City" data-my="မြို့">မြို့</li>
+            <li data-en="Village" data-my="ကျေးရွာ">ကျေးရွာ</li>
+            <li data-en="Pagoda" data-my="ဘုရား">ဘုရား</li>
+            <li data-en="Lake" data-my="ရေကန်">ရေကန်</li>
+            <li data-en="River" data-my="မြစ်ချောင်း">မြစ်ချောင်း</li>
+            <li data-en="Road" data-my="ကားလမ်း">ကားလမ်း</li>
+            <li data-en="Railway" data-my="ရထားလမ်း">ရထားလမ်း</li>
           </ul>
         </aside>
       </div>
@@ -542,10 +560,18 @@
         <button type="button" class="download-button free-button" onclick="showDownloadForm('free')">Free Download</button>
         <button type="button" class="download-button request-button" onclick="showDownloadForm('paid')">Paid Download</button>
       </section>
-      <section id="paidDownloadChoices" class="paid-download-choices" hidden aria-label="Paid download type">
-        <h3>Choose paid download type</h3>
-        <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')">Soft copy</button>
-        <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('plotting')">Plotting</button>
+      <section id="paidDownloadChoices" class="paid-download-choices" hidden aria-labelledby="paidDownloadChoicesTitle">
+        <div class="paid-download-choice">
+          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')">Soft copy</button>
+          <p>JPG/PDF<br>Digital Map</p>
+        </div>
+        <div class="paid-download-choice paid-download-choice--popular">
+          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('plotting')">
+            <span class="paid-download-choice-label">Plotting</span>
+            <span class="paid-download-popular-badge"><span aria-hidden="true">🔥</span><span data-en="More Popular" data-my="ပိုမိုလူကြိုက်များ">More Popular</span></span>
+          </button>
+          <p>Various Sizes <br>Hardware Map</p>
+        </div>
       </section>
       <section id="downloadForms" class="download-forms" hidden>
         <form id="freeDownloadForm" class="download-form shared-download-form free-download-form" hidden>
@@ -577,6 +603,10 @@
                 <small class="material-description" data-en="Adheres to walls, glass, and other surfaces, including in meeting rooms. It comes with an adhesive backing. Free waterproof laminate is included." data-my="အစည်းအဝေးခန်းများတွင် နံရံ၊ မှန်နှင့် အခြားမျက်နှာပြင်များပေါ်၌ ကပ်၍အသုံးပြုနိုင်သည်။ ကပ်ခွာပုံစံဖြင့် အသုံးပြုနိုင်သည်။ ရေစိုခံ Laminate ကို အခမဲ့ လောင်းပေးသည်။">အစည်းအဝေးခန်းများတွင် နံရံ၊ မှန်နှင့် အခြားမျက်နှာပြင်များပေါ်၌ ကပ်၍အသုံးပြုနိုင်သည်။ ကပ်ခွာပုံစံဖြင့် အသုံးပြုနိုင်သည်။ ရေစိုခံ Laminate ကို အခမဲ့ လောင်းပေးသည်။</small>
               </button>
           </div>
+          <fieldset id="softCopyFormats" class="soft-copy-formats" aria-label="Soft copy formats" hidden>
+            <label><input type="checkbox" name="softCopyFormat" value="JPG" checked> JPG</label>
+            <label><input type="checkbox" name="softCopyFormat" value="PDF" checked> PDF</label>
+          </fieldset>
           <div class="shared-form-grid">
             <label>Full name<input name="name" autocomplete="name" placeholder="Your name" required></label>
             <label>Email address<input name="email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
@@ -604,7 +634,7 @@
               </select>
             </label>
             <p id="requestPrice" class="request-price wide-field" aria-live="polite">Select a product and size to calculate the price.</p>
-            <p id="requestInfoNote" class="request-info-note wide-field">အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် Email နှင့်ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။</p>
+            <p id="requestInfoNote" class="request-info-note wide-field" data-en="Please ensure that your email and phone number are correct to ensure accurate submission." data-my="အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။">အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။</p>
             <label id="requestReasonField">Reason for download<input name="reason" placeholder="Tell us why you need this map" required></label>
           </div>
           <button type="submit" class="download-button request-button">Submit request</button>
@@ -620,8 +650,8 @@
             onerror="this.hidden=true; this.nextElementSibling.hidden=false">
           <p hidden>Add your KBZPay QR image as <code>assets/payment/kpay-qr.png</code>.</p>
         </div>
-        <p class="kpay-confirmation-note">ငွေလွှဲပြီးပါက Admin မှစိစစ်ပြီး Email သို့ပို့ပေးပါမည်။</p>
-        <p class="kpay-confirmation-note">ငွေလွှဲသည့်အကောင့်နှင့် နာမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက Note တွင်နာမည်ထည့်သွင်းပေးပါရန်။</p>
+        <p class="kpay-confirmation-note" data-en="After payment, the Admin will verify it and send it to your email." data-my="ငွေလွှဲပြီးပါက စီမံခန့်ခွဲသူမှ စိစစ်ပြီး အီးမေးလ်သို့ ပို့ပေးပါမည်။">ငွေလွှဲပြီးပါက စီမံခန့်ခွဲသူမှ စိစစ်ပြီး အီးမေးလ်သို့ ပို့ပေးပါမည်။</p>
+        <p class="kpay-confirmation-note" data-en="If the payer name differs from the name provided, please include the name in the Note." data-my="ငွေလွှဲသည့်အကောင့်နှင့် အမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက မှတ်ချက်တွင် အမည်ထည့်သွင်းပေးပါရန်။">ငွေလွှဲသည့်အကောင့်နှင့် အမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက မှတ်ချက်တွင် အမည်ထည့်သွင်းပေးပါရန်။</p>
         <button type="button" class="download-button" onclick="hideKpayPanel()">Back to map</button>
       </section>
     </dialog>
@@ -657,9 +687,23 @@
                 "Search maps": "မြေပုံများကို ရှာဖွေရန်",
                 "Clear search": "ရှာဖွေမှုကို ရှင်းလင်းရန်",
                 "See More": "ပိုမိုကြည့်ရန်",
+                "Close map": "မြေပုံကို ပိတ်ရန်",
+                "Download options": "ဒေါင်းလုဒ်ရွေးချယ်စရာများ",
+                "Paid download type": "အခပေးဒေါင်းလုဒ်အမျိုးအစား",
+                "More Popular": "ပိုမိုလူကြိုက်များ",
+                "Digital Map": "ဒစ်ဂျစ်တယ်မြေပုံ",
+                "Various Sizes": "အရွယ်အစားအမျိုးမျိုး",
+                "Hardware Map": "ပုံနှိပ်မြေပုံ",
+                "Regions and states": "တိုင်းဒေသကြီးနှင့် ပြည်နယ်များ",
+                "Townships": "မြို့နယ်များ",
+                "Popular map": "လူကြိုက်များသောမြေပုံ",
                 "Myanmar Map": "မြန်မာနိုင်ငံမြေပုံ",
+                "Map of Myanmar": "မြန်မာနိုင်ငံမြေပုံ",
+                "Map of Myanmar in English": "အင်္ဂလိပ်ဘာသာ မြန်မာနိုင်ငံမြေပုံ",
                 "Myanmar": "မြန်မာနိုင်ငံ",
                 "English": "အင်္ဂလိပ်",
+                "English — Myanmar Map": "အင်္ဂလိပ် — မြန်မာနိုင်ငံမြေပုံ",
+                "Myanmar — Myanmar Map": "မြန်မာ — မြန်မာနိုင်ငံမြေပုံ",
                 "Region and State": "တိုင်းဒေသကြီး / ပြည်နယ်",
                 "Township": "မြို့နယ်",
                 "District": "ခရိုင်",
@@ -670,7 +714,49 @@
                 "Bagan Map": "ပုဂံမြေပုံ",
                 "Choose a district or city to view its map.": "မြေပုံကြည့်ရန် ခရိုင် သို့မဟုတ် မြို့တစ်ခုကို ရွေးချယ်ပါ။",
                 "Free Download": "အခမဲ့ဒေါင်းလုဒ်",
+                "Paid Download": "အခပေးဒေါင်းလုဒ်",
                 "Request Download": "ဒေါင်းလုဒ်တောင်းဆိုရန်",
+                "Choose paid download type": "အခပေးဒေါင်းလုဒ်အမျိုးအစားကို ရွေးပါ",
+                "Back to paid download types": "အခပေးဒေါင်းလုဒ်အမျိုးအစားများသို့ ပြန်သွားရန်",
+                "Soft copy": "ဒစ်ဂျစ်တယ်မိတ္တူ",
+                "Plotting": "ပုံနှိပ်ခြင်း",
+                "PDF": "PDF",
+                "JPG": "JPG",
+                "PDF — 350,000 MMK": "PDF — ၃၅၀,၀၀၀ ကျပ်",
+                "JPG — 150,000 MMK": "JPG — ၁၅၀,၀၀၀ ကျပ်",
+                "Vinyl": "ဗိုင်နိုင်း",
+                "Photopaper": "ဓာတ်ပုံစက္ကူ",
+                "Sticker": "စတစ်ကာ",
+                "Fixed A3 size": "A3 အရွယ်အစား",
+                "Digital copy": "ဒစ်ဂျစ်တယ်မိတ္တူ",
+                "A3": "A3",
+                "Select a map size": "မြေပုံအရွယ်အစားကို ရွေးပါ",
+                "No sizes listed for this map": "ဤမြေပုံအတွက် အရွယ်အစား မရှိပါ",
+                "No plotting sizes are listed for this map.": "ဤမြေပုံအတွက် ပုံနှိပ်အရွယ်အစားများ မရှိပါ။",
+                "Aye Minn Oo (*****0177)": "Aye Minn Oo (*****0177)",
+                "KBZPay payment QR code": "KBZPay ငွေပေးချေမှု QR ကုဒ်",
+                "Add your KBZPay QR image as": "KBZPay QR ပုံကို အောက်ပါနေရာတွင် ထည့်ပါ",
+                "Legend": "ရည်ညွှန်းချက်",
+                "Regional capital": "တိုင်းဒေသကြီးမြို့တော်",
+                "State capital": "ပြည်နယ်မြို့တော်",
+                "District town": "ခရိုင်မြို့",
+                "Village": "ကျေးရွာ",
+                "Pagoda": "ဘုရား",
+                "Lake": "ရေကန်",
+                "River": "မြစ်ချောင်း",
+                "International airport": "အပြည်ပြည်ဆိုင်ရာလေဆိပ်",
+                "Road": "ကားလမ်း",
+                "Railway": "ရထားလမ်း",
+                "School": "ကျောင်း",
+                "Stupa": "စေတီ",
+                "Park": "ပန်းခြံ",
+                "Bank": "ဘဏ်",
+                "Government building": "အစိုးရအဆောက်အအုံ",
+                "Includes terrain details such as elevation and depression.": "မြေမျက်နှာသွင်ပြင် အနိမ့်၊ အမြင့် စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။",
+                "Includes details such as bridges.": "တံတား စသည့် အသေးစိတ်အချက်အလက်များ ပါဝင်ပါသည်။",
+                "Please ensure that your email and phone number are correct to ensure accurate submission.": "အချက်အလက်ပေးပို့မှု မှန်ကန်စေရန် အီးမေးလ်နှင့် ဖုန်းနံပါတ်ကို သေချာစွာစစ်ဆေးပေးပါရန်။",
+                "After payment, the Admin will verify it and send it to your email.": "ငွေလွှဲပြီးပါက စီမံခန့်ခွဲသူမှ စိစစ်ပြီး အီးမေးလ်သို့ ပို့ပေးပါမည်။",
+                "If the payer name differs from the name provided, please include the name in the Note.": "ငွေလွှဲသည့်အကောင့်နှင့် အမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက မှတ်ချက်တွင် အမည်ထည့်သွင်းပေးပါရန်။",
                 "Full name": "အမည်အပြည့်အစုံ",
                 "Email address": "အီးမေးလ်လိပ်စာ",
                 "Phone number": "ဖုန်းနံပါတ်",
@@ -690,13 +776,17 @@
                 "No sizes listed for this map": "ဤမြေပုံအတွက် အရွယ်အစားစာရင်းမရှိပါ",
                 "Select a product and size to calculate the price.": "ဈေးနှုန်းတွက်ချက်ရန် ထုတ်ကုန်နှင့် အရွယ်အစားကို ရွေးချယ်ပါ။",
                 "Select a material to view map sizes and calculate the total.": "မြေပုံအရွယ်အစားကြည့်ရန်နှင့် စုစုပေါင်းတွက်ချက်ရန် ပစ္စည်းအမျိုးအစားကို ရွေးချယ်ပါ။",
+                "Select Vinyl, Photopaper, or Sticker to continue.": "ဆက်လက်ရန် Vinyl၊ Photopaper သို့မဟုတ် Sticker ကို ရွေးချယ်ပါ။",
                 "Select a material. No size is listed for this map; contact DPS Map to confirm the total.": "ပစ္စည်းအမျိုးအစားကို ရွေးချယ်ပါ။ ဤမြေပုံအတွက် အရွယ်အစားစာရင်းမရှိပါ၊ စုစုပေါင်းဈေးနှုန်းအတည်ပြုရန် DPS Map ကို ဆက်သွယ်ပါ။",
                 "Select a map size to continue.": "ဆက်လက်လုပ်ဆောင်ရန် မြေပုံအရွယ်အစားကို ရွေးချယ်ပါ။",
                 "No size is listed for this map. Please contact DPS Map to confirm the total before making payment.": "ဤမြေပုံအတွက် အရွယ်အစားစာရင်းမရှိပါ။ ငွေမပေးချေမီ စုစုပေါင်းဈေးနှုန်းအတည်ပြုရန် DPS Map ကို ဆက်သွယ်ပါ။",
+                "Soft copy pricing will be confirmed before payment.": "Soft copy ဈေးနှုန်းကို ငွေမချေမီ အတည်ပြုပေးပါမည်။",
+                "Soft copy pricing must be confirmed before payment. No payment has been started.": "Soft copy ဈေးနှုန်းကို အရင်အတည်ပြုပါ။ ငွေပေးချေမှု မစတင်ရသေးပါ။",
+                "Select at least one Soft copy format before submitting.": "တင်သွင်းရန် Soft copy အမျိုးအစား အနည်းဆုံးတစ်ခု ရွေးချယ်ပါ။",
                 "Submit & download map": "တင်သွင်းပြီး မြေပုံဒေါင်းလုဒ်ရယူရန်",
                 "Submit request": "တောင်းဆိုမှုတင်သွင်းရန်",
                 "Pay with KBZPay": "KBZPay ဖြင့်ငွေပေးချေရန်",
-                "Scan the KBZPay QR code and enter the displayed total.": "KBZPay QR ကုဒ်ကို scan ဖတ်ပြီး ပြသထားသော စုစုပေါင်းငွေကို ထည့်သွင်းပါ။",
+                "Scan the KBZPay QR code and enter the displayed total.": "KBZPay QR ကုဒ်ကို ဖတ်ပြီး ပြသထားသော စုစုပေါင်းငွေကို ထည့်သွင်းပါ။",
                 "Back to map": "မြေပုံသို့ပြန်သွားရန်",
                 "No matching maps found.": "ကိုက်ညီသောမြေပုံ မတွေ့ပါ။",
                 "Your map download has started.": "သင့်မြေပုံကို ဒေါင်းလုဒ်ရယူနေပါပြီ။",
@@ -830,6 +920,105 @@
                 "Eastern Shan State": "ရှမ်းပြည်နယ်အရှေ့ပိုင်း",
                 "Northern Shan State": "ရှမ်းပြည်နယ်မြောက်ပိုင်း"
             };
+            Object.assign(translations, {
+                "Shan-East State": "ရှမ်းပြည်နယ်အရှေ့ပိုင်း",
+                "Shan-North State": "ရှမ်းပြည်နယ်မြောက်ပိုင်း",
+                "Shan-South State": "ရှမ်းပြည်နယ်တောင်ပိုင်း",
+                "Hmawbi": "မှော်ဘီ",
+                "Kyaukse": "ကျောက်ဆည်",
+                "Myingyan": "မြင်းခြံ",
+                "Minbu": "မင်းဘူး",
+                "Katha": "ကသာ",
+                "Bokpyin": "ဘုတ်ပြင်း",
+                "Hlegu": "လှည်းကူး",
+                "Htantabin": "ထန်းတပင်",
+                "Shwepyitha": "ရွှေပြည်သာ",
+                "Hlaingthaya East": "လှိုင်သာယာအရှေ့ပိုင်း",
+                "Hlaingthaya West": "လှိုင်သာယာအနောက်ပိုင်း",
+                "Thanlyin": "သန်လျင်",
+                "Thongwa": "သုံးခွ",
+                "Kyauktan": "ကျောက်တန်း",
+                "Kayan": "ခရမ်း",
+                "Kungyangon": "ကွမ်းခြံကုန်း",
+                "Kawhmu": "ကော့မှူး",
+                "Seikkyi Kanaungto": "ဆိပ်ကြီးခနောင်တို",
+                "Dala": "ဒလ",
+                "Kyauktada": "ကျောက်တံတား",
+                "Pabedan": "ပန်းဘဲတန်း",
+                "Lanmadaw": "လမ်းမတော်",
+                "Latha": "လသာ",
+                "Dagon": "ဒဂုံ",
+                "Ahlon": "အလုံ",
+                "Kyimyindaing": "ကြည့်မြင်တိုင်",
+                "Sanchaung": "စမ်းချောင်း",
+                "Mayangon": "မရမ်းကုန်း",
+                "Hlaing": "လှိုင်",
+                "North Okkalapa": "မြောက်ဥက္ကလာပ",
+                "Thingangyun": "သင်္ဃန်းကျွန်း",
+                "South Okkalapa": "တောင်ဥက္ကလာပ",
+                "Tamwe": "တာမွေ",
+                "Yankin": "ရန်ကင်း",
+                "Botataung": "ဗိုလ်တထောင်",
+                "Dawbon": "ဒေါပုံ",
+                "Mingala Taungnyunt": "မင်္ဂလာတောင်ညွန့်",
+                "Pazundaung": "ပုဇွန်တောင်",
+                "Thaketa": "သာကေတ",
+                "Dagon Seikkan": "ဒဂုံဆိပ်ကမ်း",
+                "South Dagon": "တောင်ဒဂုံ",
+                "North Dagon": "မြောက်ဒဂုံ",
+                "East Dagon": "အရှေ့ဒဂုံ",
+                "Bahan": "ဗဟန်း",
+                "Aungmyethazan": "အောင်မြေသာစံ",
+                "Aungmyaythazan": "အောင်မြေသာစံ",
+                "Chanayethazan": "ချမ်းအေးသာစံ",
+                "Chanmyathazi": "ချမ်းမြသာစည်",
+                "Tada-U": "တံတားဦး",
+                "Patheingyi": "ပုသိမ်ကြီး",
+                "Pyawbwe": "ပျော်ဘွယ်",
+                "Pyigyidagun": "ပြည်ကြီးတံခွန်",
+                "Maha Aungmye": "မဟာအောင်မြေ",
+                "Yamethin": "ရမည်းသင်း",
+                "Wundwin": "ဝမ်းတွင်း",
+                "Thabeikkyin": "သပိတ်ကျင်း",
+                "Amarapura": "အမရပူရ",
+                "Zabuthiri": "ဇမ္ဗူသီရိ",
+                "Zeyathiri": "ဇေယျာသီရိ",
+                "Tatkon": "တပ်ကုန်း",
+                "Dekkhinathiri": "ဒက္ခိဏသီရိ",
+                "Pobbathiri": "ပုဗ္ဗသီရိ",
+                "Hpakant": "ဖားကန့်",
+                "Myawaddy": "မြဝတီ",
+                "Pindaya": "ပင်းတယ",
+                "Ywangan": "ရွာငံ",
+                "Thantlang": "ထန်တလန်",
+                "Falam": "ဖလမ်း",
+                "Matupi": "မတူပီ",
+                "Hakha": "ဟားခါး",
+                "Homalin": "ဟုမ္မလင်း",
+                "Nyaunglebin": "ညောင်လေးပင်",
+                "Paukkaung": "ပေါက်ခေါင်း",
+                "Saw": "စော",
+                "Salin": "စလင်း",
+                "Sinbaungwe": "ဆင်ပေါင်ဝဲ",
+                "Seikpyu": "ဆိပ်ဖြူ",
+                "Pakokku": "ပခုက္ကူ",
+                "Minhla, Minbu and Ngape Townships": "မင်းလှ၊ မင်းဘူး၊ ငဖဲ မြို့နယ်များ",
+                "Pantanaw": "ပန်းတနော်",
+                "Bogale": "ဘိုကလေး"
+            });
+            document.querySelectorAll(".place-option").forEach(button => {
+                const english = button.textContent.trim();
+                if (translations[english]) return;
+                const source = button.dataset.mapSrc || button.dataset.translationSource;
+                const filename = source?.split(/[\\/]/).pop().replace(/\.[^.]+$/, "").replace(/_+$/, "");
+                if (!filename || !/[\u1000-\u109f\uA9E0-\uA9FF\uAA60-\uAA7F]/.test(filename)) return;
+                const inferred = filename
+                    .replace(/(?:မြို့နယ်အခြေပြမြေပုံ|သုံးမြို့နယ်ဆက်စပ်|မြို့နယ်|ခရိုင်|မြို့)$/, "")
+                    .replace(/[_-]+/g, " ")
+                    .trim();
+                if (inferred) translations[english] = inferred;
+            });
+            window.dpsMapTranslations = translations;
             const reverseTranslations = new Map(
                 Object.entries(translations).map(([english, burmese]) => [burmese, english])
             );
@@ -843,6 +1032,24 @@
                 let result = language === "my" ? translations[trimmed] : reverseTranslations.get(trimmed);
                 if (!result) {
                     const matchers = [
+                        language === "my"
+                            ? [/^(.+) · (.+) · Total: (.+)$/, "$1 · $2 · စုစုပေါင်း: $3"]
+                            : [/^(.+) · (.+) · စုစုပေါင်း: (.+)$/, "$1 · $2 · Total: $3"],
+                        language === "my"
+                            ? [/^(.+) × (.+) ft$/, "$1 × $2 ပေ"]
+                            : [/^(.+) × (.+) ပေ$/, "$1 × $2 ft"],
+                        language === "my"
+                            ? [/^(.+) Township Map$/i, "$1 မြို့နယ် မြေပုံ"]
+                            : [/^(.+) မြို့နယ် မြေပုံ$/, "$1 Township Map"],
+                        language === "my"
+                            ? [/^(.+) District Map$/i, "$1 ခရိုင် မြေပုံ"]
+                            : [/^(.+) ခရိုင် မြေပုံ$/, "$1 District Map"],
+                        language === "my"
+                            ? [/^(.+) City Map$/i, "$1မြို့ မြေပုံ"]
+                            : [/^(.+)မြို့ မြေပုံ$/, "$1 City Map"],
+                        language === "my"
+                            ? [/^See more about (.+) Township Map$/, "$1 မြို့နယ် မြေပုံအကြောင်း ပိုမိုကြည့်ရန်"]
+                            : [/^(.+) မြို့နယ် မြေပုံအကြောင်း ပိုမိုကြည့်ရန်$/, "See more about $1 Township Map"],
                         language === "my"
                             ? [/^See more about (.+) Map$/, "$1 မြေပုံအကြောင်း ပိုမိုကြည့်ရန်"]
                             : [/^(.+) မြေပုံအကြောင်း ပိုမိုကြည့်ရန်$/, "See more about $1 Map"],
@@ -880,29 +1087,35 @@
                     for (const [pattern, replacement] of matchers) {
                         const found = trimmed.match(pattern);
                         if (found) {
-                            let value = found[1];
-                            if (language === "my") {
-                                value = translations[value] || value;
-                            } else {
-                                value = reverseTranslations.get(value) || value;
-                            }
-                            if (language === "my") {
-                                value = value
-                                    .replace(/\bper sq ft\b/gi, "တစ်စတုရန်းပေလျှင်")
-                                    .replace(/\bsq ft\b/gi, "စတုရန်းပေ")
-                                    .replace(/\bft\b/gi, "ပေ")
-                                    .replace(/\bMMK\b/g, "ကျပ်");
-                            } else {
-                                value = value
-                                    .replace(/တစ်စတုရန်းပေလျှင်/g, "per sq ft")
-                                    .replace(/စတုရန်းပေ/g, "sq ft")
-                                    .replace(/ပေ/g, "ft")
-                                    .replace(/ကျပ်/g, "MMK");
-                            }
-                            const translatedValue = language === "my"
-                                ? translations[value] || value
-                                : reverseTranslations.get(value) || value;
-                            result = replacement.replace("$1", translatedValue);
+                            const translatedValues = found.slice(1).map(capture => {
+                                let value = language === "my"
+                                    ? translations[capture] || capture
+                                    : reverseTranslations.get(capture) || capture;
+                                ["Fixed A3 size", "Digital copy"].forEach(term => {
+                                    const translatedTerm = translations[term];
+                                    if (!translatedTerm) return;
+                                    value = language === "my"
+                                        ? value.split(term).join(translatedTerm)
+                                        : value.split(translatedTerm).join(term);
+                                });
+                                if (language === "my") {
+                                    value = value
+                                        .replace(/\bper sq ft\b/gi, "တစ်စတုရန်းပေလျှင်")
+                                        .replace(/\bsq ft\b/gi, "စတုရန်းပေ")
+                                        .replace(/\bft\b/gi, "ပေ")
+                                        .replace(/\bMMK\b/g, "ကျပ်");
+                                } else {
+                                    value = value
+                                        .replace(/တစ်စတုရန်းပေလျှင်/g, "per sq ft")
+                                        .replace(/စတုရန်းပေ/g, "sq ft")
+                                        .replace(/ပေ/g, "ft")
+                                        .replace(/ကျပ်/g, "MMK");
+                                }
+                                return language === "my"
+                                    ? translations[value] || value
+                                    : reverseTranslations.get(value) || value;
+                            });
+                            result = replacement.replace(/\$(\d+)/g, (match, index) => translatedValues[Number(index) - 1] ?? match);
                             break;
                         }
                     }
@@ -919,7 +1132,7 @@
             }
 
             function translateAttributes(element) {
-                ["placeholder", "aria-label", "alt", "title"].forEach((attribute) => {
+                ["placeholder", "aria-label", "alt", "title", "label"].forEach((attribute) => {
                     if (!element.hasAttribute(attribute)) return;
                     let values = originalAttributes.get(element);
                     if (!values) {
@@ -945,7 +1158,7 @@
                 const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
                 let textNode;
                 while ((textNode = walker.nextNode())) translateTextNode(textNode);
-                document.querySelectorAll("[placeholder], [aria-label], [alt], [title]").forEach(translateAttributes);
+                document.querySelectorAll("[placeholder], [aria-label], [alt], [title], [label]").forEach(translateAttributes);
                 document.querySelectorAll(".language-button").forEach((button) => {
                     button.setAttribute("aria-pressed", String(button.lang === language));
                 });
@@ -965,14 +1178,14 @@
                                 const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
                                 let textNode;
                                 while ((textNode = walker.nextNode())) translateTextNode(textNode);
-                                if (node.matches("[placeholder], [aria-label], [alt], [title]")) translateAttributes(node);
-                                node.querySelectorAll("[placeholder], [aria-label], [alt], [title]").forEach(translateAttributes);
+                                if (node.matches("[placeholder], [aria-label], [alt], [title], [label]")) translateAttributes(node);
+                                node.querySelectorAll("[placeholder], [aria-label], [alt], [title], [label]").forEach(translateAttributes);
                             }
                         });
                     }
                 });
             });
-            observer.observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["placeholder", "aria-label", "alt", "title"] });
+            observer.observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["placeholder", "aria-label", "alt", "title", "label"] });
 
             document.querySelectorAll(".language-button").forEach((button) => {
                 button.addEventListener("click", () => localizePage(button.lang));
