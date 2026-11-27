@@ -580,7 +580,7 @@
           <h3>Free Download</h3>
           <div class="shared-form-grid">
             <label>Full name<input name="name" autocomplete="name" placeholder="Your name" required></label>
-            <label>Email address<input name="email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
+            <label>Address<input name="email" type="email" autocomplete="email" placeholder="No. 45, Inya Road, Bahan Township, Yangon" required></label>
             <label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="09xxxxxxxxx" required></label>
             <label>Reason for download<input name="reason" placeholder="Tell us why you need this map" required></label>
           </div>
@@ -595,7 +595,7 @@
                 <ul class="soft-copy-format-benefits">
                   <li data-en="Fair price" data-my="အကုန်အကျသက်သာခြင်း">Fair price</li>
                   <li data-en="Suitable image quality" data-my="သင့်တော်သော ရုပ်ထွက်အရည်အသွေးရှိသည်။">Suitable image quality</li>
-                  <li data-en="Smaller file size" data-my="ဖိုင်အရွယ်အစား သေးငယ်သည်။">Smaller file size</li>
+                  <li data-en="Smaller file size (Maximum printable size-A3)" data-my="ဖိုင်အရွယ်အစား သေးငယ်သည်။ (အများဆုံး ပုံနှိပ်နိုင်သည့် အရွယ်အစား-A3)">Smaller file size (Maximum printable size-A3)</li>
                 </ul>
               </label>
               <label class="soft-copy-format-option">
@@ -635,7 +635,7 @@
           </div>
           <div class="shared-form-grid">
             <label>Full name<input name="name" autocomplete="name" placeholder="Your name" required></label>
-            <label>Email address<input name="email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
+            <label>Address<input name="email" type="email" autocomplete="email" placeholder="No. 45, Inya Road, Bahan Township, Yangon" required></label>
             <label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="09xxxxxxxxx" required></label>
             <label>Reason for download<input name="reason" placeholder="Tell us why you need this map" required></label>
             <label id="requestMapProductField">Map product / print type
@@ -652,7 +652,7 @@
                 </optgroup>
               </select>
             </label>
-            <label id="requestMapSizeField" hidden>Map size
+            <label id="requestMapSizeField" hidden><span class="map-size-label"><span data-en="Map size" data-my="မြေပုံအရွယ်အစား">Map size</span><span class="map-size-note" data-en="(The dimensions may vary slightly depending on the map's aspect ratio)" data-my="(မြေပုံ၏ အချိုးအစားပေါ်မူတည်၍ အတိုင်းအတာ အနည်းငယ် ကွာခြားနိုင်သည်)">(The dimensions may vary slightly depending on the map's aspect ratio)</span></span>
               <select id="requestMapSize" name="mapSize" required disabled>
                 <option value="" selected disabled>Select a product first</option>
                 <option value="2x3">2 × 3 ft</option>
@@ -660,6 +660,17 @@
                 <option value="4x6">4 × 6 ft</option>
               </select>
             </label>
+            <fieldset id="vinylFinishOptions" class="vinyl-finish-options" hidden>
+              <legend data-en="Finishing" data-my="အပြီးသတ်">Finishing</legend>
+              <div class="vinyl-finish-options-list" data-finish-group="vinyl">
+                <label><input type="radio" name="vinylFinish" value="corner-holes" data-summary-en="Corner holes" data-summary-my="ကွင်းဖောက်"><span data-en="Corner holes (punch holes in all four corners)" data-my="ကွင်းဖောက်(ပုံ၏ထောင့်လေးဘက်၌ အပေါက်ဖောက်ခြင်း)">ကွင်းဖောက်(ပုံ၏ထောင့်လေးဘက်၌ အပေါက်ဖောက်ခြင်း)</span></label>
+                <label><input type="radio" name="vinylFinish" value="white-margin" data-summary-en="White margin" data-summary-my="အဖြူသားချန်"><span data-en="White margin (leave 2 inches of extra white around the print)" data-my="အဖြူသားချန်(ပုံ၏ပတ်လည်၌ အပိုအဖြူသား ၂ လက်မ ချန်ထားရှိခြင်း)">အဖြူသားချန်(ပုံ၏ပတ်လည်၌ အပိုအဖြူသား ၂ လက်မ ချန်ထားရှိခြင်း)</span></label>
+              </div>
+              <div class="vinyl-finish-options-list" data-finish-group="paper" hidden>
+                <label><input type="radio" name="vinylFinish" value="glossy" data-summary-en="Glossy" data-summary-my="အပြောင်"><span data-en="Glossy" data-my="အပြောင်">Glossy</span></label>
+                <label><input type="radio" name="vinylFinish" value="matte" data-summary-en="Matte" data-summary-my="အမှိန်"><span data-en="Matte" data-my="အမှိန်">Matte</span></label>
+              </div>
+            </fieldset>
             <div id="customDimensions" class="custom-dimensions" hidden>
               <label>Width (ft)<input id="customWidth" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="Width in feet"></label>
               <label>Height (ft)<input id="customHeight" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="Height in feet"></label>
@@ -786,7 +797,7 @@
                 "After payment, the Admin will verify it and send it to your email.": "ငွေလွှဲပြီးပါက စီမံခန့်ခွဲသူမှ စိစစ်ပြီး အီးမေးလ်သို့ ပို့ပေးပါမည်။",
                 "If the payer name differs from the name provided, please include the name in the Note.": "ငွေလွှဲသည့်အကောင့်နှင့် အမည်စာရင်းပေးထားသည့်အကောင့် မတူညီပါက မှတ်ချက်တွင် အမည်ထည့်သွင်းပေးပါရန်။",
                 "Full name": "အမည်အပြည့်အစုံ",
-                "Email address": "အီးမေးလ်လိပ်စာ",
+                "Address": "လိပ်စာ",
                 "Phone number": "ဖုန်းနံပါတ်",
                 "Reason for download": "ဒေါင်းလုဒ်ရယူရသည့်အကြောင်းရင်း",
                 "Your name": "သင့်အမည်",
