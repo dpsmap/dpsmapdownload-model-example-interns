@@ -533,6 +533,7 @@ function showDownloadForm(kind, preservePaidMapSelection = false) {
     updatePaidFlowBackLabel("Back to map");
     document.getElementById("paidDownloadChoices").scrollIntoView({ behavior: "smooth", block: "nearest" });
   } else {
+    updatePaidFlowBackLabel("Back to download types");
     forms.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 }
@@ -594,6 +595,25 @@ function showPaidDownloadCategory(category) {
 }
 
 function handlePaidFlowBack() {
+  const freeDownloadForm = document.getElementById("freeDownloadForm");
+  if (!freeDownloadForm.hidden) {
+    const dialog = document.getElementById("mapDialog");
+    dialog.classList.remove("download-flow-only");
+    const hasMapVersions = Boolean(getRegionMapVersions(currentMapSource));
+    document.getElementById("selectedImage").hidden = hasMapVersions;
+    document.getElementById("mapVersionChoices").hidden = !hasMapVersions;
+    document.getElementById("imageCaption").hidden = false;
+    document.getElementById("downloadActions").hidden = false;
+    document.getElementById("paidDownloadChoices").hidden = true;
+    document.getElementById("downloadForms").hidden = true;
+    freeDownloadForm.hidden = true;
+    document.getElementById("requestDownloadForm").hidden = true;
+    document.getElementById("kpayPanel").hidden = true;
+    document.getElementById("downloadFormStatus").textContent = "";
+    document.getElementById("downloadActions").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    return;
+  }
+
   const paidDownloadChoices = document.getElementById("paidDownloadChoices");
   if (paidDownloadChoices.hidden) {
     showDownloadForm("paid", true);
