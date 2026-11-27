@@ -485,7 +485,7 @@ function showPaidDownloadCategory(category) {
   document.getElementById("softCopyFormats").hidden = !isSoftCopy;
   document.querySelectorAll('input[name="softCopyFormat"]').forEach(input => {
     input.disabled = !isSoftCopy;
-    input.required = isSoftCopy;
+    input.required = false;
   });
   plottingProductChoices.hidden = !isPlotting;
   plottingProductChoices.querySelectorAll(".plotting-product-choice").forEach(button => {
@@ -529,6 +529,7 @@ function handlePaidFlowBack() {
 }
 
 const requestMapProduct = document.getElementById("requestMapProduct");
+const softCopyFormats = document.getElementById("softCopyFormats");
 const plottingProductChoices = document.getElementById("plottingProductChoices");
 const requestMapSize = document.getElementById("requestMapSize");
 const requestMapSizeField = document.getElementById("requestMapSizeField");
@@ -565,6 +566,7 @@ const mapPlotSizes = {
 };
 let currentMapPlotSizes = [];
 let currentPaidCategory = "";
+let selectedSoftCopyFormat = null;
 
 function updatePlotSizeOptions() {
   const mapTitle = currentMapTitle.trim().toLowerCase();
@@ -671,6 +673,23 @@ requestMapProduct.addEventListener("change", updateRequestPrice);
 requestMapSize.addEventListener("change", updateRequestPrice);
 customWidth.addEventListener("input", updateRequestPrice);
 customHeight.addEventListener("input", updateRequestPrice);
+softCopyFormats.addEventListener("change", event => {
+  const input = event.target;
+  if (!(input instanceof HTMLInputElement) || input.name !== "softCopyFormat") return;
+  selectedSoftCopyFormat = input.checked ? input : null;
+  document.getElementById("downloadFormStatus").textContent = "";
+});
+softCopyFormats.addEventListener("click", event => {
+  const input = event.target;
+  if (!(input instanceof HTMLInputElement) || input.name !== "softCopyFormat" || input.disabled) return;
+  if (input !== selectedSoftCopyFormat) return;
+  event.preventDefault();
+  requestAnimationFrame(() => {
+    input.checked = false;
+    selectedSoftCopyFormat = null;
+    document.getElementById("downloadFormStatus").textContent = "";
+  });
+});
 plottingProductChoices.addEventListener("click", event => {
   const button = event.target.closest(".plotting-product-choice");
   if (!button || button.disabled) return;

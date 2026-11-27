@@ -562,15 +562,17 @@
       </section>
       <section id="paidDownloadChoices" class="paid-download-choices" hidden aria-labelledby="paidDownloadChoicesTitle">
         <div class="paid-download-choice">
-          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')">Soft copy</button>
-          <p>JPG/PDF<br>Digital Map</p>
+          <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('soft-copy')">
+            <span class="paid-download-choice-label" data-en="Soft copy" data-my="ဒစ်ဂျစ်တယ်မိတ္တူ">Soft copy</span>
+            <span class="paid-download-choice-description"><span data-en="JPG/PDF" data-my="JPG/PDF">JPG/PDF</span><span data-en="Digital Map" data-my="ဒစ်ဂျစ်တယ်မြေပုံ">Digital Map</span></span>
+          </button>
         </div>
         <div class="paid-download-choice paid-download-choice--popular">
           <button type="button" class="download-button request-button" onclick="showPaidDownloadCategory('plotting')">
             <span class="paid-download-choice-label">Plotting</span>
             <span class="paid-download-popular-badge"><span aria-hidden="true">🔥</span><span data-en="More Popular" data-my="ပိုမိုလူကြိုက်များ">More Popular</span></span>
+            <span class="paid-download-choice-description"><span data-en="Various Sizes" data-my="အရွယ်အစားအမျိုးမျိုး">Various Sizes</span><span data-en="Hardware Map" data-my="ပုံနှိပ်မြေပုံ">Hardware Map</span></span>
           </button>
-          <p>Various Sizes <br>Hardware Map</p>
         </div>
       </section>
       <section id="downloadForms" class="download-forms" hidden>
@@ -589,7 +591,7 @@
           <fieldset id="softCopyFormats" class="soft-copy-formats" aria-label="Soft copy formats" hidden>
             <div class="soft-copy-format-list">
               <label class="soft-copy-format-option">
-                <span class="soft-copy-format-title"><input type="radio" name="softCopyFormat" value="JPG" checked> JPG</span>
+                <span class="soft-copy-format-title"><input type="radio" name="softCopyFormat" value="JPG"> JPG<span class="soft-copy-format-price" data-en="(150,000 MMK / sq ft)" data-my="(တစ်စတုရန်းပေလျှင် ၁၅၀,၀၀၀ ကျပ်)">(150,000 MMK / sq ft)</span></span>
                 <ul class="soft-copy-format-benefits">
                   <li data-en="Fair price" data-my="အကုန်အကျသက်သာခြင်း">Fair price</li>
                   <li data-en="Suitable image quality" data-my="သင့်တော်သော ရုပ်ထွက်အရည်အသွေးရှိသည်။">Suitable image quality</li>
@@ -597,7 +599,7 @@
                 </ul>
               </label>
               <label class="soft-copy-format-option">
-                <span class="soft-copy-format-title"><input type="radio" name="softCopyFormat" value="PDF"> PDF</span>
+                <span class="soft-copy-format-title"><input type="radio" name="softCopyFormat" value="PDF"> PDF<span class="soft-copy-format-price" data-en="(350,000 MMK / sq ft)" data-my="(တစ်စတုရန်းပေလျှင် ၃၅၀,၀၀၀ ကျပ်)">(350,000 MMK / sq ft)</span></span>
                 <ul class="soft-copy-format-benefits">
                   <li data-en="High image quality" data-my="ရုပ်ထွက်ကောင်းမွန်သည်။">High image quality</li>
                   <li data-en="Free size" data-my="အရွယ်အစား လွတ်လပ်စွာ ရရှိသည်။">Free size</li>

@@ -286,7 +286,6 @@ body.map-dialog-open {
 .paid-download-choice .download-button { min-height: 58px; }
 .paid-download-choice--popular .download-button { position: relative; display: grid; place-items: center; padding: 18px 8px 6px; }
 .paid-download-popular-badge { position: absolute; top: 3px; right: 5px; z-index: 1; display: inline-flex; align-items: center; gap: 2px; padding: 2px 5px; border: 1px solid rgb(255 255 255 / 80%); border-radius: 999px; background: rgb(255 255 255 / 92%); color: #b54708; font-size: 10px; font-weight: 700; line-height: 1; white-space: nowrap; box-shadow: 0 2px 6px rgb(15 23 42 / 14%); pointer-events: none; }
-.paid-download-choice p { margin: 0; color: #333; font-size: 14px; line-height: 1.5; }
 .paid-flow-back { justify-self: start; }
 .download-button.paid-flow-back { display: none; place-items: center; flex: none; width: 42px; min-height: 42px; padding: 0; border-radius: 50%; }
 .paid-flow-back svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -294,17 +293,16 @@ body.map-dialog-open {
 .download-form h3 { margin-bottom: 2px; font-size: 17px; }
 .plotting-product-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; min-width: 0; }
 .plotting-product-choice { display: grid; align-content: start; gap: 10px; min-width: 0; padding: 12px; border: 1px solid #aaa; border-radius: 12px; background: #fff; color: #222; font: inherit; font-size: 14px; text-align: left; cursor: pointer; }
-.plotting-product-title { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; color: #111; font-size: 16px; }
+.plotting-product-title { display: grid; grid-template-columns: 24px max-content minmax(0, 1fr); align-items: center; gap: 8px 12px; min-width: 0; color: #111; font-size: 18px; }
 .plotting-product-radio { display: grid; flex: 0 0 24px; width: 24px; height: 24px; place-items: center; border: 1px solid #666; border-radius: 50%; }
 .plotting-product-radio::after { width: 14px; height: 14px; border-radius: 50%; background: #111; content: ""; opacity: 0; }
 .plotting-product-choice[aria-pressed="true"] .plotting-product-radio::after { opacity: 1; }
-.plotting-product-price { color: #475569; font-size: 13px; font-weight: 400; white-space: nowrap; }
-.plotting-product-choice:hover, .plotting-product-choice[aria-pressed="true"] { border-color: #666; }
+.plotting-product-price { min-width: 0; color: #475569; font-size: 13px; font-weight: 400; overflow-wrap: anywhere; }
 .soft-copy-format-option, .plotting-product-choice { transition: border-color .16s ease, background-color .16s ease; }
 .soft-copy-format-option:hover, .plotting-product-choice:not(:disabled):hover { border-color: #2457a6; background: #eef5ff; }
-.plotting-product-choice:focus-visible { outline: 2px solid #2457a6; outline-offset: 2px; }
+.soft-copy-format-option:has(input:focus-visible), .plotting-product-choice:not(:disabled):focus-visible { border-color: #2457a6; background: #eef5ff; }
 .plotting-product-benefits { min-width: 0; overflow-wrap: anywhere; }
-html:lang(my) .plotting-product-title { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 4px 8px; align-items: center; }
+html:lang(my) .plotting-product-title { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 4px 12px; align-items: center; }
 html:lang(my) .plotting-product-title > .plotting-product-radio { grid-column: 1; grid-row: 1 / span 2; }
 html:lang(my) .plotting-product-title > span:not(.plotting-product-radio):not(.plotting-product-price) { grid-column: 2; min-width: 0; overflow-wrap: anywhere; }
 html:lang(my) .plotting-product-title > .plotting-product-price { grid-column: 2; white-space: normal; overflow-wrap: anywhere; }
@@ -315,8 +313,9 @@ html:lang(my) .plotting-product-title > .plotting-product-price { grid-column: 2
 .soft-copy-format-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .soft-copy-format-option { display: grid !important; align-content: start; gap: 10px !important; padding: 12px; border: 1px solid #aaa; border-radius: 12px; background: #fff; color: #222 !important; cursor: pointer; }
 .soft-copy-format-option:focus-within { border-color: #aaa; outline: none; }
-.soft-copy-format-title { display: flex; align-items: center; gap: 12px; font-size: 18px; }
+.soft-copy-format-title { display: grid; grid-template-columns: 24px max-content minmax(0, 1fr); align-items: center; gap: 8px 12px; min-width: 0; font-size: 18px; }
 .soft-copy-format-title input[type="radio"] { width: 24px; min-height: 24px; height: 24px; margin: 0; padding: 0; accent-color: #111; }
+.soft-copy-format-price { min-width: 0; color: #475569; font-size: 13px; font-weight: 400; overflow-wrap: anywhere; }
 .soft-copy-format-benefits, .plotting-product-benefits { display: grid; gap: 5px; margin: 0; padding-left: 22px; color: #475569; font-size: 14px; line-height: 1.45; }
 .download-form-status { margin-top: 10px; color: #334155; font-size: 14px; }
 
@@ -399,7 +398,7 @@ main { padding-top: 60px; }
 .map-dialog.download-flow-only .shared-form-grid label { gap: 2px; font-size: 15px; }
 .map-dialog.download-flow-only .shared-form-grid input { min-height: 38px; }
 .map-dialog.download-flow-only .plotting-product-choice { gap: 10px; padding: 10px; font-size: 16px; }
-.map-dialog.download-flow-only .plotting-product-title { font-size: 16px; }
+.map-dialog.download-flow-only .plotting-product-title { font-size: 18px; }
 .map-dialog.download-flow-only .request-price { padding: 7px; font-size: 16px; }
 .map-dialog.download-flow-only .request-info-note { font-size: 14px; }
 .map-dialog.download-flow-only .download-button { min-height: 38px; padding: 5px 9px; font-size: 17px; }
@@ -453,6 +452,7 @@ button:not(:disabled):not(.popular-card):not(.plotting-product-choice):focus-vis
 .paid-download-choice--popular .download-button { padding-top: 24px; }
 .paid-download-choice-label { font-size: 19px; font-weight: 700; }
 .paid-download-choice-description { color: #475569; font-size: 14px; font-weight: 400; line-height: 1.45; }
+.paid-download-choice-description > span { display: block; }
 .popular-card:hover .popular-card-label,
 .popular-card:focus-visible .popular-card-label { background: #2457a6; color: #fff; }
 
